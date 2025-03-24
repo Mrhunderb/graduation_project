@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">Health Record Management</string>
+    <string name="label_back">Back</string>
+    <string name="jetlagged_app_heading">JetLagged</string>
+    <string name="average_time_in_bed_heading">平均躺床时间</string>
+    <string name="average_sleep_time_heading">平均睡眠时间</string>
+    <string name="not_implemented">尚未实现</string>
+    <string name="placeholder_text_ave_time">8小时2分钟</string>
+    <string name="placeholder_text_ave_time_2">7小时15分钟</string>
+    <string name="sleep_type_awake">清醒</string>
+    <string name="sleep_type_rem">快速眼动睡眠</string>
+    <string name="sleep_type_light">浅睡眠</string>
+    <string name="sleep_type_deep">深睡眠</string>
+    <string name="sleep_tab_day_heading">日</string>
+    <string name="sleep_tab_week_heading">周</string>
+    <string name="sleep_tab_month_heading">月</string>
+    <string name="sleep_tab_six_months_heading">6个月</string>
+    <string name="sleep_tab_one_year_heading">1年</string>
+    <string name="heart_rate_heading">心率</string>
+    <string name="wellness_heading">健康状况</string>
+    <string name="snoring_heading">打鼾</string>
+    <string name="coughing_heading">咳嗽</string>
+    <string name="respiration_heading">呼吸</string>
+    <string name="ave_time_sleep_heading">平均睡眠时间</string>
+    <string name="ave_time_in_bed_heading">平均躺床时间</string>
+    <string name="ambiance_heading">环境</string>
+    <string name="room_temperature">室内温度</string>
+
 </resources>
