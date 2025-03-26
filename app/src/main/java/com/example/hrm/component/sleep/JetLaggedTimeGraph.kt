@@ -60,7 +60,7 @@ fun JetLaggedSleepGraphCard(
         modifier = modifier
     ) {
         Column {
-            HomeScreenCardHeading(text = "Sleep")
+            HomeScreenCardHeading(text = "睡眠")
             JetLaggedHeaderTabs(
                 onTabSelected = { selectedTab = it },
                 selectedTab = selectedTab,
@@ -74,7 +74,6 @@ fun JetLaggedSleepGraphCard(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 private fun JetLaggedTimeGraph(
     sleepGraphData: SleepGraphData,

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Health Record Management</string>
     <string name="label_back">Back</string>
-    <string name="jetlagged_app_heading">JetLagged</string>
+    <string name="jetlagged_app_heading">健康档案管理</string>
     <string name="average_time_in_bed_heading">平均躺床时间</string>
     <string name="average_sleep_time_heading">平均睡眠时间</string>
     <string name="not_implemented">尚未实现</string>
