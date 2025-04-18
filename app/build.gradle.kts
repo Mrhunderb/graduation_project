@@ -50,6 +50,11 @@ dependencies {
     implementation(libs.androidx.room.paging)
     testImplementation(libs.androidx.room.testing)
 
+
+    // coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.core.ktx)
@@ -72,3 +77,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+

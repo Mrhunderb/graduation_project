@@ -1,11 +1,17 @@
 package com.example.hrm
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
@@ -37,7 +43,9 @@ fun HomeScreenDrawer() {
 
     val scope = rememberCoroutineScope()
 
-    var screenState by remember { mutableStateOf(Screen.Home) }
+    var screenState by remember {
+        mutableStateOf(Screen.Home)
+    }
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
@@ -59,13 +67,13 @@ fun HomeScreenDrawer() {
             )
         }
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            ScreenContents(
-                selectScreen = screenState,
-                modifier = Modifier.weight(1f),
-                onCloseDrawer = ::openDrawer,
-            )
-        }
+        ScreenContents(
+            selectScreen = screenState,
+            onCloseDrawer = ::openDrawer,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal).asPaddingValues())
+        )
     }
 }
 
@@ -91,15 +99,18 @@ private fun DrawerContent(
     selectScreen: Screen,
     onScreenSelected: (Screen) -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    Column(
+        modifier = Modifier.fillMaxSize().padding(16.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
         Text(text = "选择页面", fontSize = 20.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(8.dp))
-        Screen.Companion.entries.forEach { screen ->
+        Screen.Companion.entries.forEach {
             NavigationDrawerItem(
-                icon = { Icon(imageVector = screen.icon, contentDescription = screen.title) },
-                label = { Text(screen.title) },
-                selected = screen == selectScreen,
-                onClick = { onScreenSelected(screen) }
+                icon = { Icon(imageVector = it.icon, contentDescription = it.title) },
+                label = { Text(it.title) },
+                selected = it == selectScreen,
+                onClick = { onScreenSelected(it) }
             )
         }
     }
