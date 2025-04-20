@@ -1,9 +1,20 @@
 package com.example.hrm.data.model
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "ct_scan")
+@Entity(
+    tableName = "ct_scan",
+    foreignKeys = [
+        ForeignKey(
+            entity = HealthRecord::class,
+            parentColumns = ["id"],
+            childColumns = ["sessionId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
+)
 data class CtScan(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 

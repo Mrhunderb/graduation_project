@@ -1,9 +1,20 @@
 package com.example.hrm.data.model
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "blood_data")
+@Entity(
+    tableName = "blood_data",
+    foreignKeys = [
+        ForeignKey(
+            entity = HealthRecord::class,
+            parentColumns = ["id"],
+            childColumns = ["sessionId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
+)
 data class BloodData(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val date: Long = System.currentTimeMillis(), // 检查时间戳

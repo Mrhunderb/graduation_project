@@ -1,9 +1,20 @@
 package com.example.hrm.data.model
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "urine_routine")
+@Entity(
+    tableName = "urine_routine",
+    foreignKeys = [
+        ForeignKey(
+            entity = HealthRecord::class,
+            parentColumns = ["id"],
+            childColumns = ["sessionId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
+)
 data class UrineRoutine(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 
