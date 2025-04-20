@@ -28,7 +28,6 @@ import com.example.hrm.screen.ProfileScreen
 import com.example.hrm.screen.RecordScreen
 import java.util.Locale
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
