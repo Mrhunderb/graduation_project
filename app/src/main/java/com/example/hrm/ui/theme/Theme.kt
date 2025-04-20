@@ -114,3 +114,23 @@ object JetLaggedTheme {
         @Composable
         get() = LocalExtraColors.current
 }
+
+private val LightColors = lightColorScheme(
+    primary = Color(0xFF2E86DE),
+    secondary = Color(0xFFA29BFE),
+    tertiary = Color(0xFF55EFC4),
+    error = Color(0xFFE17055),
+    background = Color(0xFFF9F9F9),
+    surface = Color(0xFFFFFFFF),
+    onPrimary = Color(0xFFFFFFFF),
+    onBackground = Color(0xFF2D3436),
+)
+
+@Composable
+fun MyAppTheme(content: @Composable () -> Unit) {
+    MaterialTheme(
+        colorScheme = LightColors,
+        typography = Typography, // 可使用默认也可自定义
+        content = content
+    )
+}
