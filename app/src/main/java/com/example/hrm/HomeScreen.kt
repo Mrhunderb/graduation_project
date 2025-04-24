@@ -18,7 +18,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -26,7 +25,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hrm.screen.AnalyseScreen
 import com.example.hrm.screen.ProfileScreen
 import com.example.hrm.screen.RecordScreen
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,7 +71,6 @@ fun MainScreen() {
                                 "profile" -> Icon(Icons.Default.Person, contentDescription = null)
                             }
                         },
-                        label = { Text(screen.capitalize(Locale.ROOT)) }
                     )
                 }
             }

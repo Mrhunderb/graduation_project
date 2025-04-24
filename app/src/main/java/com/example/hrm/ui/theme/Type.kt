@@ -12,7 +12,7 @@ import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.sp
 import com.example.hrm.R
 
-val fontName = GoogleFont("Lato")
+val fontName = GoogleFont("Late")
 
 val provider = GoogleFont.Provider(
     providerAuthority = "com.google.android.gms.fonts",
@@ -41,7 +41,7 @@ val TitleBarStyle = TextStyle(
 )
 
 val HeadingStyle = TextStyle(
-    fontSize = 24.sp,
+    fontSize = 22.sp,
     fontWeight = FontWeight(600),
     letterSpacing = 0.5.sp,
     fontFamily = fontFamily

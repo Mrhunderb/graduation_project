@@ -3,12 +3,8 @@ package com.example.hrm.screen
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.hrm.component.RecordItem
 
@@ -19,12 +15,13 @@ fun RecordScreen() {
             .fillMaxSize()
             .padding(8.dp)
     ) {
-        items(100) { index ->
+        items(3) { index ->
             RecordItem(
-                record = "Record $index",
+                record = "202${index}年${index}月${index}日的体检报告",
+                hospital = "北京协和医院",
                 onClick = {
                     // show click
-                }
+                },
             )
         }
     }
