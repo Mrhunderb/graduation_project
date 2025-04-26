@@ -1,4 +1,4 @@
-package com.example.hrm.data.entity
+package com.example.hrm.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

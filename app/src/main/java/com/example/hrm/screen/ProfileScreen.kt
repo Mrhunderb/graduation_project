@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.rememberAsyncImagePainter
-import com.example.hrm.data.db.ImageViewModel
+import com.example.hrm.db.db.ImageViewModel
 import java.io.File
 
 @Composable

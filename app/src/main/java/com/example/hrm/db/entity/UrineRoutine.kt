@@ -1,7 +1,8 @@
-package com.example.hrm.data.entity
+package com.example.hrm.db.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
@@ -13,12 +14,14 @@ import androidx.room.PrimaryKey
             childColumns = ["sessionId"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ],
+    indices = [Index(value = ["sessionId"])]
 )
 data class UrineRoutine(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 
     val date: Long = System.currentTimeMillis(), // 检查时间（时间戳）
+    val sessionId: Int = 0,                      // 对应体检记录ID（外键）
 
     val ket: String,      // 尿酮体（KET）
     val uro: String,      // 尿胆原（URO）

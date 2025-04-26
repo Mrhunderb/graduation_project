@@ -1,4 +1,4 @@
-package com.example.hrm.data.db
+package com.example.hrm.db.db
 
 import androidx.room.Dao
 import androidx.room.Database

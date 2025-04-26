@@ -1,11 +1,11 @@
-package com.example.hrm.data.dao
+package com.example.hrm.db.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.hrm.data.entity.Electrocardiogram
+import com.example.hrm.db.entity.Electrocardiogram
 
 @Dao
 interface ElectrocardiogramDao {

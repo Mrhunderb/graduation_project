@@ -1,7 +1,8 @@
-package com.example.hrm.data.entity
+package com.example.hrm.db.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
@@ -13,7 +14,8 @@ import androidx.room.PrimaryKey
             childColumns = ["sessionId"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ],
+    indices = [Index(value = ["sessionId"])]
 )
 data class BloodData(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
