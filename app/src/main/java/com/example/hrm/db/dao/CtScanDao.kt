@@ -10,14 +10,14 @@ import com.example.hrm.db.entity.CtScan
 @Dao
 interface CtScanDao {
     @Insert
-    suspend fun insertCtScanData(ctScanData: CtScan)
+    suspend fun insert(ctScanData: CtScan)
 
     @Query("SELECT * FROM ct_scan")
-    suspend fun getAllCtScanData(): List<CtScan>
+    suspend fun getAll(): List<CtScan>
 
     @Delete
-    suspend fun deleteCtScanData(ctScanData: CtScan)
+    suspend fun delete(ctScanData: CtScan)
 
     @Update
-    suspend fun updateCtScanData(ctScanData: CtScan)
+    suspend fun update(ctScanData: CtScan)
 }

@@ -10,14 +10,14 @@ import com.example.hrm.db.entity.GeneralPhysical
 @Dao
 interface GeneralPhysicalDao {
     @Insert
-    suspend fun insertGeneralPhysicalData(generalPhysicalData: GeneralPhysical)
+    suspend fun insert(generalPhysicalData: GeneralPhysical)
 
     @Query("SELECT * FROM general_physical")
-    suspend fun getAllGeneralPhysicalData(): List<GeneralPhysical>
+    suspend fun getAll(): List<GeneralPhysical>
 
     @Delete
-    suspend fun deleteGeneralPhysicalData(generalPhysicalData: GeneralPhysical)
+    suspend fun delete(generalPhysicalData: GeneralPhysical)
 
     @Update
-    suspend fun updateGeneralPhysicalData(generalPhysicalData: GeneralPhysical)
+    suspend fun update(generalPhysicalData: GeneralPhysical)
 }

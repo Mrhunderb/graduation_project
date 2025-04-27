@@ -10,14 +10,14 @@ import com.example.hrm.db.entity.HealthRecord
 @Dao
 interface HealthRecordDao {
     @Insert
-    suspend fun insertHealthRecordData(healthRecordData: HealthRecord)
+    suspend fun insert(healthRecordData: HealthRecord)
 
     @Query("SELECT * FROM health_record")
-    suspend fun getAllHealthRecordData(): List<HealthRecord>
+    suspend fun getAll(): List<HealthRecord>
 
     @Delete
-    suspend fun deleteHealthRecordData(healthRecordData: HealthRecord)
+    suspend fun delete(healthRecordData: HealthRecord)
 
     @Update
-    suspend fun updateHealthRecordData(healthRecordData: HealthRecord)
+    suspend fun update(healthRecordData: HealthRecord)
 }

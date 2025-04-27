@@ -10,14 +10,14 @@ import com.example.hrm.db.entity.Electrocardiogram
 @Dao
 interface ElectrocardiogramDao {
     @Insert
-    suspend fun insertElectrocardiogramData(ctScanData: Electrocardiogram)
+    suspend fun insert(ctScanData: Electrocardiogram)
 
     @Query("SELECT * FROM electrocardiogram")
-    suspend fun getAllElectrocardiogramData(): List<Electrocardiogram>
+    suspend fun getAll(): List<Electrocardiogram>
 
     @Delete
-    suspend fun deleteElectrocardiogramData(ctScanData: Electrocardiogram)
+    suspend fun delete(ctScanData: Electrocardiogram)
 
     @Update
-    suspend fun updateElectrocardiogramData(ctScanData: Electrocardiogram)
+    suspend fun update(ctScanData: Electrocardiogram)
 }

@@ -10,14 +10,14 @@ import com.example.hrm.db.entity.BloodData
 @Dao
 interface BloodDataDao {
      @Insert
-     suspend fun insertBloodData(bloodData: BloodData)
+     suspend fun insert(bloodData: BloodData)
 
      @Query("SELECT * FROM blood_data")
-     suspend fun getAllBloodData(): List<BloodData>
+     suspend fun getAll(): List<BloodData>
 
      @Delete
-     suspend fun deleteBloodData(bloodData: BloodData)
+     suspend fun delete(bloodData: BloodData)
 
      @Update
-     suspend fun updateBloodData(bloodData: BloodData)
+     suspend fun update(bloodData: BloodData)
 }
