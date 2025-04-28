@@ -19,12 +19,15 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.Navigation
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.hrm.screen.AnalyseScreen
 import com.example.hrm.screen.ProfileScreen
 import com.example.hrm.screen.RecordScreen
+import com.example.hrm.screen.record.AddBloodScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,6 +35,10 @@ fun MainScreen() {
     val navController = rememberNavController()
     val items = listOf("home", "discover", "profile")
     val label = stringResource(id = R.string.app_heading)
+    val currentBackStackEntry = navController.currentBackStackEntryAsState()
+    val currentDestination = currentBackStackEntry.value?.destination?.route
+    val shouldShowBottomBar = currentDestination in items
+    val shouldShowFloatingActionButton = currentDestination == "home"
 
     Scaffold(
         topBar = {
@@ -43,35 +50,50 @@ fun MainScreen() {
             )
         },
         floatingActionButton = {
-             FloatingActionButton(
-                 onClick = { /* TODO */ },
-                 containerColor = MaterialTheme.colorScheme.primary,
-             ) {
-                 Icon(Icons.Default.Add, contentDescription = "Add")
-             }
+            if (shouldShowFloatingActionButton) {
+                 FloatingActionButton(
+                     onClick = {
+                         navController.navigate("add_record")
+                     },
+                     containerColor = MaterialTheme.colorScheme.primary,
+                 ) {
+                     Icon(Icons.Default.Add, contentDescription = "Add")
+                 }
+            }
         },
         bottomBar = {
-            NavigationBar (
-                containerColor = MaterialTheme.colorScheme.surface,
-            ) {
-                items.forEach { screen ->
-                    NavigationBarItem(
-                        selected = navController.currentDestination?.route == screen,
-                        onClick = {
-                            navController.navigate(screen) {
-                                popUpTo(navController.graph.startDestinationId) { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        icon = {
-                            when (screen) {
-                                "home" -> Icon(Icons.Default.Home, contentDescription = null)
-                                "discover" -> Icon(Icons.Default.Search, contentDescription = null)
-                                "profile" -> Icon(Icons.Default.Person, contentDescription = null)
-                            }
-                        },
-                    )
+            if (shouldShowBottomBar) {
+                NavigationBar(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                ) {
+                    items.forEach { screen ->
+                        NavigationBarItem(
+                            selected = navController.currentDestination?.route == screen,
+                            onClick = {
+                                navController.navigate(screen) {
+                                    popUpTo(navController.graph.startDestinationId) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
+                            icon = {
+                                when (screen) {
+                                    "home" -> Icon(Icons.Default.Home, contentDescription = null)
+                                    "discover" -> Icon(
+                                        Icons.Default.Search,
+                                        contentDescription = null
+                                    )
+
+                                    "profile" -> Icon(
+                                        Icons.Default.Person,
+                                        contentDescription = null
+                                    )
+                                }
+                            },
+                        )
+                    }
                 }
             }
         },
@@ -86,6 +108,13 @@ fun MainScreen() {
             composable("home") { RecordScreen() }
             composable("discover") { AnalyseScreen() }
             composable("profile") { ProfileScreen() }
+            composable ("add_record") {
+                AddBloodScreen(
+                    onSave = {
+                        navController.popBackStack()
+                    }
+                )
+            }
         }
     }
 }
