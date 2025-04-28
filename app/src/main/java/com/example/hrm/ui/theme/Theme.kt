@@ -117,11 +117,13 @@ object JetLaggedTheme {
 
 private val LightColors = lightColorScheme(
     primary = Color(0xFF2E86DE),
-    secondary = Color(0xFFA29BFE),
+    // shandow Blue
+    secondary = Color(0xFF6C5CE7),
     tertiary = Color(0xFF55EFC4),
     error = Color(0xFFE17055),
     background = Color(0xFFF9F9F9),
     surface = Color(0xFFFFFFFF),
+    onSurface = Color(0xFF2D3436),
     onPrimary = Color(0xFFFFFFFF),
     onBackground = Color(0xFF2D3436),
 )
@@ -129,7 +131,7 @@ private val LightColors = lightColorScheme(
 @Composable
 fun MyAppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colorScheme = LightColors,
+        colorScheme = LightColorScheme,
         typography = Typography, // 可使用默认也可自定义
         content = content
     )

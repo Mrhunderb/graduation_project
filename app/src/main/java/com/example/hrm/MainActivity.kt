@@ -4,6 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.hrm.screen.AnalyseScreen
+import com.example.hrm.screen.ProfileScreen
+import com.example.hrm.screen.RecordScreen
+import com.example.hrm.screen.record.AddBloodScreen
 import com.example.hrm.ui.theme.MyAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -12,7 +19,20 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyAppTheme {
-                MainScreen()
+                val navController = rememberNavController()
+
+                NavHost(navController, startDestination = "home") {
+                    composable("home") { TestScreen(navController) }
+                    composable("discover") { AnalyseScreen() }
+                    composable("profile") { ProfileScreen() }
+                    composable("add_record") {
+                        AddBloodScreen(
+                            onBack = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+                }
             }
         }
     }

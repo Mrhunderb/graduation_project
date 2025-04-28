@@ -2,121 +2,144 @@ package com.example.hrm.screen.record
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
+import com.example.hrm.db.entity.BloodData
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddBloodScreen(
-    onSave: (BloodTestData) -> Unit
+    onBack: () -> Unit,
 ) {
-    val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
-    var wbc by remember { mutableStateOf("") }
-    var rbc by remember { mutableStateOf("") }
-    var hb by remember { mutableStateOf("") }
-    var plt by remember { mutableStateOf("") }
-    var neut by remember { mutableStateOf("") }
-    var lymph by remember { mutableStateOf("") }
+    var wbc by rememberSaveable { mutableStateOf("") }
+    var granPercent by rememberSaveable { mutableStateOf("") }
+    var lymPercent by rememberSaveable { mutableStateOf("") }
+    var monoPercent by rememberSaveable { mutableStateOf("") }
+    var eosPercent by rememberSaveable { mutableStateOf("") }
+    var basoPercent by rememberSaveable { mutableStateOf("") }
 
-    var wbcError by remember { mutableStateOf<String?>(null) }
-    var rbcError by remember { mutableStateOf<String?>(null) }
-    var hbError by remember { mutableStateOf<String?>(null) }
-    var pltError by remember { mutableStateOf<String?>(null) }
-    var neutError by remember { mutableStateOf<String?>(null) }
-    var lymphError by remember { mutableStateOf<String?>(null) }
+    var rbc by rememberSaveable { mutableStateOf("") }
+    var hb by rememberSaveable { mutableStateOf("") }
+    var hct by rememberSaveable { mutableStateOf("") }
+
+    var rdwSd by rememberSaveable { mutableStateOf("") }
+    var rdwCv by rememberSaveable { mutableStateOf("") }
+
+    var plt by rememberSaveable { mutableStateOf("") }
+    var mpv by rememberSaveable { mutableStateOf("") }
+    var pdw by rememberSaveable { mutableStateOf("") }
+    var plcr by rememberSaveable { mutableStateOf("") }
+
+    // --- 自动计算 ---
+    val granAbs = wbc.toFloatOrNull()?.times(granPercent.toFloatOrNull() ?: 0f)?.div(100) ?: 0f
+    val lymAbs = wbc.toFloatOrNull()?.times(lymPercent.toFloatOrNull() ?: 0f)?.div(100) ?: 0f
+    val monoAbs = wbc.toFloatOrNull()?.times(monoPercent.toFloatOrNull() ?: 0f)?.div(100) ?: 0f
+    val eosAbs = wbc.toFloatOrNull()?.times(eosPercent.toFloatOrNull() ?: 0f)?.div(100) ?: 0f
+    val basoAbs = wbc.toFloatOrNull()?.times(basoPercent.toFloatOrNull() ?: 0f)?.div(100) ?: 0f
+
+    val mcv = if (rbc.isNotEmpty() && hct.isNotEmpty()) {
+        (hct.toFloatOrNull() ?: 0f) * 10 / (rbc.toFloatOrNull() ?: 1f)
+    } else 0f
+
+    val mch = if (rbc.isNotEmpty() && hb.isNotEmpty()) {
+        (hb.toFloatOrNull() ?: 0f) * 10 / (rbc.toFloatOrNull() ?: 1f)
+    } else 0f
+
+    val mchc = if (hct.isNotEmpty() && hb.isNotEmpty()) {
+        (hb.toFloatOrNull() ?: 0f) * 100 / (hct.toFloatOrNull() ?: 1f)
+    } else 0f
+
+    val pct = if (plt.isNotEmpty() && mpv.isNotEmpty()) {
+        (plt.toFloatOrNull() ?: 0f) * (mpv.toFloatOrNull() ?: 0f) / 10000
+    } else 0f
 
     Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
-    ) { innerPadding ->
+        topBar = {
+            TopAppBar(
+                title = { Text("新增血常规") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                ),
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回")
+                    }
+                }
+            )
+        }
+    ) { padding ->
         Column(
             modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
+                .padding(padding)
+                .verticalScroll(rememberScrollState())
                 .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(text = "填写血常规数据", style = MaterialTheme.typography.headlineSmall)
+            // 白细胞部分
+            Text("白细胞相关", style = MaterialTheme.typography.titleMedium)
+            InputField(label = "白细胞计数 (WBC)", value = wbc) { wbc = it }
+            InputField(label = "中性粒细胞百分比 (GRAN%)", value = granPercent) { granPercent = it }
+            InputField(label = "淋巴细胞百分比 (LYM%)", value = lymPercent) { lymPercent = it }
+            InputField(label = "单核细胞百分比 (Mono%)", value = monoPercent) { monoPercent = it }
+            InputField(label = "嗜酸性粒细胞百分比 (Eos%)", value = eosPercent) { eosPercent = it }
+            InputField(label = "嗜碱性粒细胞百分比 (Baso%)", value = basoPercent) { basoPercent = it }
 
-            BloodTestField(
-                value = wbc,
-                onValueChange = { wbc = it; wbcError = null },
-                label = "白细胞 (WBC, x10⁹/L)",
-                error = wbcError
-            )
-            BloodTestField(
-                value = rbc,
-                onValueChange = { rbc = it; rbcError = null },
-                label = "红细胞 (RBC, x10¹²/L)",
-                error = rbcError
-            )
-            BloodTestField(
-                value = hb,
-                onValueChange = { hb = it; hbError = null },
-                label = "血红蛋白 (Hb, g/L)",
-                error = hbError
-            )
-            BloodTestField(
-                value = plt,
-                onValueChange = { plt = it; pltError = null },
-                label = "血小板 (PLT, x10⁹/L)",
-                error = pltError
-            )
-            BloodTestField(
-                value = neut,
-                onValueChange = { neut = it; neutError = null },
-                label = "中性粒细胞百分比 (NEUT%)",
-                error = neutError
-            )
-            BloodTestField(
-                value = lymph,
-                onValueChange = { lymph = it; lymphError = null },
-                label = "淋巴细胞百分比 (LYMPH%)",
-                error = lymphError
-            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text("红细胞相关", style = MaterialTheme.typography.titleMedium)
+            InputField(label = "红细胞计数 (RBC)", value = rbc) { rbc = it }
+            InputField(label = "血红蛋白 (Hb)", value = hb) { hb = it }
+            InputField(label = "红细胞比容 (HCT)", value = hct) { hct = it }
+            InputField(label = "红细胞分布宽度-SD (RDW-SD)", value = rdwSd) { rdwSd = it }
+            InputField(label = "红细胞分布宽度-CV (RDW-CV)", value = rdwCv) { rdwCv = it }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text("血小板相关", style = MaterialTheme.typography.titleMedium)
+            InputField(label = "血小板计数 (PLT)", value = plt) { plt = it }
+            InputField(label = "平均血小板体积 (MPV)", value = mpv) { mpv = it }
+            InputField(label = "血小板分布宽度 (PDW)", value = pdw) { pdw = it }
+            InputField(label = "大血小板比率 (P-LCR)", value = plcr) { plcr = it }
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
                 onClick = {
-                    var hasError = false
-
-                    fun validateField(value: String, setError: (String?) -> Unit): Boolean {
-                        return when {
-                            value.isBlank() -> {
-                                setError("请填写")
-                                false
-                            }
-                            value.toFloatOrNull() == null -> {
-                                setError("请输入正确的数字")
-                                false
-                            }
-                            else -> true
-                        }
-                    }
-
-                    hasError = !validateField(wbc) { wbcError = it } || hasError
-                    hasError = !validateField(rbc) { rbcError = it } || hasError
-                    hasError = !validateField(hb) { hbError = it } || hasError
-                    hasError = !validateField(plt) { pltError = it } || hasError
-                    hasError = !validateField(neut) { neutError = it } || hasError
-                    hasError = !validateField(lymph) { lymphError = it } || hasError
-
-                    if (hasError) {
-                        scope.launch {
-                            snackbarHostState.showSnackbar("请修正错误后再保存")
-                        }
-                    } else {
-                        // TODO
-                    }
+                    val record = BloodData(
+                        wbc = wbc,
+                        granPercent = granPercent,
+                        lymPercent = lymPercent,
+                        monoPercent = monoPercent,
+                        eosPercent = eosPercent,
+                        basoPercent = basoPercent,
+                        granAbs = granAbs.toString(),
+                        lymAbs = lymAbs.toString(),
+                        monoAbs = monoAbs.toString(),
+                        eosAbs = eosAbs.toString(),
+                        basoAbs = basoAbs.toString(),
+                        rbc = rbc,
+                        hb = hb,
+                        hct = hct,
+                        mcv = mcv.toString(),
+                        mch = mch.toString(),
+                        mchc = mchc.toString(),
+                        rdwSd = rdwSd,
+                        rdwCv = rdwCv,
+                        plt = plt,
+                        mpv = mpv,
+                        pct = pct.toString(),
+                        pdw = pdw,
+                        plcr = plcr
+                    )
+//                    onSave(record)
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -127,31 +150,15 @@ fun AddBloodScreen(
 }
 
 @Composable
-private fun BloodTestField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    label: String,
-    error: String?
-) {
+fun InputField(label: String, value: String, onValueChange: (String) -> Unit) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(label) },
-        isError = error != null,
-        supportingText = { if (error != null) Text(text = error, color = MaterialTheme.colorScheme.error) },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Number
-        ),
         singleLine = true,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
     )
 }
 
-data class BloodTestData(
-    val wbc: Float,
-    val rbc: Float,
-    val hb: Float,
-    val plt: Float,
-    val neut: Float,
-    val lymph: Float
-)
