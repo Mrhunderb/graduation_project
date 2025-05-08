@@ -25,7 +25,7 @@ fun RecordScreen(
                 hospital = "北京协和医院",
                 onClick = {
                     // show click
-                    navController?.navigate("add_record")
+                    navController?.navigate("add")
                 },
             )
         }

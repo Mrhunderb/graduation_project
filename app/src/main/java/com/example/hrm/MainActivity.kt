@@ -9,8 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.hrm.screen.AnalyseScreen
 import com.example.hrm.screen.ProfileScreen
-import com.example.hrm.screen.RecordScreen
 import com.example.hrm.screen.record.AddBloodScreen
+import com.example.hrm.screen.record.AddRecordScreen
 import com.example.hrm.ui.theme.MyAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,6 +27,13 @@ class MainActivity : ComponentActivity() {
                     composable("profile") { ProfileScreen() }
                     composable("add_record") {
                         AddBloodScreen(
+                            onBack = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+                    composable("add") {
+                        AddRecordScreen(
                             onBack = {
                                 navController.popBackStack()
                             }
