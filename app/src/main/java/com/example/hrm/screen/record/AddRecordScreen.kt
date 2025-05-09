@@ -34,32 +34,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddRecordScreen(
-    onBack: () -> Unit,
+    navController: NavController,
 ) {
     val context = LocalContext.current
 
-    val items = listOf<Pair<ImageVector, String>>(
-        Pair(Icons.Default.Favorite, "收藏"),
-        Pair(Icons.Default.Settings, "设置"),
-        Pair(Icons.Default.Face, "用户"),
-        Pair(Icons.Default.Notifications, "通知"),
-        Pair(Icons.Default.Share, "分享"),
-        Pair(Icons.Default.Info, "关于")
+    val items = listOf<Triple<ImageVector, String, String>>(
+        Triple(Icons.Default.Favorite, "常规检查", "general"),
+        Triple(Icons.Default.Settings, "血常规", "blood"),
+        Triple(Icons.Default.Face, "尿常规", "urine"),
+        Triple(Icons.Default.Notifications, "心电图", "ecg"),
+        Triple(Icons.Default.Share, "X光", "xray"),
+        Triple(Icons.Default.Info, "肝功能", "liver"),
     )
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("新增血常规") },
+                title = { Text("新增体检报告") },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                 ),
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                    }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回")
                     }
                 }
@@ -70,6 +73,7 @@ fun AddRecordScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(padding)
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -85,8 +89,8 @@ fun AddRecordScreen(
                             icon = item.first,
                             label = item.second,
                             onClick = {
-                                Toast.makeText(context, "点击了 ${item.second}", Toast.LENGTH_SHORT)
-                                    .show()
+                                var route = "add_" + item.third
+                                navController.navigate(route)
                             },
                             modifier = Modifier.weight(1f)
                         )
@@ -116,7 +120,7 @@ fun GridButton(
             Icon(
                 imageVector = icon,
                 contentDescription = label,
-                modifier = Modifier.size(36.dp)
+                modifier = Modifier.size(40.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = label)

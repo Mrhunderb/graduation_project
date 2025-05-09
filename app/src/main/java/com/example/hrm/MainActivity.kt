@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -20,20 +22,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyAppTheme {
                 val navController = rememberNavController()
-
                 NavHost(navController, startDestination = "home") {
                     composable("home") { TestScreen(navController) }
                     composable("discover") { AnalyseScreen() }
                     composable("profile") { ProfileScreen() }
-                    composable("add_record") {
-                        AddBloodScreen(
-                            onBack = {
-                                navController.popBackStack()
-                            }
-                        )
-                    }
                     composable("add") {
-                        AddRecordScreen(
+                        AddRecordScreen(navController)
+                    }
+                    composable("add_blood") {
+                        AddBloodScreen(
                             onBack = {
                                 navController.popBackStack()
                             }

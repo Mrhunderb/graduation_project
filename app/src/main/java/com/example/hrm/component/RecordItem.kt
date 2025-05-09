@@ -65,8 +65,8 @@ fun RecordItem(
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
-                    .padding(8.dp)
-                    .size(24.dp)
+                    .padding(4.dp)
+                    .size(20.dp)
             )
         }
     }

@@ -58,7 +58,7 @@ fun MainScreen(
         floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        navController?.navigate("add_record")
+                        navController?.navigate("add")
                     },
                     containerColor = MaterialTheme.colorScheme.primary,
                 ) {

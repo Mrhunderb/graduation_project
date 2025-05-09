@@ -21,10 +21,9 @@ fun RecordScreen(
     ) {
         items(3) { index ->
             RecordItem(
-                record = "202${index}年${index}月${index}日的体检报告",
+                record = "202${index}年${index}1月${index}1日体检报告",
                 hospital = "北京协和医院",
                 onClick = {
-                    // show click
                     navController?.navigate("add")
                 },
             )

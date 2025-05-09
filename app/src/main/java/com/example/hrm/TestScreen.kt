@@ -4,11 +4,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -36,6 +38,13 @@ import com.example.hrm.screen.TrendScreen
 fun TestScreen(navController: NavController) {
     val label = stringResource(id = R.string.app_heading)
     var selectedTab by rememberSaveable { mutableIntStateOf(0) } // 记住当前选择的tab
+    val items = listOf("档案", "指标", "趋势", "我的")
+    val icons = listOf(
+        Icons.Default.Home,
+        Icons.Default.Favorite,
+        Icons.Default.DateRange,
+        Icons.Default.Person
+    )
 
     Scaffold(
         topBar = {
@@ -46,8 +55,31 @@ fun TestScreen(navController: NavController) {
                 )
             )
         },
+        floatingActionButton = {
+             FloatingActionButton(
+                 onClick = {
+                     navController.navigate("add")
+                 },
+                 containerColor = MaterialTheme.colorScheme.primary,
+                 contentColor = MaterialTheme.colorScheme.onPrimary,
+             ) {
+                 Icon(Icons.Default.Add, contentDescription = null)
+             }
+        },
         bottomBar = {
-            BottomNavigationBar(navController)
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface,
+            ) {
+                items.forEachIndexed { index, title ->
+                    NavigationBarItem(
+                        icon = { Icon(icons[index], contentDescription = null) },
+                        label = { Text(title) },
+                        selected = selectedTab == index,
+                        onClick = { selectedTab = index }
+                    )
+                }
+            }
         }
     ) { innerPadding ->
         Box(
@@ -62,32 +94,6 @@ fun TestScreen(navController: NavController) {
                 2 -> AnalyseScreen()
                 3 -> ProfileScreen()
             }
-        }
-    }
-}
-
-@Composable
-fun BottomNavigationBar(navController: NavController) {
-    val items = listOf("档案", "指标", "趋势", "我的")
-    val icons = listOf(
-        Icons.Default.Home,
-        Icons.Default.Favorite,
-        Icons.Default.DateRange,
-        Icons.Default.Person
-    )
-    var selectedTab by rememberSaveable { mutableIntStateOf(0) } // 记住当前选择的tab
-
-    NavigationBar(
-        containerColor = MaterialTheme.colorScheme.surface,
-        contentColor = MaterialTheme.colorScheme.onSurface,
-    ) {
-        items.forEachIndexed { index, title ->
-            NavigationBarItem(
-                icon = { Icon(icons[index], contentDescription = null) },
-                label = { Text(title) },
-                selected = selectedTab == index,
-                onClick = { selectedTab = index }
-            )
         }
     }
 }
