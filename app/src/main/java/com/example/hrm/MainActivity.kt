@@ -4,15 +4,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.hrm.screen.AnalyseScreen
 import com.example.hrm.screen.ProfileScreen
 import com.example.hrm.screen.record.AddBloodScreen
+import com.example.hrm.screen.record.AddEcgScreen
+import com.example.hrm.screen.record.AddGeneralScreen
+import com.example.hrm.screen.record.AddLiverScreen
 import com.example.hrm.screen.record.AddRecordScreen
+import com.example.hrm.screen.record.AddUrineScreen
+import com.example.hrm.screen.record.AddXrayScreen
 import com.example.hrm.ui.theme.MyAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -36,6 +39,23 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     }
+                    composable("add_urine") {
+                        AddUrineScreen(
+                            onBack = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+                    composable("add_general") {
+                        AddGeneralScreen(
+                            onBack = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+                    composable("add_ecg") { AddEcgScreen() }
+                    composable("add_xray") { AddXrayScreen() }
+                    composable("add_liver") { AddLiverScreen() }
                 }
             }
         }

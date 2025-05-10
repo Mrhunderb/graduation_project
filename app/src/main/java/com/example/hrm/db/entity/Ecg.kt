@@ -6,7 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "electrocardiogram",
+    tableName = "ecg",
     foreignKeys = [
         ForeignKey(
             entity = HealthRecord::class,
@@ -17,7 +17,7 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index(value = ["sessionId"])]
 )
-data class Electrocardiogram(
+data class Ecg(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 
     val sessionId: Int? = null,        // 外键，关联体检记录（可选）
