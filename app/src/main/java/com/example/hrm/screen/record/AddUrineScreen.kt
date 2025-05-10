@@ -9,10 +9,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,6 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddUrineScreen(
     onBack: () -> Unit,
@@ -52,35 +61,54 @@ fun AddUrineScreen(
         "尿蛋白 (PRO)" to pro,
     )
 
-    Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState())
-    ) {
-        Text("请输入尿液检测数据", style = MaterialTheme.typography.titleLarge)
-        Spacer(modifier = Modifier.height(16.dp))
-
-        fields.forEach { (label, state) ->
-            OutlinedTextField(
-                value = state.value,
-                onValueChange = { state.value = it },
-                label = { Text(label) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("新增尿常规") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                ),
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回")
+                    }
+                }
             )
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = {
-                try {
-                } catch (e: NumberFormatException) {
-                    Toast.makeText(context, "请确保所有输入为有效数字", Toast.LENGTH_SHORT).show()
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .padding(padding)
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState())
         ) {
-            Text("提交")
+            Text("请输入尿液检测数据", style = MaterialTheme.typography.titleLarge)
+            Spacer(modifier = Modifier.height(16.dp))
+
+            fields.forEach { (label, state) ->
+                OutlinedTextField(
+                    value = state.value,
+                    onValueChange = { state.value = it },
+                    label = { Text(label) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = {
+                    try {
+                        // TODO: Handle the data submission
+                    } catch (e: NumberFormatException) {
+                        Toast.makeText(context, "请确保所有输入为有效数字", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("提交")
+            }
         }
     }
 }

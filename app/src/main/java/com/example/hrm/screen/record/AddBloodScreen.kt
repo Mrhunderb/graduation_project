@@ -139,7 +139,7 @@ fun AddBloodScreen(
                         pdw = pdw.toFloatOrNull(),
                         plcr = plcr.toFloatOrNull()
                     )
-//                    onSave(record)
+                    // TODO : Save the record to the database
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {

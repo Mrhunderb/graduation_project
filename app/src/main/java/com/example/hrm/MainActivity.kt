@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("add_ecg") { AddEcgScreen() }
                     composable("add_xray") { AddXrayScreen() }
-                    composable("add_liver") { AddLiverScreen() }
+                    composable("add_liver") { AddLiverScreen(navController) }
                 }
             }
         }
