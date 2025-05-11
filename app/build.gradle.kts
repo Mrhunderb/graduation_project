@@ -44,6 +44,7 @@ dependencies {
 
     // Room
     implementation(libs.androidx.room.runtime)
+    implementation(libs.protolite.well.known.types)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.guava)
