@@ -32,7 +32,8 @@ import androidx.navigation.NavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddGeneralScreen(
-    navController: NavController
+    navController: NavController,
+    id: Long
 ) {
     var height by remember { mutableStateOf("") }
     var weight by remember { mutableStateOf("") }

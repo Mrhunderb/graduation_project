@@ -35,12 +35,30 @@ class MainActivity : ComponentActivity() {
                         val id = it.arguments?.getString("id")
                         RecordSelectScreen(navController, id?.toLongOrNull() ?: 0L)
                     }
-                    composable("add_blood") { AddBloodScreen(navController) }
-                    composable("add_urine") { AddUrineScreen(navController) }
-                    composable("add_general") { AddGeneralScreen(navController) }
-                    composable("add_ecg") { AddEcgScreen(navController) }
-                    composable("add_xray") { AddXrayScreen(navController) }
-                    composable("add_liver") { AddLiverScreen(navController) }
+                    composable("add_blood/{id}") {
+                        val id = it.arguments?.getString("id")
+                        AddBloodScreen(navController, id?.toLongOrNull() ?: 0L)
+                    }
+                    composable("add_urine/{id}") {
+                        val id = it.arguments?.getString("id")
+                        AddUrineScreen(navController, id?.toLongOrNull() ?: 0L)
+                    }
+                    composable("add_general/{id}") {
+                        val id = it.arguments?.getString("id")
+                        AddGeneralScreen(navController, id?.toLongOrNull() ?: 0L)
+                    }
+                    composable("add_ecg/{id}") {
+                        val id = it.arguments?.getString("id")
+                        AddEcgScreen(navController, id?.toLongOrNull() ?: 0L)
+                    }
+                    composable("add_xray/{id}") {
+                        val id = it.arguments?.getString("id")
+                        AddXrayScreen(navController, id?.toLongOrNull() ?: 0L)
+                    }
+                    composable("add_liver/{id}") {
+                        val id = it.arguments?.getString("id")
+                        AddLiverScreen(navController, id?.toLongOrNull() ?: 0L)
+                    }
                 }
             }
         }

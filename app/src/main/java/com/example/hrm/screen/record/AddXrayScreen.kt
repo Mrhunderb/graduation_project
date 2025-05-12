@@ -46,7 +46,8 @@ import coil3.compose.rememberAsyncImagePainter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddXrayScreen(
-    navController: NavController
+    navController: NavController,
+    id: Long
 ) {
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
     var diagnosis by remember { mutableStateOf("") }

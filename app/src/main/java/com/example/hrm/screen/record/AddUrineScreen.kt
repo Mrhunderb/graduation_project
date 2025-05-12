@@ -33,7 +33,8 @@ import androidx.navigation.NavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddUrineScreen(
-    navController: NavController
+    navController: NavController,
+    id: Long
 ) {
     val context = LocalContext.current
     val ket = remember { mutableStateOf("") }

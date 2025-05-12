@@ -48,7 +48,8 @@ import coil3.compose.rememberAsyncImagePainter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEcgScreen(
-    navController: NavController
+    navController: NavController,
+    id: Long,
 ) {
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
     var diagnosis by remember { mutableStateOf("") }
@@ -132,10 +133,4 @@ fun AddEcgScreen(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun AddEcgScreenPreview() {
-    AddEcgScreen(navController = null as NavController)
 }

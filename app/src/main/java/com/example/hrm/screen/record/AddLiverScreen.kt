@@ -29,7 +29,8 @@ import androidx.navigation.NavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddLiverScreen(
-    navController: NavController
+    navController: NavController,
+    id: Long
 ) {
     val context = LocalContext.current
     val ast = remember { mutableStateOf("") }

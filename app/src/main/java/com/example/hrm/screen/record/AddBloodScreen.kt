@@ -16,7 +16,8 @@ import com.example.hrm.db.entity.BloodData
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddBloodScreen(
-    navController: NavController
+    navController: NavController,
+    id: Long
 ) {
     var wbc by rememberSaveable { mutableStateOf("") }
     var granPercent by rememberSaveable { mutableStateOf("") }
