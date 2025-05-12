@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.hrm.db.entity.GeneralPhysical
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GeneralPhysicalDao {
@@ -13,7 +14,7 @@ interface GeneralPhysicalDao {
     suspend fun insert(generalPhysicalData: GeneralPhysical)
 
     @Query("SELECT * FROM general_physical")
-    suspend fun getAll(): List<GeneralPhysical>
+    fun getAll(): Flow<List<GeneralPhysical>>
 
     @Delete
     suspend fun delete(generalPhysicalData: GeneralPhysical)

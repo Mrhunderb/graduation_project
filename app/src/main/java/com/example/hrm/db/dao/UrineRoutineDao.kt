@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.hrm.db.entity.UrineRoutine
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UrineRoutineDao {
@@ -13,7 +14,7 @@ interface UrineRoutineDao {
     suspend fun insert(healthRecordData: UrineRoutine)
 
     @Query("SELECT * FROM urine_routine")
-    suspend fun getAll(): List<UrineRoutine>
+    fun getAll(): Flow<List<UrineRoutine>>
 
     @Delete
     suspend fun delete(healthRecordData: UrineRoutine)

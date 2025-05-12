@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.hrm.db.entity.CtScan
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CtScanDao {
@@ -13,7 +14,7 @@ interface CtScanDao {
     suspend fun insert(ctScanData: CtScan)
 
     @Query("SELECT * FROM ct_scan")
-    suspend fun getAll(): List<CtScan>
+    fun getAll(): Flow<List<CtScan>>
 
     @Delete
     suspend fun delete(ctScanData: CtScan)

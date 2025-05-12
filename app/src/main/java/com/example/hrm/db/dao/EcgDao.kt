@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.hrm.db.entity.Ecg
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface EcgDao {
@@ -13,7 +14,7 @@ interface EcgDao {
     suspend fun insert(ctScanData: Ecg)
 
     @Query("SELECT * FROM ecg")
-    suspend fun getAll(): List<Ecg>
+    fun getAll(): Flow<List<Ecg>>
 
     @Delete
     suspend fun delete(ctScanData: Ecg)
