@@ -21,14 +21,19 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
             initialValue = emptyList()
         )
 
-    fun addRecord(time: Date, hospital: String) {
-        viewModelScope.launch {
-            db.healthRecordDao().insert(
-                HealthRecord(
-                    date = time.time,
-                    hospital = hospital
-                )
+    suspend fun addRecord(time: Date, hospital: String): Long {
+        return db.healthRecordDao().insert(
+            HealthRecord(
+                date = time.time,
+                hospital = hospital
             )
+        )
+    }
+
+    fun addRecordLaunch(time: Date, hospital: String, onComplete : (Long) -> Unit) {
+        viewModelScope.launch {
+            val id = addRecord(time, hospital)
+            onComplete(id)
         }
     }
 }

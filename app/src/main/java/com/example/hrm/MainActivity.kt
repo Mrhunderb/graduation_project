@@ -31,7 +31,10 @@ class MainActivity : ComponentActivity() {
                     composable("discover") { AnalyseScreen() }
                     composable("profile") { ProfileScreen() }
                     composable("add") { AddRecordScreen(navController) }
-                    composable("add_select") { RecordSelectScreen(navController) }
+                    composable("add_select/{id}") {
+                        val id = it.arguments?.getString("id")
+                        RecordSelectScreen(navController, id?.toLongOrNull() ?: 0L)
+                    }
                     composable("add_blood") { AddBloodScreen(navController) }
                     composable("add_urine") { AddUrineScreen(navController) }
                     composable("add_general") { AddGeneralScreen(navController) }

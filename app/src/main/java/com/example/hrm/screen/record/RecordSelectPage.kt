@@ -41,6 +41,7 @@ import androidx.navigation.NavController
 @Composable
 fun RecordSelectScreen(
     navController: NavController,
+    id : Long,
 ) {
     val context = LocalContext.current
     val items = listOf<Triple<ImageVector, String, String>>(
@@ -97,6 +98,7 @@ fun RecordSelectScreen(
                     }
                 }
             }
+            Spacer(Modifier.height(16.dp))
             Button(
                 onClick = {
                     navController.navigate("home") {

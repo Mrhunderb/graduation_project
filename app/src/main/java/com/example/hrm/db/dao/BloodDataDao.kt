@@ -14,10 +14,13 @@ interface BloodDataDao {
      suspend fun insert(bloodData: BloodData)
 
      @Query("SELECT * FROM blood_data")
-     suspend fun getAll(): Flow<List<BloodData>>
+     fun getAll(): Flow<List<BloodData>>
 
      @Delete
      suspend fun delete(bloodData: BloodData)
+
+     @Delete
+     suspend fun delete(id: Long)
 
      @Update
      suspend fun update(bloodData: BloodData)

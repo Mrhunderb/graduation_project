@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface HealthRecordDao {
     @Insert
-    suspend fun insert(healthRecordData: HealthRecord)
+    suspend fun insert(healthRecordData: HealthRecord): Long
 
     @Query("SELECT * FROM health_record")
     fun getAll(): Flow<List<HealthRecord>>
