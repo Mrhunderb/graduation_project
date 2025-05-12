@@ -29,30 +29,10 @@ class MainActivity : ComponentActivity() {
                     composable("home") { HomeScreen(navController) }
                     composable("discover") { AnalyseScreen() }
                     composable("profile") { ProfileScreen() }
-                    composable("add") {
-                        AddRecordScreen(navController)
-                    }
-                    composable("add_blood") {
-                        AddBloodScreen(
-                            onBack = {
-                                navController.popBackStack()
-                            }
-                        )
-                    }
-                    composable("add_urine") {
-                        AddUrineScreen(
-                            onBack = {
-                                navController.popBackStack()
-                            }
-                        )
-                    }
-                    composable("add_general") {
-                        AddGeneralScreen(
-                            onBack = {
-                                navController.popBackStack()
-                            }
-                        )
-                    }
+                    composable("add") { AddRecordScreen(navController) }
+                    composable("add_blood") { AddBloodScreen(navController) }
+                    composable("add_urine") { AddUrineScreen(navController) }
+                    composable("add_general") { AddGeneralScreen(navController) }
                     composable("add_ecg") { AddEcgScreen(navController) }
                     composable("add_xray") { AddXrayScreen(navController) }
                     composable("add_liver") { AddLiverScreen(navController) }

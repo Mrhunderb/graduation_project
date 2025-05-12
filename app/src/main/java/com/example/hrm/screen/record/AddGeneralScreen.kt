@@ -27,11 +27,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddGeneralScreen(
-    onBack: () -> Unit,
+    navController: NavController
 ) {
     var height by remember { mutableStateOf("") }
     var weight by remember { mutableStateOf("") }
@@ -60,7 +61,9 @@ fun AddGeneralScreen(
                     containerColor = MaterialTheme.colorScheme.primary,
                 ),
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                    }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回")
                     }
                 }

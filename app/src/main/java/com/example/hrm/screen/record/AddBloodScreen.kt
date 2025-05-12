@@ -9,17 +9,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.hrm.db.entity.BloodData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddBloodScreen(
-    onBack: () -> Unit,
+    navController: NavController
 ) {
-    val context = LocalContext.current
-
     var wbc by rememberSaveable { mutableStateOf("") }
     var granPercent by rememberSaveable { mutableStateOf("") }
     var lymPercent by rememberSaveable { mutableStateOf("") }
@@ -70,7 +68,9 @@ fun AddBloodScreen(
                     containerColor = MaterialTheme.colorScheme.primary,
                 ),
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                    }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回")
                     }
                 }

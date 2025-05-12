@@ -12,7 +12,7 @@ interface EcgDao {
     @Insert
     suspend fun insert(ctScanData: Ecg)
 
-    @Query("SELECT * FROM Ecg")
+    @Query("SELECT * FROM ecg")
     suspend fun getAll(): List<Ecg>
 
     @Delete

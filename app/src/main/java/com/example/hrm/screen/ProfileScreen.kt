@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.rememberAsyncImagePainter
@@ -37,7 +38,6 @@ fun ProfileScreen(
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     var showImages by remember { mutableStateOf(false) }
 
-    val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
@@ -91,5 +91,10 @@ fun ProfileScreen(
             }
         }
     }
+}
 
+@Preview
+@Composable
+fun ProfileScreenPreview() {
+    ProfileScreen()
 }
