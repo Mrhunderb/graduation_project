@@ -19,6 +19,9 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.Button
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,6 +31,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +39,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.hrm.component.DatePickerField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,7 +47,6 @@ fun AddRecordScreen(
     navController: NavController,
 ) {
     val context = LocalContext.current
-
     val items = listOf<Triple<ImageVector, String, String>>(
         Triple(Icons.Default.Favorite, "常规检查", "general"),
         Triple(Icons.Default.Settings, "血常规", "blood"),
@@ -96,6 +100,16 @@ fun AddRecordScreen(
                         )
                     }
                 }
+            }
+            DatePickerField()
+            Button(
+                onClick = {
+                    Toast.makeText(context, "功能开发中，敬请期待！", Toast.LENGTH_SHORT).show()
+                },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Text("保存报告")
             }
         }
     }

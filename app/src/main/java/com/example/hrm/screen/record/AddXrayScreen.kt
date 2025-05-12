@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,6 +23,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -47,6 +49,7 @@ fun AddXrayScreen(
     navController: NavController
 ) {
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
+    var diagnosis by remember { mutableStateOf("") }
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -81,7 +84,7 @@ fun AddXrayScreen(
         ) {
             Box(
                 modifier = Modifier
-                    .size(200.dp)
+                    .size(250.dp)
                     .clip(RoundedCornerShape(12.dp))
                     .background(Color.LightGray)
                     .clickable {
@@ -100,6 +103,22 @@ fun AddXrayScreen(
                     Text("点击选择 CT 图像")
                 }
             }
+
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            OutlinedTextField(
+                value = diagnosis,
+                onValueChange = {
+                    diagnosis = it
+                },
+                label = { Text("请输入医师诊断结果") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                singleLine = false,
+                maxLines = 4
+            )
 
             Spacer(modifier = Modifier.height(24.dp))
 
