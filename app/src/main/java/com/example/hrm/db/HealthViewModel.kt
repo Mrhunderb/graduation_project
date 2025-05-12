@@ -36,4 +36,10 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
             onComplete(id)
         }
     }
+
+    fun deleteRecord(id: Long) {
+        viewModelScope.launch {
+            healthDao.deleteById(id)
+        }
+    }
 }

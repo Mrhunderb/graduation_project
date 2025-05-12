@@ -19,9 +19,6 @@ interface BloodDataDao {
      @Delete
      suspend fun delete(bloodData: BloodData)
 
-     @Delete
-     suspend fun delete(id: Long)
-
      @Update
      suspend fun update(bloodData: BloodData)
 }

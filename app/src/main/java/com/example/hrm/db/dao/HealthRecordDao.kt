@@ -1,6 +1,5 @@
 package com.example.hrm.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -19,6 +18,9 @@ interface HealthRecordDao {
 
     @Delete
     suspend fun delete(healthRecordData: HealthRecord)
+
+    @Query("DELETE FROM health_record WHERE id = :id")
+    suspend fun deleteById(id: Long)
 
     @Update
     suspend fun update(healthRecordData: HealthRecord)
