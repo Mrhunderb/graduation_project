@@ -20,8 +20,6 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,7 +29,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,11 +36,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.hrm.component.DatePickerField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddRecordScreen(
+fun RecordSelectScreen(
     navController: NavController,
 ) {
     val context = LocalContext.current
@@ -59,7 +55,7 @@ fun AddRecordScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("新增体检报告") },
+                title = { Text("选择添加的项目") },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                 ),
@@ -101,10 +97,13 @@ fun AddRecordScreen(
                     }
                 }
             }
-            DatePickerField()
             Button(
                 onClick = {
-                    Toast.makeText(context, "功能开发中，敬请期待！", Toast.LENGTH_SHORT).show()
+                    navController.navigate("home") {
+                        popUpTo("home") {
+                            inclusive = true
+                        }
+                    }
                 },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp)

@@ -16,6 +16,7 @@ import com.example.hrm.screen.record.AddLiverScreen
 import com.example.hrm.screen.record.AddRecordScreen
 import com.example.hrm.screen.record.AddUrineScreen
 import com.example.hrm.screen.record.AddXrayScreen
+import com.example.hrm.screen.record.RecordSelectScreen
 import com.example.hrm.ui.theme.MyAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,6 +31,7 @@ class MainActivity : ComponentActivity() {
                     composable("discover") { AnalyseScreen() }
                     composable("profile") { ProfileScreen() }
                     composable("add") { AddRecordScreen(navController) }
+                    composable("add_select") { RecordSelectScreen(navController) }
                     composable("add_blood") { AddBloodScreen(navController) }
                     composable("add_urine") { AddUrineScreen(navController) }
                     composable("add_general") { AddGeneralScreen(navController) }

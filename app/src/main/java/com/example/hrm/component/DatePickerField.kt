@@ -28,10 +28,13 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePickerField() {
+fun DatePickerField(
+    initialDate: String = "点击选择日期",
+    onDateSelected: (Date) -> Unit
+) {
     val datePickerState = rememberDatePickerState()
     var showDialog by remember { mutableStateOf(false) }
-    var selectedDateText by remember { mutableStateOf("点击选择日期") }
+    var selectedDateText by remember { mutableStateOf(initialDate) }
 
     val formatter = remember {
         SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -44,6 +47,7 @@ fun DatePickerField() {
                 TextButton(onClick = {
                     datePickerState.selectedDateMillis?.let {
                         selectedDateText = formatter.format(Date(it))
+                        onDateSelected(Date(it)) // 将选择的日期回传
                     }
                     showDialog = false
                 }) {
@@ -75,4 +79,3 @@ fun DatePickerField() {
         )
     }
 }
-
