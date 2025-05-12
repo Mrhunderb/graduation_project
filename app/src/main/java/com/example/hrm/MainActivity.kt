@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
             MyAppTheme {
                 val navController = rememberNavController()
                 NavHost(navController, startDestination = "home") {
-                    composable("home") { TestScreen(navController) }
+                    composable("home") { HomeScreen(navController) }
                     composable("discover") { AnalyseScreen() }
                     composable("profile") { ProfileScreen() }
                     composable("add") {

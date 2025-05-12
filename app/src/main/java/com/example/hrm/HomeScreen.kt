@@ -1,14 +1,14 @@
 package com.example.hrm
 
-import android.R.id.tabs
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -16,7 +16,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -25,26 +24,27 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.hrm.screen.AnalyseScreen
 import com.example.hrm.screen.ProfileScreen
 import com.example.hrm.screen.RecordScreen
+import com.example.hrm.screen.TrendScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(
-    navController: NavController? = null,
-) {
-    val items = listOf("home", "discover", "profile")
-    var selectedTab by rememberSaveable { mutableIntStateOf(0) } // 当前选中的 tab
+fun HomeScreen(navController: NavController) {
     val label = stringResource(id = R.string.app_heading)
-    val currentBackStackEntry = navController?.currentBackStackEntryAsState()
-    val currentDestination = currentBackStackEntry?.value?.destination?.route
-    val shouldShowBottomBar = currentDestination in items
-    val shouldShowFloatingActionButton = currentDestination == "home"
+    var selectedTab by rememberSaveable { mutableIntStateOf(0) } // 记住当前选择的tab
+    val items = listOf("档案", "指标", "趋势", "我的")
+    val icons = listOf(
+        Icons.Default.Home,
+        Icons.Default.Favorite,
+        Icons.Default.DateRange,
+        Icons.Default.Person
+    )
 
     Scaffold(
         topBar = {
@@ -56,80 +56,44 @@ fun MainScreen(
             )
         },
         floatingActionButton = {
-                FloatingActionButton(
-                    onClick = {
-                        navController?.navigate("add")
-                    },
-                    containerColor = MaterialTheme.colorScheme.primary,
-                ) {
-                    Icon(Icons.Default.Add, contentDescription = "Add")
-                }
+             FloatingActionButton(
+                 onClick = {
+                     navController.navigate("add")
+                 },
+                 containerColor = MaterialTheme.colorScheme.primary,
+                 contentColor = MaterialTheme.colorScheme.onPrimary,
+             ) {
+                 Icon(Icons.Default.Add, contentDescription = null)
+             }
         },
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface,
+            ) {
                 items.forEachIndexed { index, title ->
                     NavigationBarItem(
-                        icon = { Icon(Icons.Default.Home, contentDescription = null) },
+                        icon = { Icon(icons[index], contentDescription = null) },
                         label = { Text(title) },
                         selected = selectedTab == index,
                         onClick = { selectedTab = index }
                     )
                 }
             }
-        },
-        containerColor = MaterialTheme.colorScheme.background,
-        contentColor = MaterialTheme.colorScheme.onBackground
-    ) { padding ->
-        Surface(
+        }
+    ) { innerPadding ->
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
+                .padding(innerPadding),
+            contentAlignment = Alignment.Center
         ) {
             when (selectedTab) {
-                0 -> {
-                    RecordScreen(navController)
-                }
-                1 -> {
-                    AnalyseScreen()
-                }
-                2 -> {
-                    ProfileScreen()
-                }
+                0 -> RecordScreen(navController)
+                1 -> TrendScreen()
+                2 -> AnalyseScreen()
+                3 -> ProfileScreen()
             }
         }
     }
 }
-//
-//@Composable
-//fun BottomNavigationBar(navController: NavController?) {
-//    val items = listOf("home", "discover", "profile")
-//    val currentBackStackEntry = navController?.currentBackStackEntryAsState()
-//    val currentDestination = currentBackStackEntry?.value?.destination?.route
-//
-//    NavigationBar(
-//        containerColor = MaterialTheme.colorScheme.background,
-//        contentColor = MaterialTheme.colorScheme.onBackground
-//    ) {
-//        items.forEach { screen ->
-//            NavigationBarItem(
-//                selected = currentDestination == screen,
-//                onClick = {
-//                    navController?.navigate(screen) {
-//                        popUpTo(navController.graph.startDestinationId) {
-//                            saveState = true
-//                        }
-//                        launchSingleTop = true
-//                        restoreState = true
-//                    }
-//                },
-//                icon = {
-//                    when (screen) {
-//                        "home" -> Icon(Icons.Default.Home, contentDescription = null)
-//                        "discover" -> Icon(Icons.Default.Search, contentDescription = null)
-//                        "profile" -> Icon(Icons.Default.Person, contentDescription = null)
-//                    }
-//                },
-//            )
-//        }
-//    }
-//}
