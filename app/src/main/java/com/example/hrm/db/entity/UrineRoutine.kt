@@ -18,10 +18,10 @@ import androidx.room.PrimaryKey
     indices = [Index(value = ["sessionId"])]
 )
 data class UrineRoutine(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
 
     val date: Long = System.currentTimeMillis(), // 检查时间（时间戳）
-    val sessionId: Int = 0,                      // 对应体检记录ID（外键）
+    val sessionId: Long = 0,                      // 对应体检记录ID（外键）
 
     val ket: Float,      // 尿酮体（KET）
     val uro: Float,      // 尿胆原（URO）

@@ -18,9 +18,9 @@ import androidx.room.PrimaryKey
     indices = [Index(value = ["sessionId"])]
 )
 data class BloodData(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val date: Long = System.currentTimeMillis(), // 检查时间戳
-    val sessionId: Int = 0,                      // 对应体检记录ID（外键）
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    var date: Long = System.currentTimeMillis(), // 检查时间戳
+    val sessionId: Long = 0,                      // 对应体检记录ID（外键）
 
     // 白细胞相关
     val wbc: Float?,         // 白细胞计数 WBC (10^9/L)
