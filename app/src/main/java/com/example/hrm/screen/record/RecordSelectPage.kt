@@ -122,7 +122,7 @@ fun RecordSelectScreen(
                             icon = item.first,
                             label = item.second,
                             onClick = {
-                                var route = "add_" + item.third
+                                var route = "add_" + item.third + "/$id"
                                 navController.navigate(route)
                             },
                             modifier = Modifier.weight(1f)
