@@ -16,6 +16,9 @@ interface HealthRecordDao {
     @Query("SELECT * FROM health_record")
     fun getAll(): Flow<List<HealthRecord>>
 
+    @Query("SELECT * FROM health_record WHERE id = :id")
+    suspend fun getById(id: Long): HealthRecord
+
     @Delete
     suspend fun delete(healthRecordData: HealthRecord)
 

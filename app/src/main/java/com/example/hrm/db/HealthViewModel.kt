@@ -3,6 +3,8 @@ package com.example.hrm.db
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hrm.db.entity.BloodData
+import com.example.hrm.db.entity.GeneralPhysical
 import com.example.hrm.db.entity.HealthRecord
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -40,6 +42,24 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
     fun deleteRecord(id: Long) {
         viewModelScope.launch {
             healthDao.deleteById(id)
+        }
+    }
+
+    private suspend fun getRecordById(id: Long): HealthRecord {
+        return db.healthRecordDao().getById(id)
+    }
+
+    fun addGeneralData(generalData: GeneralPhysical) {
+        viewModelScope.launch {
+            generalData.date = getRecordById(generalData.sessionId).date
+            db.generalPhysicalDao().insert(generalData)
+        }
+    }
+
+    fun addBloodData(bloodData: BloodData) {
+        viewModelScope.launch {
+            bloodData.date = getRecordById(bloodData.sessionId).date
+            db.bloodDataDao().insert(bloodData)
         }
     }
 }
