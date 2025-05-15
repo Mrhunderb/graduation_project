@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.hrm.screen.AnalyseScreen
 import com.example.hrm.screen.ProfileScreen
 import com.example.hrm.screen.record.AddBloodScreen
@@ -31,9 +33,17 @@ class MainActivity : ComponentActivity() {
                     composable("discover") { AnalyseScreen() }
                     composable("profile") { ProfileScreen() }
                     composable("add") { AddRecordScreen(navController) }
-                    composable("add_select/{id}") {
-                        val id = it.arguments?.getString("id")
-                        RecordSelectScreen(navController, id?.toLongOrNull() ?: 0L)
+                    composable(
+                        route = "add_select/{id}/{isModify}",
+                        arguments = listOf(
+                            navArgument("id") { type = NavType.LongType },
+                            navArgument("isModify") { type = NavType.BoolType }
+                        )
+
+                    ) {
+                        val id = it.arguments?.getLong("id") ?: 0L
+                        val isModify = it.arguments?.getBoolean("isModify") ?: false
+                        RecordSelectScreen(navController, id, isModify)
                     }
                     composable("add_blood/{id}") {
                         val id = it.arguments?.getString("id")

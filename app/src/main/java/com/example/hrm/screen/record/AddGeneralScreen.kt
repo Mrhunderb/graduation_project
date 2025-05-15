@@ -66,6 +66,25 @@ fun AddGeneralScreen(
     var dental by remember { mutableStateOf("") }
     var summary by remember { mutableStateOf("") }
 
+    viewModel.getGeneralDataById(
+        id,
+        onComplete = {
+            if (it != null) {
+                height = it.height?.toString() ?: ""
+                weight = it.weight?.toString() ?: ""
+                systolicPressure = it.systolicPressure?.toString() ?: ""
+                diastolicPressure = it.diastolicPressure?.toString() ?: ""
+                pulse = it.pulse?.toString() ?: ""
+                leftEyeVision = it.leftEyeVision?.toString() ?: ""
+                rightEyeVision = it.rightEyeVision?.toString() ?: ""
+                internalMedicine = it.internalMedicine ?: ""
+                surgery = it.surgery ?: ""
+                ent = it.ent ?: ""
+                dental = it.dental ?: ""
+                summary = it.summary ?: ""
+            }
+        }
+    )
     // 显示确认对话框的状态
     var showBackConfirmDialog by remember { mutableStateOf(false) }
     var isSubmitting by remember { mutableStateOf(false) }

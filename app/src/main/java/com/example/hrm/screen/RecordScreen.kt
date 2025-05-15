@@ -26,7 +26,7 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecordScreen(
-    navController: NavController?,
+    navController: NavController,
     viewModel: HealthViewModel = viewModel()
 ) {
     val records = viewModel.record.collectAsState()
@@ -75,7 +75,9 @@ fun RecordScreen(
             RecordItem(
                 record = date + "体检报告",
                 hospital = record.hospital,
-                onClick = {},
+                onClick = {
+                    navController.navigate("add_select/${record.id}/true")
+                },
                 onLongClick = {
                     selectedRecord = record.id // 假设 HealthRecord 实体有 id 字段
                     showDeleteDialog = true
