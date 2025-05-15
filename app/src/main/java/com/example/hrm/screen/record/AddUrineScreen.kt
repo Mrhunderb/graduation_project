@@ -28,13 +28,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.hrm.db.HealthViewModel
+import com.example.hrm.db.entity.UrineRoutine
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddUrineScreen(
     navController: NavController,
-    id: Long
+    id: Long,
+    viewModel: HealthViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val ket = remember { mutableStateOf("") }
@@ -103,7 +107,21 @@ fun AddUrineScreen(
             Button(
                 onClick = {
                     try {
-                        // TODO: Handle the data submission
+                        val urineData = UrineRoutine(
+                            sessionId = id,
+                            ket = ket.value.toFloatOrNull(),
+                            uro = uro.value.toFloatOrNull(),
+                            bil = bil.value.toFloatOrNull(),
+                            bld = bld.value.toFloatOrNull(),
+                            wbc = wbc.value.toFloatOrNull(),
+                            ph = ph.value.toFloatOrNull(),
+                            nit = nit.value.toFloatOrNull(),
+                            glu = glu.value.toFloatOrNull(),
+                            vc = vc.value.toFloatOrNull(),
+                            sg = sg.value.toFloatOrNull(),
+                            pro = pro.value.toFloatOrNull()
+                        )
+                        viewModel.addUrineData(urineData)
                     } catch (e: NumberFormatException) {
                         Toast.makeText(context, "请确保所有输入为有效数字", Toast.LENGTH_SHORT)
                             .show()

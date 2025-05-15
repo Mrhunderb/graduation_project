@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.hrm.db.entity.BloodData
 import com.example.hrm.db.entity.GeneralPhysical
 import com.example.hrm.db.entity.HealthRecord
+import com.example.hrm.db.entity.UrineRoutine
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -94,6 +95,13 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         viewModelScope.launch {
             val record = db.bloodDataDao().getById(id)
             onComplete(record)
+        }
+    }
+
+    fun addUrineData(urineData: UrineRoutine) {
+        viewModelScope.launch {
+            urineData.date = getRecordById(urineData.sessionId)?.date!!
+            db.urineRoutineDao().insert(urineData)
         }
     }
 }
