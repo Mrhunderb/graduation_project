@@ -16,8 +16,14 @@ interface BloodDataDao {
      @Query("SELECT * FROM blood_data")
      fun getAll(): Flow<List<BloodData>>
 
+     @Query("SELECT * FROM blood_data WHERE id = :id")
+     suspend fun getById(id: Long): BloodData?
+
      @Delete
      suspend fun delete(bloodData: BloodData)
+
+     @Query("DELETE FROM blood_data WHERE sessionId = :id")
+     suspend fun deleteById(id: Long)
 
      @Update
      suspend fun update(bloodData: BloodData)

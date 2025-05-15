@@ -83,4 +83,10 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
             db.bloodDataDao().insert(bloodData)
         }
     }
+
+    fun deleteBloodData(sessionId: Long) {
+        viewModelScope.launch {
+            db.bloodDataDao().deleteById(sessionId)
+        }
+    }
 }
