@@ -24,13 +24,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.hrm.db.HealthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddLiverScreen(
     navController: NavController,
-    id: Long
+    id: Long,
+    viewModel: HealthViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val ast = remember { mutableStateOf("") }

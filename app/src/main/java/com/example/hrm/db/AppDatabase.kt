@@ -9,6 +9,7 @@ import com.example.hrm.db.dao.CtScanDao
 import com.example.hrm.db.dao.EcgDao
 import com.example.hrm.db.dao.GeneralPhysicalDao
 import com.example.hrm.db.dao.HealthRecordDao
+import com.example.hrm.db.dao.LiverDataDao
 import com.example.hrm.db.dao.UrineRoutineDao
 import com.example.hrm.db.entity.BloodData
 import com.example.hrm.db.entity.CtScan
@@ -37,6 +38,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun generalPhysicalDao(): GeneralPhysicalDao
     abstract fun ctScanDao(): CtScanDao
     abstract fun electrocardiogramDao(): EcgDao
+    abstract fun liverDataDao(): LiverDataDao
 
     companion object {
         @Volatile
