@@ -16,6 +16,9 @@ interface GeneralPhysicalDao {
     @Query("SELECT * FROM general_physical")
     fun getAll(): Flow<List<GeneralPhysical>>
 
+    @Query("SELECT * FROM general_physical WHERE sessionId = :id")
+    suspend fun getById(id: Long): GeneralPhysical?
+
     @Delete
     suspend fun delete(generalPhysicalData: GeneralPhysical)
 

@@ -45,20 +45,41 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    private suspend fun getRecordById(id: Long): HealthRecord {
+    suspend fun getRecordById(id: Long): HealthRecord? {
         return db.healthRecordDao().getById(id)
+    }
+
+    fun getRecordById(id: Long, onComplete: (HealthRecord?) -> Unit) {
+        viewModelScope.launch {
+            val record = db.healthRecordDao().getById(id)
+            onComplete(record)
+        }
+    }
+
+    fun updateRecord(healthRecord: HealthRecord) {
+        viewModelScope.launch {
+            db.healthRecordDao().update(healthRecord)
+        }
     }
 
     fun addGeneralData(generalData: GeneralPhysical) {
         viewModelScope.launch {
-            generalData.date = getRecordById(generalData.sessionId).date
+            generalData.date = getRecordById(generalData.sessionId)?.date!!
             db.generalPhysicalDao().insert(generalData)
+        }
+    }
+
+
+    fun getGeneralDataById(id: Long, onComplete: (GeneralPhysical?) -> Unit) {
+        viewModelScope.launch {
+            val record = db.generalPhysicalDao().getById(id)
+            onComplete(record)
         }
     }
 
     fun addBloodData(bloodData: BloodData) {
         viewModelScope.launch {
-            bloodData.date = getRecordById(bloodData.sessionId).date
+            bloodData.date = getRecordById(bloodData.sessionId)?.date!!
             db.bloodDataDao().insert(bloodData)
         }
     }
