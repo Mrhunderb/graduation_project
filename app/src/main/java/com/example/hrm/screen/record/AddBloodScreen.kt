@@ -10,14 +10,17 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.hrm.db.HealthViewModel
 import com.example.hrm.db.entity.BloodData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddBloodScreen(
     navController: NavController,
-    id: Long
+    id: Long,
+    viewModel: HealthViewModel = viewModel(),
 ) {
     var wbc by rememberSaveable { mutableStateOf("") }
     var granPercent by rememberSaveable { mutableStateOf("") }
@@ -25,41 +28,51 @@ fun AddBloodScreen(
     var monoPercent by rememberSaveable { mutableStateOf("") }
     var eosPercent by rememberSaveable { mutableStateOf("") }
     var basoPercent by rememberSaveable { mutableStateOf("") }
+    var granAbs by rememberSaveable { mutableStateOf("") }
+    var lymAbs by rememberSaveable { mutableStateOf("") }
+    var monoAbs by rememberSaveable { mutableStateOf("") }
+    var eosAbs by rememberSaveable { mutableStateOf("") }
+    var basoAbs by rememberSaveable { mutableStateOf("") }
 
     var rbc by rememberSaveable { mutableStateOf("") }
     var hb by rememberSaveable { mutableStateOf("") }
     var hct by rememberSaveable { mutableStateOf("") }
+    var mcv by rememberSaveable { mutableStateOf("") }
+    var mch by rememberSaveable { mutableStateOf("") }
+    var mchc by rememberSaveable { mutableStateOf("") }
 
     var rdwSd by rememberSaveable { mutableStateOf("") }
     var rdwCv by rememberSaveable { mutableStateOf("") }
 
     var plt by rememberSaveable { mutableStateOf("") }
     var mpv by rememberSaveable { mutableStateOf("") }
+    var pct by rememberSaveable { mutableStateOf("") }
     var pdw by rememberSaveable { mutableStateOf("") }
     var plcr by rememberSaveable { mutableStateOf("") }
 
-    // --- 自动计算 ---
-    val granAbs = wbc.toFloatOrNull()?.times(granPercent.toFloatOrNull() ?: 0f)?.div(100) ?: 0f
-    val lymAbs = wbc.toFloatOrNull()?.times(lymPercent.toFloatOrNull() ?: 0f)?.div(100) ?: 0f
-    val monoAbs = wbc.toFloatOrNull()?.times(monoPercent.toFloatOrNull() ?: 0f)?.div(100) ?: 0f
-    val eosAbs = wbc.toFloatOrNull()?.times(eosPercent.toFloatOrNull() ?: 0f)?.div(100) ?: 0f
-    val basoAbs = wbc.toFloatOrNull()?.times(basoPercent.toFloatOrNull() ?: 0f)?.div(100) ?: 0f
+    var showBackConfirmDialog by remember { mutableStateOf(false) }
+    var isSubmitting by remember { mutableStateOf(false) }
 
-    val mcv = if (rbc.isNotEmpty() && hct.isNotEmpty()) {
-        (hct.toFloatOrNull() ?: 0f) * 10 / (rbc.toFloatOrNull() ?: 1f)
-    } else 0f
-
-    val mch = if (rbc.isNotEmpty() && hb.isNotEmpty()) {
-        (hb.toFloatOrNull() ?: 0f) * 10 / (rbc.toFloatOrNull() ?: 1f)
-    } else 0f
-
-    val mchc = if (hct.isNotEmpty() && hb.isNotEmpty()) {
-        (hb.toFloatOrNull() ?: 0f) * 100 / (hct.toFloatOrNull() ?: 1f)
-    } else 0f
-
-    val pct = if (plt.isNotEmpty() && mpv.isNotEmpty()) {
-        (plt.toFloatOrNull() ?: 0f) * (mpv.toFloatOrNull() ?: 0f) / 10000
-    } else 0f
+    if (showBackConfirmDialog) {
+        AlertDialog(
+            onDismissRequest = { showBackConfirmDialog = false },
+            title = { Text("确认返回") },
+            text = { Text("如果现在返回，当前填写的数据将不会保存，确定要返回吗？") },
+            confirmButton = {
+                Button(onClick = {
+                    showBackConfirmDialog = false
+                    navController.popBackStack()
+                }) {
+                    Text("确认返回")
+                }
+            },
+            dismissButton = {
+                OutlinedButton(onClick = { showBackConfirmDialog = false }) {
+                    Text("取消")
+                }
+            }
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -86,28 +99,37 @@ fun AddBloodScreen(
         ) {
             // 白细胞部分
             Text("白细胞相关", style = MaterialTheme.typography.titleMedium)
-            InputField(label = "白细胞计数 (WBC)", value = wbc) { wbc = it }
+            InputField(label = "白细胞计数 (WBC) 单位 10^9L", value = wbc) { wbc = it }
             InputField(label = "中性粒细胞百分比 (GRAN%)", value = granPercent) { granPercent = it }
             InputField(label = "淋巴细胞百分比 (LYM%)", value = lymPercent) { lymPercent = it }
             InputField(label = "单核细胞百分比 (Mono%)", value = monoPercent) { monoPercent = it }
             InputField(label = "嗜酸性粒细胞百分比 (Eos%)", value = eosPercent) { eosPercent = it }
             InputField(label = "嗜碱性粒细胞百分比 (Baso%)", value = basoPercent) { basoPercent = it }
+            InputField(label = "中性粒细胞绝对值 (GRAN#) 单位 10^9L", value = granAbs) { granAbs = it }
+            InputField(label = "淋巴细胞绝对值 (LYM#) 单位 10^9L", value = lymAbs) { lymAbs = it }
+            InputField(label = "单核细胞绝对值 (Mono#) 单位 10^9L", value = monoAbs) { monoAbs = it }
+            InputField(label = "嗜酸性粒细胞绝对值 (Eos#) 单位 10^9L", value = eosAbs) { eosAbs = it }
+            InputField(label = "嗜碱性粒细胞绝对值 (Baso#) 单位 10^9L", value = basoAbs) { basoAbs = it }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Text("红细胞相关", style = MaterialTheme.typography.titleMedium)
-            InputField(label = "红细胞计数 (RBC)", value = rbc) { rbc = it }
-            InputField(label = "血红蛋白 (Hb)", value = hb) { hb = it }
-            InputField(label = "红细胞比容 (HCT)", value = hct) { hct = it }
-            InputField(label = "红细胞分布宽度-SD (RDW-SD)", value = rdwSd) { rdwSd = it }
-            InputField(label = "红细胞分布宽度-CV (RDW-CV)", value = rdwCv) { rdwCv = it }
+            InputField(label = "红细胞计数 (RBC) 单位 10^9L", value = rbc) { rbc = it }
+            InputField(label = "血红蛋白 (Hb) 单位 g/L", value = hb) { hb = it }
+            InputField(label = "红细胞比容 (HCT) 单位 %", value = hct) { hct = it }
+            InputField(label = "红细胞分布宽度-SD (RDW-SD) 单位 fL", value = rdwSd) { rdwSd = it }
+            InputField(label = "红细胞分布宽度-CV (RDW-CV) 单位 %", value = rdwCv) { rdwCv = it }
+            InputField(label = "平均红细胞体积 (MCV) 单位 fL", value = mcv) { mcv = it }
+            InputField(label = "平均红细胞血红蛋白 (MCH) 单位 pg", value = mch) { mch = it }
+            InputField(label = "平均红细胞血红蛋白浓度 (MCHC) 单位 g/L", value = mchc) { mchc = it }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Text("血小板相关", style = MaterialTheme.typography.titleMedium)
-            InputField(label = "血小板计数 (PLT)", value = plt) { plt = it }
-            InputField(label = "平均血小板体积 (MPV)", value = mpv) { mpv = it }
-            InputField(label = "血小板分布宽度 (PDW)", value = pdw) { pdw = it }
+            InputField(label = "血小板计数 (PLT) 单位 10^9L", value = plt) { plt = it }
+            InputField(label = "平均血小板体积 (MPV) 单位 fL", value = mpv) { mpv = it }
+            InputField(label = "血小板体积 (PCT) 单位 %", value = pct) { pct = it }
+            InputField(label = "血小板分布宽度 (PDW) 单位 fL", value = pdw) { pdw = it }
             InputField(label = "大血小板比率 (P-LCR)", value = plcr) { plcr = it }
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -115,32 +137,34 @@ fun AddBloodScreen(
             Button(
                 onClick = {
                     val record = BloodData(
+                        sessionId = id,
                         wbc = wbc.toFloatOrNull(),
                         granPercent = granPercent.toFloatOrNull(),
                         lymPercent = lymPercent.toFloatOrNull(),
                         monoPercent = monoPercent.toFloatOrNull(),
                         eosPercent = eosPercent.toFloatOrNull(),
                         basoPercent = basoPercent.toFloatOrNull(),
-                        granAbs = granAbs,
-                        lymAbs = lymAbs,
-                        monoAbs = monoAbs,
-                        eosAbs = eosAbs,
-                        basoAbs = basoAbs,
+                        granAbs = granAbs.toFloatOrNull(),
+                        lymAbs = lymAbs.toFloatOrNull(),
+                        monoAbs = monoAbs.toFloatOrNull(),
+                        eosAbs = eosAbs.toFloatOrNull(),
+                        basoAbs = basoAbs.toFloatOrNull(),
                         rbc = rbc.toFloatOrNull(),
                         hb = hb.toFloatOrNull(),
                         hct = hct.toFloatOrNull(),
-                        mcv = mcv,
-                        mch = mch,
-                        mchc = mchc,
+                        mcv = mcv.toFloatOrNull(),
+                        mch = mch.toFloatOrNull(),
+                        mchc = mchc.toFloatOrNull(),
                         rdwSd = rdwSd.toFloatOrNull(),
                         rdwCv = rdwCv.toFloatOrNull(),
                         plt = plt.toFloatOrNull(),
                         mpv = mpv.toFloatOrNull(),
-                        pct = pct,
+                        pct = pct.toFloatOrNull(),
                         pdw = pdw.toFloatOrNull(),
                         plcr = plcr.toFloatOrNull()
                     )
-                    // TODO : Save the record to the database
+                    viewModel.addBloodData(record)
+                    navController.popBackStack()
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {

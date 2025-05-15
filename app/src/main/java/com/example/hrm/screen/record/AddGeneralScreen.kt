@@ -85,11 +85,9 @@ fun AddGeneralScreen(
             }
         }
     )
-    // 显示确认对话框的状态
     var showBackConfirmDialog by remember { mutableStateOf(false) }
     var isSubmitting by remember { mutableStateOf(false) }
 
-    // 返回确认对话框
     if (showBackConfirmDialog) {
         AlertDialog(
             onDismissRequest = { showBackConfirmDialog = false },
