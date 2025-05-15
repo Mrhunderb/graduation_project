@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -60,11 +61,18 @@ fun AddRecordScreen(
     ) { padding -> Column(
             modifier = Modifier
                 .padding(padding)
+                .padding(horizontal = 16.dp)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             var hospitalName by rememberSaveable { mutableStateOf("") }
             var date by rememberSaveable { mutableStateOf(java.util.Date(0)) }
+
+            Text("请选择体检日期及地点", style = MaterialTheme.typography.titleLarge)
+
+            Spacer(modifier = Modifier.padding(16.dp))
+
             DatePickerField(
                 onDateSelected = {
                     date = it
@@ -78,7 +86,6 @@ fun AddRecordScreen(
                 onValueChange = { hospitalName = it },
                 label = { Text("请输入体检医院的名称") },
                 modifier = Modifier
-                    .padding(16.dp)
                     .fillMaxWidth()
             )
 
@@ -89,12 +96,11 @@ fun AddRecordScreen(
                     viewModel.addRecordLaunch(
                         date, hospitalName, onComplete = {
                             val id = it
-                            navController.navigate("add_select/$id")
+                            navController.navigate("add_select/$id/false")
                         }
                     )
                 },
                 modifier = Modifier
-                    .padding(16.dp)
                     .fillMaxWidth()
             ) {
                 Text("继续")
