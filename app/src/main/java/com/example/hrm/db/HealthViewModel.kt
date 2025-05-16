@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hrm.db.entity.BloodData
+import com.example.hrm.db.entity.Ecg
 import com.example.hrm.db.entity.GeneralPhysical
 import com.example.hrm.db.entity.HealthRecord
 import com.example.hrm.db.entity.LiverData
@@ -146,6 +147,32 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
             val record = db.liverDataDao().getById(id)
             onComplete(record)
         }
+    }
+
+    fun addEcgData(ecg: Ecg) {
+        viewModelScope.launch {
+            ecg.date = getRecordById(ecg.sessionId)?.date!!
+            db.ecgDao().insert(ecg)
+        }
+    }
+
+
+    fun getEcgDataById(id: Long, onComplete: (Ecg?) -> Unit) {
+        viewModelScope.launch {
+            val record = db.ecgDao().getById(id)
+            onComplete(record)
+        }
+    }
+
+    fun updateEcgData(ecg: Ecg) {
+        viewModelScope.launch {
+            db.ecgDao().update(ecg)
+        }
+    }
+
+    fun saveImage(uri: Uri): String? {
+        val context = getApplication<Application>().applicationContext
+        return saveImageToInternalStorage(context, uri)
     }
 
     private fun saveImageToInternalStorage(context: Context, uri: Uri): String? {

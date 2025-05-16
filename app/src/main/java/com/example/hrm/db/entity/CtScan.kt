@@ -20,7 +20,7 @@ import androidx.room.PrimaryKey
 data class CtScan(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
 
-    val sessionId: Long? = null,        // 外键，关联体检记录（可选）
+    val sessionId: Long = 0,          // 外键，关联体检记录（可选）
     val date: Long = System.currentTimeMillis(), // 检查时间
 
     val imagePath: String?,            // CT 图像文件路径

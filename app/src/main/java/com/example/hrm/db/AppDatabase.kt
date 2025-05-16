@@ -27,7 +27,7 @@ import com.example.hrm.db.entity.UrineRoutine
         GeneralPhysical::class,
         Ecg::class,
         CtScan::class,
-        LiverData::class
+        LiverData::class,
     ],
     version = 2,
     exportSchema = false
@@ -39,7 +39,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun urineRoutineDao(): UrineRoutineDao
     abstract fun generalPhysicalDao(): GeneralPhysicalDao
     abstract fun ctScanDao(): CtScanDao
-    abstract fun electrocardiogramDao(): EcgDao
+    abstract fun ecgDao(): EcgDao
     abstract fun liverDataDao(): LiverDataDao
 
     companion object {

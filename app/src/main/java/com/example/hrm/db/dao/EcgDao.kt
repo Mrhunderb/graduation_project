@@ -16,6 +16,9 @@ interface EcgDao {
     @Query("SELECT * FROM ecg")
     fun getAll(): Flow<List<Ecg>>
 
+    @Query("SELECT * FROM ecg WHERE sessionId = :sessionId")
+    suspend fun getById(sessionId: Long): Ecg?
+
     @Delete
     suspend fun delete(ctScanData: Ecg)
 
