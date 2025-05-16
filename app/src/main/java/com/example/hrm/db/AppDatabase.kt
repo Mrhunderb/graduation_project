@@ -16,6 +16,7 @@ import com.example.hrm.db.entity.CtScan
 import com.example.hrm.db.entity.Ecg
 import com.example.hrm.db.entity.GeneralPhysical
 import com.example.hrm.db.entity.HealthRecord
+import com.example.hrm.db.entity.LiverData
 import com.example.hrm.db.entity.UrineRoutine
 
 @Database(
@@ -25,9 +26,10 @@ import com.example.hrm.db.entity.UrineRoutine
         UrineRoutine::class,
         GeneralPhysical::class,
         Ecg::class,
-        CtScan::class
+        CtScan::class,
+        LiverData::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
