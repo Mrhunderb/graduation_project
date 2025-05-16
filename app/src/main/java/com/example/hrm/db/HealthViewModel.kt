@@ -1,6 +1,8 @@
 package com.example.hrm.db
 
 import android.app.Application
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hrm.db.entity.BloodData
@@ -12,6 +14,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
 import java.util.Date
 
 class HealthViewModel(application: Application) : AndroidViewModel(application) {
@@ -149,4 +153,19 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
             onComplete(record)
         }
     }
+
+    private fun saveImageToInternalStorage(context: Context, uri: Uri): String? {
+        val inputStream = context.contentResolver.openInputStream(uri) ?: return null
+        val fileName = "img_${System.currentTimeMillis()}.jpg"
+        val file = File(context.filesDir, fileName)
+
+        inputStream.use { input ->
+            FileOutputStream(file).use { output ->
+                input.copyTo(output)
+            }
+        }
+
+        return file.absolutePath
+    }
+
 }
