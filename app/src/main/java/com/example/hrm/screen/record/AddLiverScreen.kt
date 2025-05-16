@@ -58,12 +58,17 @@ fun AddLiverScreen(
     )
     var showBackConfirmDialog by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(true) }
+    var isSubmitting by remember { mutableStateOf(false) }
+    var isModified by remember { mutableStateOf(false) }
+    var data = remember { mutableStateOf<LiverData?>(null) }
 
     LaunchedEffect(id) {
         viewModel.getLiverDataById(
             id,
             onComplete = {
                 if (it != null) {
+                    isModified = true
+                    data.value = it
                     ast = it.ast.toString()
                     alt = it.alt.toString()
                 }
@@ -147,14 +152,24 @@ fun AddLiverScreen(
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
+                        isSubmitting = true
                         var liverData = LiverData(
                             sessionId = id,
                             ast = ast.toFloatOrNull(),
                             alt = alt.toFloatOrNull()
                         )
-                        viewModel.addLiverData(liverData)
+                        if (isModified) {
+                            liverData = data.value!!.copy(
+                                ast = ast.toFloatOrNull(),
+                                alt = alt.toFloatOrNull()
+                            )
+                            viewModel.updateLiverData(liverData)
+                        } else {
+                            viewModel.addLiverData(liverData)
+                        }
                         navController.popBackStack()
-                    }
+                    },
+                    enabled = !isSubmitting
                 ) {
                     Text("提交")
                 }

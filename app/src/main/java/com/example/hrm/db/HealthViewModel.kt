@@ -124,6 +124,12 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    fun updateLiverData(liverData: LiverData) {
+        viewModelScope.launch {
+            db.liverDataDao().update(liverData)
+        }
+    }
+
     fun getLiverDataById(id: Long, onComplete: (LiverData?) -> Unit) {
         viewModelScope.launch {
             val record = db.liverDataDao().getById(id)
