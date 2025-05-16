@@ -71,6 +71,12 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    fun updateGeneralData(generalData: GeneralPhysical) {
+        viewModelScope.launch {
+            db.generalPhysicalDao().update(generalData)
+        }
+    }
+
 
     fun getGeneralDataById(id: Long, onComplete: (GeneralPhysical?) -> Unit) {
         viewModelScope.launch {

@@ -164,7 +164,6 @@ fun RecordSelectScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 if (isModify) {
-                    Spacer(modifier = Modifier.height(16.dp))
                     Row(
                         modifier = Modifier
                             .fillMaxWidth(),
@@ -179,7 +178,6 @@ fun RecordSelectScreen(
                             }
                         )
                     }
-                    Spacer(modifier = Modifier.height(16.dp))
                     OutlinedTextField(
                         value = hostpital,
                         onValueChange = {
