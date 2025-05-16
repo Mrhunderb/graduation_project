@@ -101,12 +101,6 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun deleteBloodData(sessionId: Long) {
-        viewModelScope.launch {
-            db.bloodDataDao().deleteById(sessionId)
-        }
-    }
-
     fun getBloodDataById(id: Long, onComplete: (BloodData?) -> Unit) {
         viewModelScope.launch {
             val record = db.bloodDataDao().getById(id)
