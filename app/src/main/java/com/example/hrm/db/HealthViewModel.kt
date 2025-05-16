@@ -117,6 +117,19 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    fun updateUrineData(urineData: UrineRoutine) {
+        viewModelScope.launch {
+            db.urineRoutineDao().update(urineData)
+        }
+    }
+
+    fun getUrineDataById(id: Long, onComplete: (UrineRoutine?) -> Unit) {
+        viewModelScope.launch {
+            val record = db.urineRoutineDao().getById(id)
+            onComplete(record)
+        }
+    }
+
     fun addLiverData(liverData: LiverData) {
         viewModelScope.launch {
             liverData.date = getRecordById(liverData.sessionId)?.date!!

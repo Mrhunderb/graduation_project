@@ -16,6 +16,9 @@ interface UrineRoutineDao {
     @Query("SELECT * FROM urine_routine")
     fun getAll(): Flow<List<UrineRoutine>>
 
+    @Query("SELECT * FROM urine_routine WHERE sessionId = :id")
+    suspend fun getById(id: Long): UrineRoutine?
+
     @Delete
     suspend fun delete(healthRecordData: UrineRoutine)
 
