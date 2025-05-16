@@ -163,32 +163,6 @@ fun RecordSelectScreen(
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                if (isModify) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text("体检日期")
-                        DatePickerField(
-                            initialDate = formatter.format(Date(date)),
-                            onDateSelected = {
-                                healthRecord?.date = it.time
-                            }
-                        )
-                    }
-                    OutlinedTextField(
-                        value = hostpital,
-                        onValueChange = {
-                            hostpital = it
-                            healthRecord?.hospital = it },
-                        label = { Text("请输入体检医院的名称") },
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
-
                 for (rowIndex in 0 until 3) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -210,6 +184,33 @@ fun RecordSelectScreen(
                     }
                 }
                 Spacer(Modifier.height(16.dp))
+                if (isModify) {
+                    OutlinedTextField(
+                        value = hostpital,
+                        onValueChange = {
+                            hostpital = it
+                            healthRecord?.hospital = it },
+                        label = { Text("请输入体检医院的名称") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text("体检日期")
+                        DatePickerField(
+                            initialDate = formatter.format(Date(date)),
+                            onDateSelected = {
+                                healthRecord?.date = it.time
+                            }
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
                 Button(
                     onClick = {
                         if (isModify) {
