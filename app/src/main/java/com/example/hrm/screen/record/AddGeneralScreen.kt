@@ -289,7 +289,10 @@ fun AddGeneralScreen(
                             summary = summary.ifBlank { null }
                         )
                         if (isModified) {
-                            generalPhysical = generalPhysical.copy(id = data?.id ?: 0)
+                            generalPhysical = generalPhysical.copy(
+                                id = data!!.id,
+                                date = data!!.date
+                            )
                             viewModel.updateGeneralData(generalPhysical)
                         } else {
                             viewModel.addGeneralData(generalPhysical)

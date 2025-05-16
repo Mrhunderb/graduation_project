@@ -15,6 +15,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.hrm.db.HealthViewModel
 import com.example.hrm.db.entity.BloodData
+import com.example.hrm.db.entity.GeneralPhysical
+import kotlin.text.toFloatOrNull
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,14 +53,20 @@ fun AddBloodScreen(
     var pdw by rememberSaveable { mutableStateOf("") }
     var plcr by rememberSaveable { mutableStateOf("") }
 
+
+    var data = remember { mutableStateOf<BloodData?>(null) }
     var showBackConfirmDialog by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(true) }
+    var isModified by remember { mutableStateOf(false) }
+    var isSubmitting by remember { mutableStateOf(false) }
 
     LaunchedEffect(id) {
         viewModel.getBloodDataById(
             id,
             onComplete = {
                 if (it != null) {
+                    isModified = true
+                    data.value = it
                     wbc = it.wbc.toString()
                     granPercent = it.granPercent.toString()
                     lymPercent = it.lymPercent.toString()
@@ -208,7 +216,8 @@ fun AddBloodScreen(
 
                 Button(
                     onClick = {
-                        val record = BloodData(
+                        isSubmitting = true
+                        var record = BloodData(
                             sessionId = id,
                             wbc = wbc.toFloatOrNull(),
                             granPercent = granPercent.toFloatOrNull(),
@@ -235,12 +244,18 @@ fun AddBloodScreen(
                             pdw = pdw.toFloatOrNull(),
                             plcr = plcr.toFloatOrNull()
                         )
-                        viewModel.addBloodData(record)
+                        if (isModified) {
+                            record = record.copy(id = data.value!!.id, date = data.value!!.date)
+                            viewModel.updateBloodData(record)
+                        } else {
+                            viewModel.addBloodData(record)
+                        }
                         navController.popBackStack()
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !isSubmitting
                 ) {
-                    Text("保存")
+                    Text(if (isSubmitting) "保存中..." else "保存")
                 }
             }
         }

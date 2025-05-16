@@ -91,6 +91,11 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
             db.bloodDataDao().insert(bloodData)
         }
     }
+    fun updateBloodData(bloodData: BloodData) {
+        viewModelScope.launch {
+            db.bloodDataDao().update(bloodData)
+        }
+    }
 
     fun deleteBloodData(sessionId: Long) {
         viewModelScope.launch {

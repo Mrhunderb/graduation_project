@@ -18,7 +18,7 @@ import androidx.room.PrimaryKey
     indices = [Index(value = ["sessionId"])]
 )
 data class BloodData(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    @PrimaryKey(autoGenerate = true) var id: Long = 0,
     var date: Long = System.currentTimeMillis(), // 检查时间戳
     val sessionId: Long = 0,                      // 对应体检记录ID（外键）
 
