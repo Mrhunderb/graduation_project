@@ -20,10 +20,9 @@ import androidx.room.PrimaryKey
 data class CtScan(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
 
-    val sessionId: Long = 0,          // 外键，关联体检记录（可选）
-    val date: Long = System.currentTimeMillis(), // 检查时间
+    var sessionId: Long = 0,          // 外键，关联体检记录（可选）
+    var date: Long = System.currentTimeMillis(), // 检查时间
 
-    val imagePath: String?,            // CT 图像文件路径
-    val result: String?,               // 检查结论（如：胸部 CT 未见明显异常）
-    val suggestion: String?            // 医生建议或备注
+    var imagePath: String?,            // CT 图像文件路径
+    var result: String?,               // 检查结论（如：胸部 CT 未见明显异常）
 )

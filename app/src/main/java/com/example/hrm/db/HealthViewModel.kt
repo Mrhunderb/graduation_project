@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hrm.db.entity.BloodData
+import com.example.hrm.db.entity.CtScan
 import com.example.hrm.db.entity.Ecg
 import com.example.hrm.db.entity.GeneralPhysical
 import com.example.hrm.db.entity.HealthRecord
@@ -167,6 +168,26 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
     fun updateEcgData(ecg: Ecg) {
         viewModelScope.launch {
             db.ecgDao().update(ecg)
+        }
+    }
+
+    fun addCtScanData(ctScan: CtScan) {
+        viewModelScope.launch {
+            ctScan.date = getRecordById(ctScan.sessionId)?.date!!
+            db.ctScanDao().insert(ctScan)
+        }
+    }
+
+    fun getCtScanDataById(id: Long, onComplete: (CtScan?) -> Unit) {
+        viewModelScope.launch {
+            val record = db.ctScanDao().getById(id)
+            onComplete(record)
+        }
+    }
+
+    fun updateCtScanData(ctScan: CtScan) {
+        viewModelScope.launch {
+            db.ctScanDao().update(ctScan)
         }
     }
 

@@ -16,6 +16,9 @@ interface CtScanDao {
     @Query("SELECT * FROM ct_scan")
     fun getAll(): Flow<List<CtScan>>
 
+    @Query("SELECT * FROM ct_scan WHERE sessionId = :id")
+    suspend fun getById(id: Long): CtScan?
+
     @Delete
     suspend fun delete(ctScanData: CtScan)
 
