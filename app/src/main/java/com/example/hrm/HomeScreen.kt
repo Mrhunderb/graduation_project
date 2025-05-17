@@ -22,6 +22,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -38,6 +39,7 @@ import com.example.hrm.screen.TrendScreen
 fun HomeScreen(navController: NavController) {
     val label = stringResource(id = R.string.app_heading)
     var selectedTab by rememberSaveable { mutableIntStateOf(0) } // 记住当前选择的tab
+    var showFloatButton  = selectedTab == 0
     val items = listOf("档案", "指标", "趋势", "我的")
     val icons = listOf(
         Icons.Default.Home,
@@ -56,15 +58,17 @@ fun HomeScreen(navController: NavController) {
             )
         },
         floatingActionButton = {
-             FloatingActionButton(
-                 onClick = {
-                     navController.navigate("add")
-                 },
-                 containerColor = MaterialTheme.colorScheme.primary,
-                 contentColor = MaterialTheme.colorScheme.onPrimary,
-             ) {
-                 Icon(Icons.Default.Add, contentDescription = null)
-             }
+            if (showFloatButton) {
+                FloatingActionButton(
+                    onClick = {
+                        navController.navigate("add")
+                    },
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                ) {
+                    Icon(Icons.Default.Add, contentDescription = null)
+                }
+            }
         },
         bottomBar = {
             NavigationBar(

@@ -30,7 +30,9 @@ import com.example.hrm.db.entity.GeneralPhysical
 import com.example.hrm.component.RowItem
 import com.example.hrm.component.showcard.BloodDetails
 import com.example.hrm.component.showcard.GeneralPhysicalDetails
+import com.example.hrm.component.showcard.UrineDetails
 import com.example.hrm.db.entity.BloodData
+import com.example.hrm.db.entity.UrineRoutine
 
 @Composable
 fun AnalyseScreen(
@@ -40,6 +42,7 @@ fun AnalyseScreen(
     val data by viewModel.latestRecord.collectAsState()
     var generalData by remember { mutableStateOf<GeneralPhysical?>(null) }
     var bloodData by remember { mutableStateOf<BloodData?>(null) }
+    var urineData by remember { mutableStateOf<UrineRoutine?>(null) }
 
     LaunchedEffect(data) {
         data?.let { record ->
@@ -48,6 +51,9 @@ fun AnalyseScreen(
             }
             viewModel.getBloodDataById(record.id) {
                 bloodData = it
+            }
+            viewModel.getUrineDataById(record.id) {
+                urineData = it
             }
         }
     }
@@ -70,6 +76,8 @@ fun AnalyseScreen(
             GeneralPhysicalDetails(generalData)
             Spacer(modifier = Modifier.height(16.dp))
             BloodDetails(bloodData)
+            Spacer(modifier = Modifier.height(16.dp))
+            UrineDetails(urineData)
         }
     }
 }
