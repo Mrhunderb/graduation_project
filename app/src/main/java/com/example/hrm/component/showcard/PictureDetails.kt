@@ -14,6 +14,7 @@ import com.example.hrm.db.entity.Ecg
 
 @Composable
 fun PictureDetail(data: Any?) {
+    if (data == null) return
     when (data) {
         is Ecg? -> {
             DetailsCard(
