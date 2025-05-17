@@ -31,6 +31,14 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
             initialValue = emptyList()
         )
 
+    val latestRecord : StateFlow<HealthRecord?> = healthDao.getLatest()
+        .stateIn(
+            viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = null
+        )
+
+
     suspend fun addRecord(time: Date, hospital: String): Long {
         return db.healthRecordDao().insert(
             HealthRecord(

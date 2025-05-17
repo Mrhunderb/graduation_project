@@ -19,6 +19,9 @@ interface HealthRecordDao {
     @Query("SELECT * FROM health_record WHERE id = :id")
     suspend fun getById(id: Long): HealthRecord?
 
+    @Query("SELECT * FROM health_record ORDER BY date DESC LIMIT 1")
+    fun getLatest(): Flow<HealthRecord?>
+
     @Delete
     suspend fun delete(healthRecordData: HealthRecord)
 
