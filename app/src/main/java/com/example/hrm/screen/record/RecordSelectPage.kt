@@ -47,11 +47,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.hrm.R
 import com.example.hrm.component.DatePickerField
 import com.example.hrm.db.HealthViewModel
 import com.example.hrm.db.entity.HealthRecord
@@ -91,13 +94,13 @@ fun RecordSelectScreen(
         )
     }
 
-    val items = listOf<Triple<ImageVector, String, String>>(
-        Triple(Icons.Default.Favorite, "常规检查", "general"),
-        Triple(Icons.Default.Settings, "血常规", "blood"),
-        Triple(Icons.Default.Face, "尿常规", "urine"),
-        Triple(Icons.Default.Notifications, "心电图", "ecg"),
-        Triple(Icons.Default.Share, "X光", "xray"),
-        Triple(Icons.Default.Info, "肝功能", "liver"),
+    val items = listOf<Triple<Int, String, String>>(
+        Triple(R.drawable.general, "常规检查", "general"),
+        Triple(R.drawable.blood, "血常规", "blood"),
+        Triple(R.drawable.urine, "尿常规", "urine"),
+        Triple(R.drawable.liver, "肝功能", "liver"),
+        Triple(R.drawable.ecg, "心电图", "ecg"),
+        Triple(R.drawable.xray, "X光", "xray"),
     )
 
     if (showConfirmDialog) {
@@ -172,7 +175,7 @@ fun RecordSelectScreen(
                             val index = rowIndex * 2 + colIndex
                             val item = items[index]
                             GridButton(
-                                icon = item.first,
+                                icon = painterResource(id = item.first),
                                 label = item.second,
                                 onClick = {
                                     var route = "add_" + item.third + "/$id"
@@ -235,7 +238,7 @@ fun RecordSelectScreen(
 @Composable
 fun GridButton(
     modifier: Modifier = Modifier,
-    icon: ImageVector,
+    icon: Painter,
     label: String,
     isFinished: Boolean = false,
     onClick: () -> Unit,
@@ -258,9 +261,9 @@ fun GridButton(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                imageVector = icon,
+                painter = icon,
                 contentDescription = label,
-                modifier = Modifier.size(40.dp),
+                modifier = Modifier.size(45.dp),
                 tint = if (isFinished)
                     MaterialTheme.colorScheme.primary
                 else
