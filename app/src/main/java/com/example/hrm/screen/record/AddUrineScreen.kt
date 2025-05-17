@@ -204,6 +204,7 @@ fun AddUrineScreen(
                             } else {
                                 viewModel.addUrineData(urineData)
                             }
+                            navController.popBackStack()
                         } catch (e: NumberFormatException) {
                             Toast.makeText(context, "请确保所有输入为有效数字", Toast.LENGTH_SHORT)
                                 .show()

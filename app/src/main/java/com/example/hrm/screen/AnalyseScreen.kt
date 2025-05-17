@@ -30,8 +30,10 @@ import com.example.hrm.db.entity.GeneralPhysical
 import com.example.hrm.component.RowItem
 import com.example.hrm.component.showcard.BloodDetails
 import com.example.hrm.component.showcard.GeneralPhysicalDetails
+import com.example.hrm.component.showcard.LiverDetails
 import com.example.hrm.component.showcard.UrineDetails
 import com.example.hrm.db.entity.BloodData
+import com.example.hrm.db.entity.LiverData
 import com.example.hrm.db.entity.UrineRoutine
 
 @Composable
@@ -43,6 +45,7 @@ fun AnalyseScreen(
     var generalData by remember { mutableStateOf<GeneralPhysical?>(null) }
     var bloodData by remember { mutableStateOf<BloodData?>(null) }
     var urineData by remember { mutableStateOf<UrineRoutine?>(null) }
+    var liverData by remember { mutableStateOf<LiverData?>(null) }
 
     LaunchedEffect(data) {
         data?.let { record ->
@@ -54,6 +57,9 @@ fun AnalyseScreen(
             }
             viewModel.getUrineDataById(record.id) {
                 urineData = it
+            }
+            viewModel.getLiverDataById(record.id) {
+                liverData = it
             }
         }
     }
@@ -78,6 +84,8 @@ fun AnalyseScreen(
             BloodDetails(bloodData)
             Spacer(modifier = Modifier.height(16.dp))
             UrineDetails(urineData)
+            Spacer(modifier = Modifier.height(16.dp))
+            LiverDetails(liverData)
         }
     }
 }
