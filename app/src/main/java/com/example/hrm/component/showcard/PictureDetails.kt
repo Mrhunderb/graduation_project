@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
 import com.example.hrm.component.DetailsCard
 import com.example.hrm.component.RowItem
+import com.example.hrm.component.ZoomableImageViewer
 import com.example.hrm.db.entity.CtScan
 import com.example.hrm.db.entity.Ecg
 
@@ -20,27 +21,15 @@ fun PictureDetail(data: Any?) {
             DetailsCard(
                 title = "心电图",
             ) {
-                Image(
-                    painter = rememberAsyncImagePainter(data?.imagePath),
-                    contentDescription = "心电图图",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(180.dp)
-                )
-                RowItem(label = "诊断结果", value = data?.result ?: "无")
+                ZoomableImageViewer(data.imagePath)
+                RowItem(label = "诊断结果", value = data.result ?: "无")
             }
         }
         is CtScan? ->  {
             DetailsCard(
                 title = "胸部X光",
             ) {
-                Image(
-                    painter = rememberAsyncImagePainter(data.imagePath),
-                    contentDescription = "胸部X光图",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(180.dp)
-                )
+                ZoomableImageViewer(data.imagePath)
                 RowItem(label = "诊断结果", value = data.result ?: "无")
             }
         }
