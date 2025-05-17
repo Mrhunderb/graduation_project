@@ -37,10 +37,15 @@ import com.example.hrm.screen.TrendScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController) {
-    val label = stringResource(id = R.string.app_heading)
     var selectedTab by rememberSaveable { mutableIntStateOf(0) } // 记住当前选择的tab
     var showFloatButton  = selectedTab == 0
-    val items = listOf("档案", "指标", "趋势", "我的")
+    val items = listOf("档案", "指标", "趋势", "信息")
+    val titles = listOf(
+        stringResource(id = R.string.record),
+        stringResource(id = R.string.analyse),
+        stringResource(id = R.string.trend),
+        stringResource(id = R.string.profile)
+    )
     val icons = listOf(
         Icons.Default.Home,
         Icons.Default.Favorite,
@@ -51,7 +56,7 @@ fun HomeScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(label) },
+                title = { Text(titles[selectedTab]) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                 )
