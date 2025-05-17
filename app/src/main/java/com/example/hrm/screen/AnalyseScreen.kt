@@ -31,8 +31,11 @@ import com.example.hrm.component.RowItem
 import com.example.hrm.component.showcard.BloodDetails
 import com.example.hrm.component.showcard.GeneralPhysicalDetails
 import com.example.hrm.component.showcard.LiverDetails
+import com.example.hrm.component.showcard.PictureDetail
 import com.example.hrm.component.showcard.UrineDetails
 import com.example.hrm.db.entity.BloodData
+import com.example.hrm.db.entity.CtScan
+import com.example.hrm.db.entity.Ecg
 import com.example.hrm.db.entity.LiverData
 import com.example.hrm.db.entity.UrineRoutine
 
@@ -46,6 +49,8 @@ fun AnalyseScreen(
     var bloodData by remember { mutableStateOf<BloodData?>(null) }
     var urineData by remember { mutableStateOf<UrineRoutine?>(null) }
     var liverData by remember { mutableStateOf<LiverData?>(null) }
+    var ecgData by remember { mutableStateOf<Ecg?>(null) }
+    var ctData by remember { mutableStateOf<CtScan?>(null) }
 
     LaunchedEffect(data) {
         data?.let { record ->
@@ -60,6 +65,12 @@ fun AnalyseScreen(
             }
             viewModel.getLiverDataById(record.id) {
                 liverData = it
+            }
+            viewModel.getEcgDataById(record.id) {
+                ecgData = it
+            }
+            viewModel.getCtScanDataById(record.id) {
+                ctData = it
             }
         }
     }
@@ -86,6 +97,10 @@ fun AnalyseScreen(
             UrineDetails(urineData)
             Spacer(modifier = Modifier.height(16.dp))
             LiverDetails(liverData)
+            Spacer(modifier = Modifier.height(16.dp))
+            PictureDetail(ecgData)
+            Spacer(modifier = Modifier.height(16.dp))
+            PictureDetail(ctData)
         }
     }
 }
