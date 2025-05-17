@@ -35,16 +35,16 @@ fun AnalyseScreen(
     viewModel: HealthViewModel = viewModel()
 ) {
     val data by viewModel.latestRecord.collectAsState()
-    var isEmpty by remember { mutableStateOf(true) }
     var generalData by remember { mutableStateOf<GeneralPhysical?>(null) }
-    LaunchedEffect(data?.id) {
-        if (data != null) {
-            isEmpty = false
-            viewModel.getGeneralDataById(data!!.id, onComplete = {
+
+    LaunchedEffect(data) {
+        data?.let { record ->
+            viewModel.getGeneralDataById(record.id) {
                 generalData = it
-            })
+            }
         }
     }
+
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
@@ -53,7 +53,7 @@ fun AnalyseScreen(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (isEmpty) {
+        if (data == null) {
             Text(
                 text = "暂无数据",
                 style = MaterialTheme.typography.bodyLarge,
@@ -64,18 +64,12 @@ fun AnalyseScreen(
         }
     }
 }
+
 @Composable
 fun GeneralPhysicalDetails(data: GeneralPhysical?) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant // 更柔和的背景色
-        )
-    ) {
-        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Text("基础体检数据", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-
+    DetailsCard (
+        title = "基础体检数据",
+        content = {
             RowItem(label = "身高", value = "${data?.height ?: "N/A"} cm")
             RowItem(label = "体重", value = "${data?.weight ?: "N/A"} kg")
             RowItem(label = "BMI", value = "${data?.bmi ?: "N/A"}")
@@ -105,6 +99,27 @@ fun GeneralPhysicalDetails(data: GeneralPhysical?) {
             RowItem(label = "左眼视力", value = "${data?.leftEyeVision ?: "N/A"}")
             RowItem(label = "右眼视力", value = "${data?.rightEyeVision ?: "N/A"}")
         }
-    }
+    )
 }
 
+@Composable
+fun DetailsCard(
+    title: String,
+    content: @Composable () -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        )
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            content()
+        }
+    }
+}
