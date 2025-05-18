@@ -55,6 +55,9 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
 
+    // MPAndroidChart
+    implementation(libs.mpandroidchart)
+
     implementation(libs.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
