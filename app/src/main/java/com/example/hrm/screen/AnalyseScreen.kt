@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -51,6 +52,7 @@ fun AnalyseScreen(
     var liverData by remember { mutableStateOf<LiverData?>(null) }
     var ecgData by remember { mutableStateOf<Ecg?>(null) }
     var ctData by remember { mutableStateOf<CtScan?>(null) }
+    var isLoading by remember { mutableStateOf(true) }
 
     LaunchedEffect(data) {
         data?.let { record ->
@@ -73,34 +75,41 @@ fun AnalyseScreen(
                 ctData = it
             }
         }
+        isLoading = false
     }
 
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        if (data == null) {
-            Text(
-                text = "暂无数据",
-                style = MaterialTheme.typography.bodyLarge,
-                color = Color.Gray
-            )
-        } else {
-            GeneralPhysicalDetails(generalData)
-            Spacer(modifier = Modifier.height(16.dp))
-            BloodDetails(bloodData)
-            Spacer(modifier = Modifier.height(16.dp))
-            UrineDetails(urineData)
-            Spacer(modifier = Modifier.height(16.dp))
-            LiverDetails(liverData)
-            Spacer(modifier = Modifier.height(16.dp))
-            PictureDetail(ecgData)
-            Spacer(modifier = Modifier.height(16.dp))
-            PictureDetail(ctData)
+    if (isLoading) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+    } else {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (data == null) {
+                Text(
+                    text = "暂无数据",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color.Gray
+                )
+            } else {
+                GeneralPhysicalDetails(generalData)
+                Spacer(modifier = Modifier.height(16.dp))
+                BloodDetails(bloodData)
+                Spacer(modifier = Modifier.height(16.dp))
+                UrineDetails(urineData)
+                Spacer(modifier = Modifier.height(16.dp))
+                LiverDetails(liverData)
+                Spacer(modifier = Modifier.height(16.dp))
+                PictureDetail(ecgData)
+                Spacer(modifier = Modifier.height(16.dp))
+                PictureDetail(ctData)
+            }
         }
     }
 }
