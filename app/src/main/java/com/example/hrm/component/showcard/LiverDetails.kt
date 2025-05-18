@@ -10,7 +10,7 @@ fun LiverDetails(data: LiverData?) {
     DetailsCard(
         title = "肝功能检查",
     ) {
-        IndicatorRow(label = "天冬氨酸转氨酶 AST", value = data?.ast, unit = "U/L", 0f..40f)
-        IndicatorRow(label = "丙氨酸转氨酶 ALT", value = data?.alt, unit = "U/L", 0f..45f)
+        IndicatorRow(label = "谷丙转氨酶 AST", value = data?.ast, unit = "U/L", 0f..40f)
+        IndicatorRow(label = "谷草转氨酶 ALT", value = data?.alt, unit = "U/L", 0f..45f)
     }
 }

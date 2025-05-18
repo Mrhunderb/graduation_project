@@ -53,8 +53,8 @@ fun AddLiverScreen(
     var alt by remember { mutableStateOf("") }
 
     var field = listOf(
-        "天冬氨酸氨基转移酶 (AST)" to ast,
-        "丙氨酸氨基转移酶 (ALT)" to alt,
+        "谷丙转氨酶 (AST)" to ast,
+        "谷草转氨酶 (ALT)" to alt,
     )
     var showBackConfirmDialog by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(true) }
