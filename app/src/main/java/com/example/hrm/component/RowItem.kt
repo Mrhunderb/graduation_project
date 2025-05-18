@@ -70,26 +70,36 @@ data class UrineRange(
 @Composable
 fun UrineIndicatorRow(key: String, value: Float?) {
     val urineRanges = mapOf(
-        "KET" to UrineRange("尿酮体 KET", "mmol/L", 0f..0f, abnormalIfNonZero = true),
-        "URO" to UrineRange("尿胆原 URO", "umol/L", 0.2f..1.0f),
-        "BIL" to UrineRange("尿胆红素 BIL", "umol/L", 0f..0f, abnormalIfNonZero = true),
-        "BLD" to UrineRange("尿潜血 BLD", "", 0f..0f, abnormalIfNonZero = true),
-        "WBC" to UrineRange("尿白细胞 WBC", "", 0f..0f, abnormalIfNonZero = true),
-        "PH" to UrineRange("酸碱度 PH", "", 4.6f..8.0f),
-        "NIT" to UrineRange("亚硝酸盐NIT", "", 0f..0f, abnormalIfNonZero = true),
-        "GLU" to UrineRange("尿葡萄糖 GLU", "mmol/L", 0f..0f, abnormalIfNonZero = true),
-        "VC"  to UrineRange("VC", "mg/dL", 0f..15f),
-        "SG"  to UrineRange("比重 SG", "", 1.005f..1.030f),
-        "PRO" to UrineRange("尿蛋白质 PRO", "g/L", 0f..0.15f)
+        "KET" to UrineRange("尿酮体 KET", abnormalIfNonZero = true),
+        "URO" to UrineRange("尿胆原 URO", abnormalIfNonZero = true),
+        "BIL" to UrineRange("尿胆红素 BIL", abnormalIfNonZero = true),
+        "BLD" to UrineRange("尿潜血 BLD", abnormalIfNonZero = true),
+        "WBC" to UrineRange("尿白细胞 WBC", abnormalIfNonZero = true),
+        "PH"  to UrineRange("酸碱度 PH", normalRange = 5f..8.0f),
+        "NIT" to UrineRange("亚硝酸盐 NIT", abnormalIfNonZero = true),
+        "GLU" to UrineRange("尿葡萄糖 GLU", abnormalIfNonZero = true),
+        "VC"  to UrineRange("VC", abnormalIfNonZero = true),
+        "SG"  to UrineRange("比重 SG", normalRange = 1.005f..1.030f),
+        "PRO" to UrineRange("尿蛋白质 PRO", abnormalIfNonZero = true)
     )
     val info = urineRanges[key] ?: return
 
-    val (color, arrow) = when {
-        value == null -> Color.Gray to ""
-        info.abnormalIfNonZero && value != 0f -> Color.Red to "↑"
-        info.normalRange != null && value < info.normalRange.start -> Color.Blue to "↓"
-        info.normalRange != null && value > info.normalRange.endInclusive -> Color.Red to "↑"
-        else -> Color.Unspecified to ""
+    val (displayText, color) = when {
+        value == null -> "N/A" to Color.Gray
+
+        info.abnormalIfNonZero -> {
+            if (value != 0f) "阳性" to Color.Red else "阴性" to Color.Unspecified
+        }
+
+        info.normalRange != null -> {
+            when {
+                value < info.normalRange.start -> "$value ${info.unit} ↓" to Color.Blue
+                value > info.normalRange.endInclusive -> "$value ${info.unit} ↑" to Color.Red
+                else -> "$value ${info.unit}" to Color.Unspecified
+            }
+        }
+
+        else -> "$value ${info.unit}" to Color.Unspecified
     }
 
     Row(
@@ -100,9 +110,10 @@ fun UrineIndicatorRow(key: String, value: Float?) {
     ) {
         Text(text = info.label, modifier = Modifier.weight(1f))
         Text(
-            text = if (value != null) "$value ${info.unit} $arrow" else "N/A",
+            text = displayText,
             color = color,
-            fontWeight = if (arrow.isNotEmpty()) FontWeight.Bold else FontWeight.Normal
+            fontWeight = if (color != Color.Unspecified) FontWeight.Bold else FontWeight.Normal
         )
     }
 }
+

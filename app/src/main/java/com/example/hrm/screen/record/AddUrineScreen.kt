@@ -39,6 +39,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.hrm.component.PositiveNegativeDropdown
 import com.example.hrm.db.HealthViewModel
 import com.example.hrm.db.entity.UrineRoutine
 
@@ -159,13 +160,38 @@ fun AddUrineScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 fields.forEach { (label, state) ->
-                    OutlinedTextField(
-                        value = state.value,
-                        onValueChange = { state.value = it },
-                        label = { Text(label) },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
-                    )
+                    when(label) {
+                        "酸碱度 (PH)" -> {
+                            OutlinedTextField(
+                                value = state.value,
+                                onValueChange = { state.value = it },
+                                label = { Text(label) },
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+                            )
+                        }
+                        "比重 (SG)" -> {
+                            OutlinedTextField(
+                                value = state.value,
+                                onValueChange = { state.value = it },
+                                label = { Text(label) },
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+                            )
+                        }
+                        else -> {
+                            PositiveNegativeDropdown(
+                                label = label,
+                                selectedValue = state.value,
+                            ) {
+                                when (it) {
+                                    "阳性" -> ket.value = "1"
+                                    "阴性" -> ket.value = "0"
+                                }
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(5.dp))
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
