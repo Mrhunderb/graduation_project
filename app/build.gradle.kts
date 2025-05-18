@@ -58,6 +58,9 @@ dependencies {
     // MPAndroidChart
     implementation(libs.mpandroidchart)
 
+    // OpenAI
+    implementation(libs.openai.client)
+
     implementation(libs.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)

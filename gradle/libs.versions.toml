@@ -11,6 +11,7 @@ activityCompose = "1.10.1"
 composeBom = "2025.04.01"
 mpandroidchart = "v3.1.0"
 navigationCompose = "2.8.9"
+openaiClient = "4.0.1"
 roomRuntime = "2.7.1"
 runtimeLivedata = "1.8.0"
 uiTextGoogleFonts = "1.8.0"
@@ -50,6 +51,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 material = { module = "androidx.compose.material3:material" }
 mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+openai-client = { module = "com.aallam.openai:openai-client", version.ref = "openaiClient" }
 protolite-well-known-types = { group = "com.google.firebase", name = "protolite-well-known-types", version.ref = "protoliteWellKnownTypes" }
 
 [plugins]
