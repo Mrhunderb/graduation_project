@@ -60,6 +60,11 @@ dependencies {
 
     // OpenAI
     implementation(libs.openai.client)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.android)
+
+    // markdowm
+    implementation(libs.core)
 
     implementation(libs.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
