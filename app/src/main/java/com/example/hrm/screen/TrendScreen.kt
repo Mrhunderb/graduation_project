@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -43,11 +43,10 @@ fun TrendScreen(
         BloodRecord("2025-10", 4.3f),
     )
     val response by viewModel.responseText.collectAsState()
-    var scrollState = rememberScrollState()
 
     Column(
         modifier = Modifier
-            .verticalScroll(scrollState)
+            .verticalScroll(rememberScrollState())
             .padding(16.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -59,7 +58,7 @@ fun TrendScreen(
         val userInput = sampleData.joinToString(", ") { "日期：${it.date}, rbc的值:${it.value}" }
 
         Spacer(modifier = Modifier.height(16.dp))
-        TextButton(
+        Button(
             onClick = {
                 viewModel.askAi(systemPrompt, userInput)
             },
@@ -67,11 +66,9 @@ fun TrendScreen(
         ) {
             Text("获取分析建议")
         }
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         MarkdownView(
             markdownText = response,
-            modifier = Modifier
-                .fillMaxSize()
         )
     }
 }
