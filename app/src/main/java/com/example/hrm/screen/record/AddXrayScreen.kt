@@ -126,7 +126,7 @@ fun AddXrayScreen(
                     ),
                     navigationIcon = {
                         IconButton(onClick = {
-                            navController.popBackStack()
+                            showBackConfirmDialog = true
                         }) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回")
                         }
@@ -163,7 +163,6 @@ fun AddXrayScreen(
                         Text("点击选择 CT 图像")
                     }
                 }
-
 
                 Spacer(modifier = Modifier.height(24.dp))
 

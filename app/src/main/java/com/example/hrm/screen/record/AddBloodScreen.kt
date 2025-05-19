@@ -136,7 +136,7 @@ fun AddBloodScreen(
                     ),
                     navigationIcon = {
                         IconButton(onClick = {
-                            navController.popBackStack()
+                            showBackConfirmDialog = true
                         }) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回")
                         }
