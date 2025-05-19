@@ -2,8 +2,7 @@ package com.example.hrm.screen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -76,32 +75,35 @@ fun AnalyseScreen(
             CircularProgressIndicator()
         }
     } else {
-        Column(
+        LazyColumn(
             modifier = Modifier
-                .verticalScroll(rememberScrollState())
                 .fillMaxSize()
                 .padding(16.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (data == null) {
-                Text(
-                    text = "暂无数据",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = Color.Gray
-                )
+                item {
+                    Text(
+                        text = "暂无数据",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color.Gray
+                    )
+                }
             } else {
-                GeneralPhysicalDetails(generalData)
-                Spacer(modifier = Modifier.height(16.dp))
-                BloodDetails(bloodData)
-                Spacer(modifier = Modifier.height(16.dp))
-                UrineDetails(urineData)
-                Spacer(modifier = Modifier.height(16.dp))
-                LiverDetails(liverData)
-                Spacer(modifier = Modifier.height(16.dp))
-                PictureDetail(ecgData)
-                Spacer(modifier = Modifier.height(16.dp))
-                PictureDetail(ctData)
+                item {
+                    GeneralPhysicalDetails(generalData)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    BloodDetails(bloodData)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    UrineDetails(urineData)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    LiverDetails(liverData)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    PictureDetail(ecgData)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    PictureDetail(ctData)
+                }
             }
         }
     }

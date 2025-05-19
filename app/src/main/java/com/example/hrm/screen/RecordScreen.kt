@@ -39,11 +39,9 @@ fun RecordScreen(
         SimpleDateFormat("yyyy年MM月dd日", Locale.getDefault())
     }
 
-    // 添加状态来控制对话框显示和选定的记录
     var showDeleteDialog by remember { mutableStateOf(false) }
     var selectedRecord by remember { mutableStateOf<Long?>(null) }
 
-    // 添加确认对话框
     if (showDeleteDialog && selectedRecord != null) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },

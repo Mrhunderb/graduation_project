@@ -94,7 +94,6 @@ fun TrendScreen(
         userInput += mcvList.joinToString(", ") { "日期：${it.date}, mcv的值:${it.value}" }
         var isLoading by remember { mutableStateOf(false) }
 
-        Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = {
                 isLoading = true
