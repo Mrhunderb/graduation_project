@@ -74,6 +74,21 @@ fun AnalyseScreen(
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
+    } else if (data == null) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(26.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "暂无体检记录",
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.Gray
+            )
+        }
+        return
     } else {
         LazyColumn(
             modifier = Modifier
@@ -82,28 +97,18 @@ fun AnalyseScreen(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (data == null) {
-                item {
-                    Text(
-                        text = "暂无数据",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = Color.Gray
-                    )
-                }
-            } else {
-                item {
-                    GeneralPhysicalDetails(generalData)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    BloodDetails(bloodData)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    UrineDetails(urineData)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    LiverDetails(liverData)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    PictureDetail(ecgData)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    PictureDetail(ctData)
-                }
+            item {
+                GeneralPhysicalDetails(generalData)
+                Spacer(modifier = Modifier.height(16.dp))
+                BloodDetails(bloodData)
+                Spacer(modifier = Modifier.height(16.dp))
+                UrineDetails(urineData)
+                Spacer(modifier = Modifier.height(16.dp))
+                LiverDetails(liverData)
+                Spacer(modifier = Modifier.height(16.dp))
+                PictureDetail(ecgData)
+                Spacer(modifier = Modifier.height(16.dp))
+                PictureDetail(ctData)
             }
         }
     }
