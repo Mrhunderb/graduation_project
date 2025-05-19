@@ -1,6 +1,9 @@
 package com.example.hrm.screen
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -9,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -45,7 +49,13 @@ fun TrendScreen() {
         BloodRecord("2025-10", 4.3f),
     )
 
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         Text("红细胞计数变化曲线", style = MaterialTheme.typography.titleMedium)
         Spacer(modifier = Modifier.height(8.dp))
         RbcLineChart(sampleData)
@@ -91,7 +101,6 @@ fun RbcLineChart(records: List<BloodRecord>) {
 
             chart.data = LineData(dataSet)
 
-            // 设置日期标签
             val labels = records.map { it.date }
             chart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
 
@@ -110,7 +119,7 @@ fun RbcLineChart(records: List<BloodRecord>) {
             messages = listOf(
                 ChatMessage(
                     role = ChatRole.System,
-                    content = "告诉我关于红细胞计数的变化趋势的原因，以及如何应对"
+                    content = "告诉我关于红细胞计数的变化趋势的原因，以及给出一般性的建议比如在生活中应该注意什么或饮食方面应该注意什么"
                 ),
                 ChatMessage(
                     role = ChatRole.User,
@@ -129,7 +138,7 @@ fun RbcLineChart(records: List<BloodRecord>) {
     Text(
         text = responseText,
         style = MaterialTheme.typography.bodyMedium,
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.padding(20.dp)
     )
 }
 

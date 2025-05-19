@@ -35,9 +35,13 @@ fun RowItem(
     }
 }
 
-
 @Composable
-fun IndicatorRow(label: String, value: Float?, unit: String, normalRange: ClosedFloatingPointRange<Float>) {
+fun IndicatorRow(
+    label: String,
+    value: Float?,
+    unit: String,
+    normalRange: ClosedFloatingPointRange<Float>
+) {
     val (color, arrow) = when {
         value == null -> Color.Gray to ""
         value < normalRange.start -> Color.Blue to "↓"
