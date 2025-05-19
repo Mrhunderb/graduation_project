@@ -12,7 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.hrm.db.HealthViewModel
-import com.example.hrm.screen.AddUserScreen
+import com.example.hrm.screen.user.AddUserScreen
 import com.example.hrm.screen.AnalyseScreen
 import com.example.hrm.screen.ProfileScreen
 import com.example.hrm.screen.record.AddBloodScreen

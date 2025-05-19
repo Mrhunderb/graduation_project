@@ -1,4 +1,4 @@
-package com.example.hrm.screen
+package com.example.hrm.screen.user
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
