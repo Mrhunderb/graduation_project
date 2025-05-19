@@ -1,5 +1,6 @@
 package com.example.hrm.screen
 
+import android.widget.TextView
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
@@ -18,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.unit.dp
+import com.example.hrm.component.MarkdownView
 import com.example.hrm.service.AiChatService
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -54,7 +56,7 @@ fun TrendScreen() {
 
 data class BloodRecord(
     val date: String,
-    val rbc: Float
+    val value: Float
 )
 
 @Composable
@@ -76,7 +78,7 @@ fun RbcLineChart(records: List<BloodRecord>) {
         },
         update = { chart ->
             val entries = records.mapIndexed { index, record ->
-                Entry(index.toFloat(), record.rbc)
+                Entry(index.toFloat(), record.value)
             }
 
             val dataSet = LineDataSet(entries, "RBC (10^12/L)").apply {
@@ -99,8 +101,8 @@ fun RbcLineChart(records: List<BloodRecord>) {
     )
     var responseText by remember { mutableStateOf("") }
     val aiService = AiChatService()
-    val systemPrompt = "你是一个医学顾问，请提供关于血液检查结果的分析和建议"
-    val userInput = "红细胞计数先下降后上升再下降，是怎么回事？"
+    val systemPrompt = "你是一个医学顾问，请提供关于血常规的趋势（日期和数值）给出一共两点：1.趋势的分析 2.尤其是生活上建议"
+    val userInput = records.joinToString(", ") { "日期：${it.date}, rbc的值:${it.value}" }
 
     LaunchedEffect(true) {
         val flow = aiService.askQuestion(systemPrompt, userInput)
@@ -111,10 +113,9 @@ fun RbcLineChart(records: List<BloodRecord>) {
             }
         }
     }
-    Text(
-        text = responseText,
-        style = MaterialTheme.typography.bodyMedium,
-        modifier = Modifier.padding(24.dp)
-    )
+    Spacer(modifier = Modifier.height(16.dp))
+    Text("AI分析结果", style = MaterialTheme.typography.titleMedium)
+    Spacer(modifier = Modifier.height(8.dp))
+    MarkdownView(responseText)
 }
 
