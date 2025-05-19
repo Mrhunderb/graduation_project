@@ -99,7 +99,7 @@ fun HomeScreen(navController: NavController) {
             when (selectedTab) {
                 0 -> RecordScreen(navController)
                 1 -> AnalyseScreen(navController)
-                2 -> TrendScreen(navController)
+                2 -> TrendScreen()
                 3 -> ProfileScreen()
             }
         }

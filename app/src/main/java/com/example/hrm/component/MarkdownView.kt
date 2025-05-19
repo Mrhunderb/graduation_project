@@ -36,7 +36,8 @@ fun MarkdownView(
             text = "DeepSeek健康趋势分析:",
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier
-                .padding(16.dp)
+                .padding(top = 16.dp)
+                .padding(horizontal = 16.dp)
                 .fillMaxWidth(),
             color = Color.Black
         )
