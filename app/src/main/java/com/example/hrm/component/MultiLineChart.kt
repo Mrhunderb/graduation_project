@@ -33,11 +33,11 @@ fun MultiLineChart(
 
     Column(modifier = modifier.padding(16.dp)) {
         TabRow(selectedTabIndex = selectedType.ordinal) {
-            ChartType.entries.forEachIndexed { index, type ->
+            chartData.entries.forEachIndexed { index, type ->
                 Tab(
                     selected = selectedType.ordinal == index,
-                    onClick = { selectedType = type },
-                    text = { Text(type.name) } // Show concise name in tabs
+                    onClick = { selectedType = type.key },
+                    text = { Text(text = type.key.name) }
                 )
             }
         }
@@ -88,7 +88,13 @@ enum class ChartType(name: String, val label: String, val color: Color) {
     RBC("RBC", "红细胞计数 RBC (10¹²/L)", Color.Red),
     HB("Hb", "血红蛋白 Hb (g/L)", Color.Blue),
     HCT("HCT", "红细胞比容 HCT (%)", Color.Green),
-    MCV("MCV", "平均红细胞体积 MCV (fl)", Color.Magenta)
+    MCV("MCV", "平均红细胞体积 MCV (fl)", Color.Magenta),
+    WBC("WBC", "白细胞计数 WBC (10⁹/L)", Color.Blue),
+    LYMPH("LYMPH", "淋巴细胞 LYMPH (%)", Color.Magenta),
+    MONO("MONO", "单核细胞 MONO (%)", Color.Cyan),
+    PLT("PLT", "血小板计数 PLT (10⁹/L)", Color.Red),
+    MPV("MPV", "平均血小板体积 MPV (fl)", Color.Yellow),
+    PDW("PDW", "血小板分布宽度 PDW (%)", Color.Blue)
 }
 
 data class BloodRecord(

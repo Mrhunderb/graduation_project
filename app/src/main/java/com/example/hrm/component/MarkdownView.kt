@@ -30,10 +30,9 @@ fun MarkdownView(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Text(
-            text = "DeepSeek健康趋势分析:",
+            text = "DeepSeek 健康趋势分析:",
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier
                 .padding(top = 16.dp)

@@ -1,42 +1,126 @@
 package com.example.hrm.screen
 
-import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.rememberAsyncImagePainter
-import java.io.File
+import com.example.hrm.db.HealthViewModel
 
 @Composable
 fun ProfileScreen(
+    userViewModel: HealthViewModel = viewModel()
 ) {
 
+//    val user by userViewModel.user.collectAsState()
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .padding(16.dp),
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ) {
+//        // Profile Image
+//        Box(
+//            modifier = Modifier
+//                .size(120.dp)
+//                .clip(CircleShape)
+//                .background(MaterialTheme.colorScheme.surfaceVariant)
+//        ) {
+//            if (user.photoUrl != null) {
+//                Image(
+//                    painter = rememberAsyncImagePainter(user.photoUrl),
+//                    contentDescription = "Profile Photo",
+//                    modifier = Modifier.fillMaxSize(),
+//                    contentScale = ContentScale.Crop
+//                )
+//            } else {
+//                Icon(
+//                    imageVector = Icons.Default.Person,
+//                    contentDescription = "Profile Icon",
+//                    modifier = Modifier
+//                        .size(64.dp)
+//                        .align(Alignment.Center),
+//                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+//                )
+//            }
+//        }
+//
+//        Spacer(modifier = Modifier.height(24.dp))
+//
+//        Card(
+//            modifier = Modifier.fillMaxWidth(),
+//        ) {
+//            Column(
+//                modifier = Modifier.padding(16.dp)
+//            ) {
+//                Text(
+//                    "个人信息",
+//                    style = MaterialTheme.typography.titleLarge,
+//                    fontWeight = FontWeight.Bold
+//                )
+//
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//                InfoRow("姓名", user.name ?: "未设置")
+//                InfoRow("年龄", user.age?.toString() ?: "未设置")
+//                InfoRow("性别", if (user.gender == "M") "男" else if (user.gender == "F") "女" else "未设置")
+//            }
+//        }
+//
+//        Spacer(modifier = Modifier.height(24.dp))
+//
+//        Button(
+//            onClick = {
+//                // TODO
+//            },
+//            modifier = Modifier.fillMaxWidth()
+//        ) {
+//            Text("修改个人信息")
+//        }
+//
+//        Spacer(modifier = Modifier.height(16.dp))
+//
+//        Button(
+//            onClick = {
+//                // TODO
+//            },
+//            modifier = Modifier.fillMaxWidth()
+//        ) {
+//            Text("导出健康报告 (PDF)")
+//        }
+//    }
+//}
+//
+//@Composable
+//private fun InfoRow(label: String, value: String) {
+//    Row(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(vertical = 8.dp),
+//        horizontalArrangement = Arrangement.SpaceBetween
+//    ) {
+//        Text(
+//            text = label,
+//            style = MaterialTheme.typography.bodyLarge,
+//            color = MaterialTheme.colorScheme.onSurfaceVariant
+//        )
+//
+//        Text(
+//            text = value,
+//            style = MaterialTheme.typography.bodyLarge,
+//            color = MaterialTheme.colorScheme.onSurface
+//        )
+//    }
 }
 
-@Preview
-@Composable
-fun ProfileScreenPreview() {
-    ProfileScreen()
-}
