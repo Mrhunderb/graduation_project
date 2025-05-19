@@ -11,6 +11,7 @@ import com.example.hrm.db.dao.GeneralPhysicalDao
 import com.example.hrm.db.dao.HealthRecordDao
 import com.example.hrm.db.dao.LiverDataDao
 import com.example.hrm.db.dao.UrineRoutineDao
+import com.example.hrm.db.dao.UserDao
 import com.example.hrm.db.entity.BloodData
 import com.example.hrm.db.entity.CtScan
 import com.example.hrm.db.entity.Ecg
@@ -18,6 +19,7 @@ import com.example.hrm.db.entity.GeneralPhysical
 import com.example.hrm.db.entity.HealthRecord
 import com.example.hrm.db.entity.LiverData
 import com.example.hrm.db.entity.UrineRoutine
+import com.example.hrm.db.entity.User
 
 @Database(
     entities = [
@@ -28,6 +30,7 @@ import com.example.hrm.db.entity.UrineRoutine
         Ecg::class,
         CtScan::class,
         LiverData::class,
+        User::class,
     ],
     version = 2,
     exportSchema = false
@@ -41,6 +44,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun ctScanDao(): CtScanDao
     abstract fun ecgDao(): EcgDao
     abstract fun liverDataDao(): LiverDataDao
+    abstract fun userDao(): UserDao
 
     companion object {
         @Volatile

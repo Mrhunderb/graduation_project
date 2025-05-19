@@ -12,6 +12,7 @@ import com.example.hrm.db.entity.GeneralPhysical
 import com.example.hrm.db.entity.HealthRecord
 import com.example.hrm.db.entity.LiverData
 import com.example.hrm.db.entity.UrineRoutine
+import com.example.hrm.db.entity.User
 import com.example.hrm.service.AiChatService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -34,6 +35,13 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         )
 
     val bloodRecord : StateFlow<List<BloodData>> = db.bloodDataDao().getAll()
+        .stateIn(
+            viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
+        )
+
+    var users : StateFlow<List<User>> = db.userDao().getAll()
         .stateIn(
             viewModelScope,
             started = SharingStarted.Lazily,
@@ -213,6 +221,17 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         return saveImageToInternalStorage(context, uri)
     }
 
+    fun addUser(user: User) {
+        viewModelScope.launch {
+            db.userDao().insert(user)
+        }
+    }
+
+    fun updateUser(user: User) {
+        viewModelScope.launch {
+            db.userDao().update(user)
+        }
+    }
 
     private val aiService = AiChatService()
 
