@@ -184,13 +184,8 @@ fun AddUrineScreen(
                         else -> {
                             PositiveNegativeDropdown(
                                 label = label,
-                                selectedValue = state.value,
-                            ) {
-                                when (it) {
-                                    "阳性" -> ket.value = "1"
-                                    "阴性" -> ket.value = "0"
-                                }
-                            }
+                                selectedValue = state,
+                            ){}
                         }
                     }
                     Spacer(modifier = Modifier.height(5.dp))

@@ -5,9 +5,11 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,7 +20,7 @@ import androidx.compose.ui.Modifier
 @Composable
 fun PositiveNegativeDropdown(
     label: String,
-    selectedValue: String?,
+    selectedValue: MutableState<String>,
     onValueChange: (String) -> Unit
 ) {
     val options = listOf("阴性", "阳性")
@@ -29,7 +31,7 @@ fun PositiveNegativeDropdown(
         onExpandedChange = { expanded = !expanded },
     ) {
         OutlinedTextField(
-            value = when(selectedValue) {
+            value = when(selectedValue.value) {
                 "0" -> "阴性"
                 "0.0" -> "阴性"
                 "1" -> "阳性"
@@ -41,7 +43,7 @@ fun PositiveNegativeDropdown(
             readOnly = true,
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             modifier = Modifier
-                .menuAnchor()
+                .menuAnchor(type = MenuAnchorType.PrimaryNotEditable, enabled = true)
                 .fillMaxWidth()
         )
         ExposedDropdownMenu(
@@ -52,7 +54,11 @@ fun PositiveNegativeDropdown(
                 DropdownMenuItem(
                     text = { Text(selectionOption) },
                     onClick = {
-                        onValueChange(selectionOption)
+                        if (selectionOption == "阴性") {
+                            selectedValue.value = "0"
+                        } else {
+                            selectedValue.value = "1"
+                        }
                         expanded = false
                     }
                 )
