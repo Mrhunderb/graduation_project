@@ -13,7 +13,7 @@ interface BloodDataDao {
      @Insert
      suspend fun insert(bloodData: BloodData)
 
-     @Query("SELECT * FROM blood_data")
+     @Query("SELECT * FROM blood_data ORDER BY date")
      fun getAll(): Flow<List<BloodData>>
 
      @Query("SELECT * FROM blood_data WHERE sessionId = :id")

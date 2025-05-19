@@ -21,6 +21,7 @@ import io.noties.markwon.Markwon
 fun MarkdownView(
     markdownText: String,
     modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
     textSizeSp: Float = 16f
 ) {
     Card(
@@ -32,31 +33,41 @@ fun MarkdownView(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Text(
-            text = "DeepSeek趋势分析:",
+            text = "DeepSeek健康趋势分析:",
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
             color = Color.Black
         )
-        AndroidView(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp), // 内边距写在这里，避免父级溢出
-            factory = { context ->
-                TextView(context).apply {
-                    setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeSp)
-                    setLineSpacing(8f, 1.1f)
-                    setTextIsSelectable(true)
-                    movementMethod = LinkMovementMethod.getInstance()
-                    setTextColor(android.graphics.Color.BLACK)
+        if (isLoading && markdownText.isEmpty()) {
+            Text(
+                text = "生成中...",
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                color = Color.Black
+            )
+        } else {
+            AndroidView(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                factory = { context ->
+                    TextView(context).apply {
+                        setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeSp)
+                        setLineSpacing(8f, 1.1f)
+                        setTextIsSelectable(true)
+                        movementMethod = LinkMovementMethod.getInstance()
+                        setTextColor(android.graphics.Color.BLACK)
+                    }
+                },
+                update = {
+                    val markwon = Markwon.create(it.context)
+                    markwon.setMarkdown(it, markdownText)
                 }
-            },
-            update = {
-                val markwon = Markwon.create(it.context)
-                markwon.setMarkdown(it, markdownText)
-            }
-        )
+            )
+        }
     }
 }
 

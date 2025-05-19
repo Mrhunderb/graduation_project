@@ -13,7 +13,7 @@ interface HealthRecordDao {
     @Insert
     suspend fun insert(healthRecordData: HealthRecord): Long
 
-    @Query("SELECT * FROM health_record")
+    @Query("SELECT * FROM health_record ORDER BY date DESC")
     fun getAll(): Flow<List<HealthRecord>>
 
     @Query("SELECT * FROM health_record WHERE id = :id")
