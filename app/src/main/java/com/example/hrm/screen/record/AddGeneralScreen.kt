@@ -133,7 +133,9 @@ fun AddGeneralScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("新增常规项目") },
+                    title = {
+                        Text(if (isModified) "修改体检数据" else "添加体检数据")
+                    },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primary,
                     ),

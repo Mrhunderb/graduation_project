@@ -129,7 +129,9 @@ fun AddBloodScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("新增血常规") },
+                    title = {
+                        Text(if (isModified) "编辑血常规" else "添加血常规")
+                    },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primary,
                     ),

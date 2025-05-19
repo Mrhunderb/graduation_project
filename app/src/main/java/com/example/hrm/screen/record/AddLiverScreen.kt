@@ -106,7 +106,9 @@ fun AddLiverScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("新增肝功能") },
+                    title = {
+                        Text(if (isModified) "修改肝功能检查" else "添加肝功能检查")
+                    },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primary,
                     ),

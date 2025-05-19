@@ -120,7 +120,9 @@ fun AddXrayScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("新增CT") },
+                    title = {
+                        Text(if (isModified) "修改X光" else "添加X光")
+                    },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primary,
                     ),

@@ -136,7 +136,9 @@ fun AddUrineScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("新增尿常规") },
+                    title = {
+                        Text(if (isModified) "修改尿常规检查" else "添加尿常规检查")
+                    },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primary,
                     ),

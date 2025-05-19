@@ -67,7 +67,7 @@ fun RecordSelectScreen(
     var date by remember { mutableLongStateOf(0) }
     var hostpital by remember { mutableStateOf("") }
     val formatter = remember {
-        SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        SimpleDateFormat("yyyy年MM月dd日", Locale.getDefault())
     }
 
     var isLoading by remember { mutableStateOf(true) }
@@ -179,7 +179,6 @@ fun RecordSelectScreen(
                         }
                     }
                 }
-                Spacer(Modifier.height(16.dp))
                 if (isModify) {
                     OutlinedTextField(
                         value = hostpital,
@@ -189,10 +188,8 @@ fun RecordSelectScreen(
                         label = { Text("请输入体检医院的名称") },
                         modifier = Modifier.fillMaxWidth()
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -204,7 +201,6 @@ fun RecordSelectScreen(
                             }
                         )
                     }
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
 
                 Button(

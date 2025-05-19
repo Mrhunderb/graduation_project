@@ -133,11 +133,12 @@ fun AddEcgScreen(
             CircularProgressIndicator()
         }
     } else {
-
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("新增心电图") },
+                    title = {
+                        Text(text = if (isModified) "修改心电图" else "添加心电图")
+                    },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primary,
                     ),
