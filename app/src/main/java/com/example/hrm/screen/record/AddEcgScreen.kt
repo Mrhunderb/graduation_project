@@ -94,12 +94,12 @@ fun AddEcgScreen(
                 if (it != null) {
                     isModified = true
                     data = it
-                    heartRate = it.heartRate.toString()
-                    qrs = it.qrs.toString()
+                    heartRate = it.heartRate?.toString() ?: ""
+                    qrs = it.qrs?.toString() ?: ""
                     prInterval = it.prInterval.toString()
-                    qtInterval = it.qtInterval.toString()
-                    qtcInterval = it.qtcInterval.toString()
-                    diagnosis = it.result.toString()
+                    qtInterval = it.qtInterval?.toString() ?: ""
+                    qtcInterval = it.qtcInterval?.toString() ?: ""
+                    diagnosis = it.result?.toString() ?: ""
                     selectedImageUri = it.imagePath?.toUri()
                 }
                 isLoading = false

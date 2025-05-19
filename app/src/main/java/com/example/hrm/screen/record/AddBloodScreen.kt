@@ -15,7 +15,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.hrm.db.HealthViewModel
 import com.example.hrm.db.entity.BloodData
-import com.example.hrm.db.entity.GeneralPhysical
 import kotlin.text.toFloatOrNull
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,33 +66,33 @@ fun AddBloodScreen(
                 if (it != null) {
                     isModified = true
                     data.value = it
-                    wbc = it.wbc.toString()
-                    granPercent = it.granPercent.toString()
-                    lymPercent = it.lymPercent.toString()
-                    monoPercent = it.monoPercent.toString()
-                    eosPercent = it.eosPercent.toString()
-                    basoPercent = it.basoPercent.toString()
-                    granAbs = it.granAbs.toString()
-                    lymAbs = it.lymAbs.toString()
-                    monoAbs = it.monoAbs.toString()
-                    eosAbs = it.eosAbs.toString()
-                    basoAbs = it.basoAbs.toString()
+                    wbc = it.wbc?.toString() ?: ""
+                    granPercent = it.granPercent?.toString() ?: ""
+                    lymPercent = it.lymPercent?.toString() ?: ""
+                    monoPercent = it.monoPercent?.toString() ?: ""
+                    eosPercent = it.eosPercent?.toString() ?: ""
+                    basoPercent = it.basoPercent?.toString() ?: ""
+                    granAbs = it.granAbs?.toString() ?: ""
+                    lymAbs = it.lymAbs?.toString() ?: ""
+                    monoAbs = it.monoAbs?.toString() ?: ""
+                    eosAbs = it.eosAbs?.toString() ?: ""
+                    basoAbs = it.basoAbs?.toString() ?: ""
 
                     rbc = it.rbc.toString()
-                    hb = it.hb.toString()
-                    hct = it.hct.toString()
-                    mcv = it.mcv.toString()
-                    mch = it.mch.toString()
-                    mchc = it.mchc.toString()
+                    hb = it.hb?.toString() ?: ""
+                    hct = it.hct?.toString() ?: ""
+                    mcv = it.mcv?.toString() ?: ""
+                    mch = it.mch?.toString() ?: ""
+                    mchc = it.mchc?.toString() ?: ""
 
-                    rdwSd = it.rdwSd.toString()
-                    rdwCv = it.rdwCv.toString()
+                    rdwSd = it.rdwSd?.toString() ?: ""
+                    rdwCv = it.rdwCv?.toString() ?: ""
 
-                    plt = it.plt.toString()
-                    mpv = it.mpv.toString()
-                    pct = it.pct.toString()
-                    pdw = it.pdw.toString()
-                    plcr = it.plcr.toString()
+                    plt = it.plt?.toString() ?: ""
+                    mpv = it.mpv?.toString() ?: ""
+                    pct = it.pct?.toString() ?: ""
+                    pdw = it.pdw?.toString() ?: ""
+                    plcr = it.plcr?.toString() ?: ""
                 }
                 isLoading = false
             }
@@ -153,36 +152,36 @@ fun AddBloodScreen(
             ) {
                 // 白细胞部分
                 Text("白细胞相关", style = MaterialTheme.typography.titleMedium)
-                InputField(label = "白细胞计数 (WBC) 单位 10^9L", value = wbc) { wbc = it }
-                InputField(label = "中性粒细胞百分比 (GRAN%)", value = granPercent) {
+                OutlinedTextField(label = "白细胞计数 (WBC) 单位 10^9L", value = wbc) { wbc = it }
+                OutlinedTextField(label = "中性粒细胞百分比 (GRAN%)", value = granPercent) {
                     granPercent = it
                 }
-                InputField(label = "淋巴细胞百分比 (LYM%)", value = lymPercent) { lymPercent = it }
-                InputField(label = "单核细胞百分比 (Mono%)", value = monoPercent) {
+                OutlinedTextField(label = "淋巴细胞百分比 (LYM%)", value = lymPercent) { lymPercent = it }
+                OutlinedTextField(label = "单核细胞百分比 (Mono%)", value = monoPercent) {
                     monoPercent = it
                 }
-                InputField(label = "嗜酸性粒细胞百分比 (Eos%)", value = eosPercent) {
+                OutlinedTextField(label = "嗜酸性粒细胞百分比 (Eos%)", value = eosPercent) {
                     eosPercent = it
                 }
-                InputField(
+                OutlinedTextField(
                     label = "嗜碱性粒细胞百分比 (Baso%)",
                     value = basoPercent
                 ) { basoPercent = it }
-                InputField(
+                OutlinedTextField(
                     label = "中性粒细胞绝对值 (GRAN#) 单位 10^9L",
                     value = granAbs
                 ) { granAbs = it }
-                InputField(label = "淋巴细胞绝对值 (LYM#) 单位 10^9L", value = lymAbs) {
+                OutlinedTextField(label = "淋巴细胞绝对值 (LYM#) 单位 10^9L", value = lymAbs) {
                     lymAbs = it
                 }
-                InputField(label = "单核细胞绝对值 (Mono#) 单位 10^9L", value = monoAbs) {
+                OutlinedTextField(label = "单核细胞绝对值 (Mono#) 单位 10^9L", value = monoAbs) {
                     monoAbs = it
                 }
-                InputField(
+                OutlinedTextField(
                     label = "嗜酸性粒细胞绝对值 (Eos#) 单位 10^9L",
                     value = eosAbs
                 ) { eosAbs = it }
-                InputField(
+                OutlinedTextField(
                     label = "嗜碱性粒细胞绝对值 (Baso#) 单位 10^9L",
                     value = basoAbs
                 ) { basoAbs = it }
@@ -190,29 +189,29 @@ fun AddBloodScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text("红细胞相关", style = MaterialTheme.typography.titleMedium)
-                InputField(label = "红细胞计数 (RBC) 单位 10^9L", value = rbc) { rbc = it }
-                InputField(label = "血红蛋白 (Hb) 单位 g/L", value = hb) { hb = it }
-                InputField(label = "红细胞比容 (HCT) 单位 %", value = hct) { hct = it }
-                InputField(label = "红细胞分布宽度-SD (RDW-SD) 单位 fL", value = rdwSd) {
+                OutlinedTextField(label = "红细胞计数 (RBC) 单位 10^9L", value = rbc) { rbc = it }
+                OutlinedTextField(label = "血红蛋白 (Hb) 单位 g/L", value = hb) { hb = it }
+                OutlinedTextField(label = "红细胞比容 (HCT) 单位 %", value = hct) { hct = it }
+                OutlinedTextField(label = "红细胞分布宽度-SD (RDW-SD) 单位 fL", value = rdwSd) {
                     rdwSd = it
                 }
-                InputField(label = "红细胞分布宽度-CV (RDW-CV) 单位 %", value = rdwCv) {
+                OutlinedTextField(label = "红细胞分布宽度-CV (RDW-CV) 单位 %", value = rdwCv) {
                     rdwCv = it
                 }
-                InputField(label = "平均红细胞体积 (MCV) 单位 fL", value = mcv) { mcv = it }
-                InputField(label = "平均红细胞血红蛋白 (MCH) 单位 pg", value = mch) { mch = it }
-                InputField(label = "平均红细胞血红蛋白浓度 (MCHC) 单位 g/L", value = mchc) {
+                OutlinedTextField(label = "平均红细胞体积 (MCV) 单位 fL", value = mcv) { mcv = it }
+                OutlinedTextField(label = "平均红细胞血红蛋白 (MCH) 单位 pg", value = mch) { mch = it }
+                OutlinedTextField(label = "平均红细胞血红蛋白浓度 (MCHC) 单位 g/L", value = mchc) {
                     mchc = it
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text("血小板相关", style = MaterialTheme.typography.titleMedium)
-                InputField(label = "血小板计数 (PLT) 单位 10^9L", value = plt) { plt = it }
-                InputField(label = "平均血小板体积 (MPV) 单位 fL", value = mpv) { mpv = it }
-                InputField(label = "血小板体积 (PCT) 单位 %", value = pct) { pct = it }
-                InputField(label = "血小板分布宽度 (PDW) 单位 fL", value = pdw) { pdw = it }
-                InputField(label = "大血小板比率 (P-LCR)", value = plcr) { plcr = it }
+                OutlinedTextField(label = "血小板计数 (PLT) 单位 10^9L", value = plt) { plt = it }
+                OutlinedTextField(label = "平均血小板体积 (MPV) 单位 fL", value = mpv) { mpv = it }
+                OutlinedTextField(label = "血小板体积 (PCT) 单位 %", value = pct) { pct = it }
+                OutlinedTextField(label = "血小板分布宽度 (PDW) 单位 fL", value = pdw) { pdw = it }
+                OutlinedTextField(label = "大血小板比率 (P-LCR)", value = plcr) { plcr = it }
 
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -265,7 +264,7 @@ fun AddBloodScreen(
 }
 
 @Composable
-fun InputField(label: String, value: String, onValueChange: (String) -> Unit) {
+fun OutlinedTextField(label: String, value: String, onValueChange: (String) -> Unit) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,

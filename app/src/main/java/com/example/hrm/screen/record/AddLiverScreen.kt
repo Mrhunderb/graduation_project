@@ -69,8 +69,8 @@ fun AddLiverScreen(
                 if (it != null) {
                     isModified = true
                     data.value = it
-                    ast = it.ast.toString()
-                    alt = it.alt.toString()
+                    ast = it.ast?.toString() ?: ""
+                    alt = it.alt?.toString() ?: ""
                 }
                 isLoading = false
             }

@@ -95,11 +95,11 @@ fun AddUrineScreen(
                     bil.value = it.bil.toString()
                     bld.value = it.bld.toString()
                     wbc.value = it.wbc.toString()
-                    ph.value = it.ph.toString()
+                    ph.value = it.ph?.toString() ?: ""
                     nit.value = it.nit.toString()
                     glu.value = it.glu.toString()
                     vc.value = it.vc.toString()
-                    sg.value = it.sg.toString()
+                    sg.value = it.sg?.toString() ?: ""
                     pro.value = it.pro.toString()
                 }
                 isLoading = false
