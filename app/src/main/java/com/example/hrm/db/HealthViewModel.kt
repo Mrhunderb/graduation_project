@@ -233,6 +233,10 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    fun isUserTableNotEmpty(): Boolean {
+        return users.value.isNotEmpty()
+    }
+
     private val aiService = AiChatService()
 
     private val _responseText = MutableStateFlow("")

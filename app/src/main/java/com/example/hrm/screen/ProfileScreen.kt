@@ -2,6 +2,7 @@ package com.example.hrm.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
@@ -20,12 +21,12 @@ import com.example.hrm.db.HealthViewModel
 fun ProfileScreen(
     userViewModel: HealthViewModel = viewModel()
 ) {
-    val users = userViewModel.users.collectAsState()
-    val user = users.value.firstOrNull()
+    val user = userViewModel.users.collectAsState().value.firstOrNull()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Profile Image
@@ -33,7 +34,7 @@ fun ProfileScreen(
             modifier = Modifier
                 .size(120.dp)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .background(MaterialTheme.colorScheme.surfaceVariant),
         ) {
             Icon(
                 imageVector = Icons.Default.Person,
@@ -62,12 +63,12 @@ fun ProfileScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 InfoRow("姓名", user?.name ?: "未设置")
-                InfoRow("年龄", user?.age.toString())
-                InfoRow("性别", if (user?.gender == "M") "男" else if (user?.gender == "F") "女" else "未设置")
+                InfoRow("年龄", (user?.age ?: "未设置").toString())
+                InfoRow("性别", user?.gender ?: "未设置")
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
         Button(
             onClick = {
