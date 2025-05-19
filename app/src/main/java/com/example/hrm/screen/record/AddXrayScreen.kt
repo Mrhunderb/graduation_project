@@ -42,7 +42,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -50,7 +49,6 @@ import androidx.navigation.NavController
 import coil3.compose.rememberAsyncImagePainter
 import com.example.hrm.db.HealthViewModel
 import com.example.hrm.db.entity.CtScan
-import com.example.hrm.db.entity.Ecg
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
