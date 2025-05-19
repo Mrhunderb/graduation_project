@@ -22,11 +22,11 @@ import com.aallam.openai.api.chat.ChatCompletionChunk
 import com.aallam.openai.api.chat.ChatCompletionRequest
 import com.aallam.openai.api.chat.ChatMessage
 import com.aallam.openai.api.chat.ChatRole
-import com.aallam.openai.api.chat.StreamOptions
 import com.aallam.openai.api.http.Timeout
 import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
 import com.aallam.openai.client.OpenAIHost
+import com.example.hrm.service.AiChatService
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
@@ -108,27 +108,13 @@ fun RbcLineChart(records: List<BloodRecord>) {
         }
     )
     var responseText by remember { mutableStateOf("") }
+    val aiService = AiChatService()
+    val systemPrompt = "你是一个医学顾问，请提供关于血液检查结果的分析和建议"
+    val userInput = "红细胞计数先下降后上升再下降，是怎么回事？"
+
     LaunchedEffect(true) {
-        val openai = OpenAI(
-            host = OpenAIHost("https://api.deepseek.com/v1/"),
-            token = "sk-b0f00d21928c48c895db9bdce139c705",
-            timeout = Timeout(socket = 60.seconds),
-        )
-        val chatCompletionRequest = ChatCompletionRequest(
-            model = ModelId("deepseek-chat"),
-            messages = listOf(
-                ChatMessage(
-                    role = ChatRole.System,
-                    content = "告诉我关于红细胞计数的变化趋势的原因，以及给出一般性的建议比如在生活中应该注意什么或饮食方面应该注意什么"
-                ),
-                ChatMessage(
-                    role = ChatRole.User,
-                    content = "先降低红细胞计数，然后升高，最后又降低。"
-                )
-            ),
-        )
-        val completions: Flow<ChatCompletionChunk> = openai.chatCompletions(chatCompletionRequest)
-        completions.collect { chunk ->
+        val flow = aiService.askQuestion(systemPrompt, userInput)
+        flow.collect { chunk ->
             val message = chunk.choices.first().delta?.content
             if (message != null) {
                 responseText += message
@@ -138,7 +124,7 @@ fun RbcLineChart(records: List<BloodRecord>) {
     Text(
         text = responseText,
         style = MaterialTheme.typography.bodyMedium,
-        modifier = Modifier.padding(20.dp)
+        modifier = Modifier.padding(24.dp)
     )
 }
 
