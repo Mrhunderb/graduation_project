@@ -37,7 +37,7 @@ fun MultiLineChart(
                 Tab(
                     selected = selectedType.ordinal == index,
                     onClick = { selectedType = type },
-                    text = { Text(type.label) }
+                    text = { Text(type.name) } // Show concise name in tabs
                 )
             }
         }
@@ -59,36 +59,39 @@ fun MultiLineChart(
             },
             update = { chart ->
                 val records = chartData[selectedType] ?: emptyList()
-                val entries = records.mapIndexed { index, record ->
-                    Entry(index.toFloat(), record.value)
+                if (records.isNotEmpty()) {
+                    val entries = records.mapIndexed { index, record ->
+                        Entry(index.toFloat(), record.value)
+                    }
+                    val dataSet = LineDataSet(entries, selectedType.label).apply {
+                        color = selectedType.color.toArgb()
+                        valueTextColor = Color.Black.toArgb()
+                        lineWidth = 2f
+                        setDrawCircles(true)
+                        setDrawValues(true)
+                        circleRadius = 4f
+                        circleHoleRadius = 2f
+                    }
+                    val labels = records.map { it.date }
+                    chart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+                    chart.data = LineData(dataSet)
+                } else {
+                    chart.clear()
                 }
-                val dataSet = LineDataSet(entries, selectedType.label).apply {
-                    color = Color.Red.toArgb()
-                    valueTextColor = Color.Black.toArgb()
-                    lineWidth = 2f
-                    setDrawCircles(true)
-                    setDrawValues(true)
-                    circleRadius = 4f
-                    circleHoleRadius = 2f
-                }
-                val labels = records.map { it.date }
-                chart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
-                chart.data = LineData(dataSet)
                 chart.invalidate()
             }
         )
     }
 }
 
-enum class ChartType(val label: String) {
-    RBC("RBC"),
-    HB("Hb"),
-    HCT("HCT"),
-    MCV("MCV"),
+enum class ChartType(name: String, val label: String, val color: Color) {
+    RBC("RBC", "红细胞计数 RBC (10¹²/L)", Color.Red),
+    HB("Hb", "血红蛋白 Hb (g/L)", Color.Blue),
+    HCT("HCT", "红细胞比容 HCT (%)", Color.Green),
+    MCV("MCV", "平均红细胞体积 MCV (fl)", Color.Magenta)
 }
 
 data class BloodRecord(
     val date: String,
     val value: Float
 )
-
