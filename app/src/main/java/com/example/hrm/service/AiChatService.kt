@@ -28,7 +28,7 @@ class AiChatService {
      */
     fun askQuestion(
         systemPrompt: String,
-        userInput: String
+        userInput: String,
     ): Flow<ChatCompletionChunk> {
         val request = ChatCompletionRequest(
             model = ModelId("deepseek-chat"),

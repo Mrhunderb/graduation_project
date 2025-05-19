@@ -22,7 +22,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -100,7 +99,7 @@ fun HomeScreen(navController: NavController) {
             when (selectedTab) {
                 0 -> RecordScreen(navController)
                 1 -> AnalyseScreen(navController)
-                2 -> TrendScreen()
+                2 -> TrendScreen(navController)
                 3 -> ProfileScreen()
             }
         }

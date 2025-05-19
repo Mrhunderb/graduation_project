@@ -12,6 +12,8 @@ import com.example.hrm.db.entity.GeneralPhysical
 import com.example.hrm.db.entity.HealthRecord
 import com.example.hrm.db.entity.LiverData
 import com.example.hrm.db.entity.UrineRoutine
+import com.example.hrm.service.AiChatService
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -25,6 +27,13 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
     private val healthDao = db.healthRecordDao()
 
     val record : StateFlow<List<HealthRecord>> = healthDao.getAll()
+        .stateIn(
+            viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
+        )
+
+    val bloodRecord : StateFlow<List<BloodData>> = db.bloodDataDao().getAll()
         .stateIn(
             viewModelScope,
             started = SharingStarted.Lazily,
@@ -202,6 +211,22 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
     fun saveImage(uri: Uri): String? {
         val context = getApplication<Application>().applicationContext
         return saveImageToInternalStorage(context, uri)
+    }
+
+
+    private val aiService = AiChatService()
+
+    private val _responseText = MutableStateFlow("")
+    val responseText: StateFlow<String> = _responseText
+
+    fun askAi(systemPrompt: String, userInput: String) {
+        _responseText.value = ""
+        viewModelScope.launch {
+            aiService.askQuestion(systemPrompt, userInput).collect { chunk ->
+                val delta = chunk.choices.first().delta?.content ?: ""
+                _responseText.value += delta
+            }
+        }
     }
 
     private fun saveImageToInternalStorage(context: Context, uri: Uri): String? {

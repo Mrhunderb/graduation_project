@@ -1,33 +1,35 @@
 package com.example.hrm.screen
 
-import android.widget.TextView
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.hrm.component.MarkdownView
-import com.example.hrm.service.AiChatService
+import com.example.hrm.db.HealthViewModel
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 
 @Composable
-fun TrendScreen() {
+fun TrendScreen(
+    navController: NavController,
+    viewModel: HealthViewModel = viewModel(),
+) {
     val sampleData = listOf(
         BloodRecord("2025-01", 4.3f),
         BloodRecord("2025-02", 4.5f),
@@ -40,10 +42,12 @@ fun TrendScreen() {
         BloodRecord("2025-09", 4.1f),
         BloodRecord("2025-10", 4.3f),
     )
+    val response by viewModel.responseText.collectAsState()
+    var scrollState = rememberScrollState()
 
     Column(
         modifier = Modifier
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(scrollState)
             .padding(16.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -51,6 +55,24 @@ fun TrendScreen() {
         Text("红细胞计数变化曲线", style = MaterialTheme.typography.titleMedium)
         Spacer(modifier = Modifier.height(8.dp))
         RbcLineChart(sampleData)
+        val systemPrompt = "你是一个医学顾问，请提供关于血常规的趋势（日期和数值）给出一共两点：1.趋势的分析 2.尤其是生活上建议"
+        val userInput = sampleData.joinToString(", ") { "日期：${it.date}, rbc的值:${it.value}" }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        TextButton(
+            onClick = {
+                viewModel.askAi(systemPrompt, userInput)
+            },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text("获取分析建议")
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        MarkdownView(
+            markdownText = response,
+            modifier = Modifier
+                .fillMaxSize()
+        )
     }
 }
 
@@ -99,23 +121,5 @@ fun RbcLineChart(records: List<BloodRecord>) {
             chart.invalidate()
         }
     )
-    var responseText by remember { mutableStateOf("") }
-    val aiService = AiChatService()
-    val systemPrompt = "你是一个医学顾问，请提供关于血常规的趋势（日期和数值）给出一共两点：1.趋势的分析 2.尤其是生活上建议"
-    val userInput = records.joinToString(", ") { "日期：${it.date}, rbc的值:${it.value}" }
-
-    LaunchedEffect(true) {
-        val flow = aiService.askQuestion(systemPrompt, userInput)
-        flow.collect { chunk ->
-            val message = chunk.choices.first().delta?.content
-            if (message != null) {
-                responseText += message
-            }
-        }
-    }
-    Spacer(modifier = Modifier.height(16.dp))
-    Text("AI分析结果", style = MaterialTheme.typography.titleMedium)
-    Spacer(modifier = Modifier.height(8.dp))
-    MarkdownView(responseText)
 }
 
