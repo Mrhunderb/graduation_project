@@ -55,6 +55,10 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
             initialValue = null
         )
 
+    suspend fun getLatestRecord(): HealthRecord? {
+        return db.healthRecordDao().getLatestRecord()
+    }
+
 
     suspend fun addRecord(time: Date, hospital: String): Long {
         return db.healthRecordDao().insert(
@@ -116,11 +120,8 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun getGeneralDataById(id: Long): GeneralPhysical? {
-        var record: GeneralPhysical? = null
-        viewModelScope.launch {
-            record = db.generalPhysicalDao().getById(id)
-        }
+    suspend fun getGeneralDataById(id: Long): GeneralPhysical? {
+        var record = db.generalPhysicalDao().getById(id)
         return record
     }
 
@@ -143,11 +144,8 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun getBloodDataById(id: Long) : BloodData? {
-        var record: BloodData? = null
-        viewModelScope.launch {
-            record = db.bloodDataDao().getById(id)
-        }
+    suspend fun getBloodDataById(id: Long) : BloodData? {
+        var record = db.bloodDataDao().getById(id)
         return record
     }
 
@@ -171,11 +169,8 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun getUrineDataById(id: Long): UrineRoutine? {
-        var record: UrineRoutine? = null
-        viewModelScope.launch {
-            record = db.urineRoutineDao().getById(id)
-        }
+    suspend fun getUrineDataById(id: Long): UrineRoutine? {
+        var record = db.urineRoutineDao().getById(id)
         return record
     }
 
@@ -199,11 +194,8 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun getLiverDataById(id: Long): LiverData? {
-        var record: LiverData? = null
-        viewModelScope.launch {
-            record = db.liverDataDao().getById(id)
-        }
+    suspend fun getLiverDataById(id: Long): LiverData? {
+        var record = db.liverDataDao().getById(id)
         return record
     }
 
@@ -222,11 +214,8 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun getEcgDataById(id: Long): Ecg? {
-        var record: Ecg? = null
-        viewModelScope.launch {
-            record = db.ecgDao().getById(id)
-        }
+    suspend fun getEcgDataById(id: Long): Ecg? {
+        var record = db.ecgDao().getById(id)
         return record
     }
 
