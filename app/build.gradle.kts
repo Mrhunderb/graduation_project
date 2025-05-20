@@ -63,8 +63,11 @@ dependencies {
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.android)
 
-    // markdowm
+    // markdown
     implementation(libs.core)
+
+    // pdf
+    implementation(libs.itext7.core)
 
     implementation(libs.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
