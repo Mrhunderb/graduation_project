@@ -52,16 +52,14 @@ class PdfReportGenerator(private val context: Context) {
                     .setBold()
                     .setTextAlignment(TextAlignment.CENTER)
             )
-            document.add(
-                Paragraph("报告生成时间: ${SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date())}")
-                    .addStyle(baseStyle)
-            )
             document.add(Paragraph("\n"))
 
             // 用户信息
             document.add(Paragraph("个人信息").setFontSize(18f).setBold().addStyle(baseStyle))
             val userTable = Table(UnitValue.createPercentArray(floatArrayOf(30f, 70f))).apply {
-                useAllAvailableWidth()
+                setWidth(UnitValue.createPercentValue(60f))
+                setTextAlignment(TextAlignment.LEFT)
+                setHorizontalAlignment(com.itextpdf.layout.properties.HorizontalAlignment.CENTER)
                 addTableRow("姓名", user?.name ?: "未设置", baseStyle)
                 addTableRow("年龄", user?.age?.toString() ?: "未设置", baseStyle)
                 addTableRow("性别", user?.gender ?: "未设置", baseStyle)
@@ -75,9 +73,8 @@ class PdfReportGenerator(private val context: Context) {
                 document.add(Paragraph("检查日期: ${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(latestRecord.date)}").addStyle(baseStyle))
                 document.add(Paragraph("\n"))
 
-                // 一般体格
                 viewModel.getGeneralDataById(latestRecord.id)?.let { general ->
-                    document.add(Paragraph("一般体格检查").setFontSize(16f).setBold().addStyle(baseStyle))
+                    document.add(Paragraph("常规检查").setFontSize(16f).setBold().addStyle(baseStyle))
                     val table = Table(UnitValue.createPercentArray(floatArrayOf(30f, 70f))).apply {
                         useAllAvailableWidth()
                         addTableRow("身高", "${general.height ?: "未测量"} cm", baseStyle)
@@ -90,9 +87,8 @@ class PdfReportGenerator(private val context: Context) {
                     document.add(Paragraph("\n"))
                 }
 
-                // 血常规
                 viewModel.getBloodDataById(latestRecord.id)?.let { blood ->
-                    document.add(Paragraph("血液常规检查").setFontSize(16f).setBold().addStyle(baseStyle))
+                    document.add(Paragraph("血常规检查").setFontSize(16f).setBold().addStyle(baseStyle))
                     val table = Table(UnitValue.createPercentArray(floatArrayOf(30f, 70f))).apply {
                         useAllAvailableWidth()
                         addTableRow("红细胞计数 (RBC)", "${blood.rbc ?: "未测量"} 10^12/L", baseStyle)
@@ -132,6 +128,10 @@ class PdfReportGenerator(private val context: Context) {
                 document.add(Paragraph("暂无检查记录").setFontSize(16f).addStyle(baseStyle))
             }
 
+            document.add(
+                Paragraph("报告生成时间: ${SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date())}")
+                    .addStyle(baseStyle)
+            )
             document.close()
             Result.success(pdfFile)
         } catch (e: Exception) {
