@@ -227,6 +227,7 @@ fun TrendScreen(
                 isLoading = true
                 viewModel.askAi(systemPrompt, userInput)
             },
+            enabled = userInput.isNotEmpty(),
             modifier = Modifier.fillMaxWidth(),
         ) {
             Text("获取分析建议")

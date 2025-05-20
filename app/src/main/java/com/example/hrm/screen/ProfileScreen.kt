@@ -29,7 +29,6 @@ fun ProfileScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Profile Image
         Box(
             modifier = Modifier
                 .size(120.dp)

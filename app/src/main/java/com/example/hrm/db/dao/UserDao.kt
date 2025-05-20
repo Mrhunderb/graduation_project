@@ -7,7 +7,6 @@ import androidx.room.Query
 import androidx.room.Update
 import com.example.hrm.db.entity.User
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.firstOrNull
 
 @Dao
 interface UserDao {
@@ -17,6 +16,8 @@ interface UserDao {
     @Query("SELECT * FROM user")
     fun getAll(): Flow<List<User>>
 
+    @Query("SELECT COUNT(*) FROM user")
+    suspend fun getCount(): Int
     @Query("SELECT * FROM user WHERE id = :id")
     suspend fun getById(id: Long): User?
 

@@ -233,8 +233,8 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun isUserTableNotEmpty(): Boolean {
-        return users.value.isNotEmpty()
+    suspend fun isUserEmpty(): Boolean {
+        return db.userDao().getCount() == 0
     }
 
     private val aiService = AiChatService()

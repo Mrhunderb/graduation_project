@@ -4,14 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.LaunchedEffect
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.hrm.db.HealthViewModel
 import com.example.hrm.screen.user.AddUserScreen
 import com.example.hrm.screen.AnalyseScreen
 import com.example.hrm.screen.ProfileScreen
@@ -32,17 +29,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyAppTheme {
                 val navController = rememberNavController()
-                val viewModel: HealthViewModel = viewModel()
 
-                LaunchedEffect(Unit) {
-                    val userExists = viewModel.isUserTableNotEmpty()
-                    if (!userExists) {
-                        navController.navigate("add_user")
-                    }
-                }
                 NavHost(navController, startDestination = "home") {
-                    composable("add_user") { AddUserScreen(navController) }
                     composable("home") { HomeScreen(navController) }
+                    composable("add_user") { AddUserScreen(navController) }
                     composable("discover") { AnalyseScreen(navController) }
                     composable("profile") { ProfileScreen() }
                     composable("add") { AddRecordScreen(navController) }
