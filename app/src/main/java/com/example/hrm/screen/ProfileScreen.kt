@@ -1,5 +1,10 @@
 package com.example.hrm.screen
 
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
@@ -13,15 +18,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.hrm.db.HealthViewModel
+import com.example.hrm.service.PdfReportGenerator
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen(
@@ -30,17 +39,27 @@ fun ProfileScreen(
 ) {
     val user = userViewModel.users.collectAsState().value.firstOrNull()
     var isLoading by remember { mutableStateOf(true) }
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    // Create a launcher for sharing the generated PDF
+    val shareLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { /* No action needed after sharing */ }
+
     LaunchedEffect(user) {
         if (user != null) {
             isLoading = false
         }
     }
+
     if (isLoading) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
         return
     }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -48,6 +67,7 @@ fun ProfileScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Profile icon and info display code remains unchanged
         Box(
             modifier = Modifier
                 .size(120.dp)
@@ -101,7 +121,17 @@ fun ProfileScreen(
 
         Button(
             onClick = {
-                // TODO
+                coroutineScope.launch {
+                    val generator = PdfReportGenerator(context)
+                    val result = generator.generate(userViewModel, user)
+                    result.onSuccess { file ->
+                        val uri = generator.getUri(file)
+                        shareFile(uri, shareLauncher)
+                    }.onFailure {
+                        Toast.makeText(context, "生成失败: ${it.message}", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -132,3 +162,11 @@ private fun InfoRow(label: String, value: String) {
     }
 }
 
+fun shareFile(uri: Uri, launcher: androidx.activity.result.ActivityResultLauncher<Intent>) {
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "application/pdf"
+        putExtra(Intent.EXTRA_STREAM, uri)
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    }
+    launcher.launch(Intent.createChooser(intent, "分享健康报告"))
+}
