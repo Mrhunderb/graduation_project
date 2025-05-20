@@ -22,19 +22,16 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -136,8 +133,8 @@ fun AddLiverScreen(
                         value = value,
                         onValueChange = {
                             when (label) {
-                                "天冬氨酸氨基转移酶 (AST)" -> ast = it
-                                "丙氨酸氨基转移酶 (ALT)" -> alt = it
+                                "谷丙转氨酶 (AST)" -> ast = it
+                                "谷草转氨酶 (ALT)" -> alt = it
                             }
                         },
                         label = { Text(label) },
