@@ -23,7 +23,7 @@ interface HealthRecordDao {
     fun getLatest(): Flow<HealthRecord?>
 
     @Query("SELECT * FROM health_record ORDER BY date DESC LIMIT 1")
-    fun getLatestRecord(): HealthRecord?
+    suspend fun getLatestRecord(): HealthRecord?
 
     @Delete
     suspend fun delete(healthRecordData: HealthRecord)

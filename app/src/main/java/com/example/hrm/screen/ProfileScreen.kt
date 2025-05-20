@@ -32,6 +32,7 @@ import com.example.hrm.db.HealthViewModel
 import com.example.hrm.service.PdfReportGenerator
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     navController: NavController,
@@ -39,6 +40,7 @@ fun ProfileScreen(
 ) {
     val user = userViewModel.users.collectAsState().value.firstOrNull()
     var isLoading by remember { mutableStateOf(true) }
+    var isGeneratingPdf by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
@@ -121,6 +123,7 @@ fun ProfileScreen(
 
         Button(
             onClick = {
+                isGeneratingPdf = true
                 coroutineScope.launch {
                     val generator = PdfReportGenerator(context)
                     val result = generator.generate(userViewModel, user)
@@ -130,12 +133,13 @@ fun ProfileScreen(
                     }.onFailure {
                         Toast.makeText(context, "生成失败: ${it.message}", Toast.LENGTH_SHORT).show()
                     }
-
+                    isGeneratingPdf = false
                 }
             },
+            enabled = !isGeneratingPdf,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("导出健康报告 (PDF)")
+            Text(if (isGeneratingPdf) "生成中..." else "导出健康报告(PDF)")
         }
     }
 }
