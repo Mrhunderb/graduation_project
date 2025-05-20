@@ -239,11 +239,8 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun getCtScanDataById(id: Long): CtScan? {
-        var record: CtScan? = null
-        viewModelScope.launch {
-            record = db.ctScanDao().getById(id)
-        }
+    suspend fun getCtScanDataById(id: Long): CtScan? {
+        var record = db.ctScanDao().getById(id)
         return record
     }
 

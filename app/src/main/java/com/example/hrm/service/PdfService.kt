@@ -8,14 +8,17 @@ import androidx.core.content.FileProvider
 import com.example.hrm.db.HealthViewModel
 import com.example.hrm.db.entity.User
 import com.itextpdf.io.font.PdfEncodings
+import com.itextpdf.io.image.ImageDataFactory
 import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.Style
 import com.itextpdf.layout.element.Cell
+import com.itextpdf.layout.element.Image
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
+import com.itextpdf.layout.properties.HorizontalAlignment
 import com.itextpdf.layout.properties.TextAlignment
 import com.itextpdf.layout.properties.UnitValue
 import kotlinx.coroutines.Dispatchers
@@ -54,26 +57,28 @@ class PdfReportGenerator(private val context: Context) {
             )
             document.add(Paragraph("\n"))
 
+            val latestRecord = withContext(Dispatchers.IO) {
+                viewModel.getLatestRecord()
+            }
             // 用户信息
             document.add(Paragraph("个人信息").setFontSize(18f).setBold().addStyle(baseStyle))
             val userTable = Table(UnitValue.createPercentArray(floatArrayOf(30f, 70f))).apply {
-                setWidth(UnitValue.createPercentValue(60f))
+                useAllAvailableWidth()
                 setTextAlignment(TextAlignment.LEFT)
-                setHorizontalAlignment(com.itextpdf.layout.properties.HorizontalAlignment.CENTER)
+                setHorizontalAlignment(HorizontalAlignment.CENTER)
                 addInfoRow("姓名", user?.name ?: "未设置", baseStyle)
                 addInfoRow("年龄", user?.age?.toString() ?: "未设置", baseStyle)
                 addInfoRow("性别", user?.gender ?: "未设置", baseStyle)
+                if (latestRecord != null) {
+                    addInfoRow("检查日期", SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(latestRecord.date), baseStyle)
+                }
             }
             document.add(userTable)
             document.add(Paragraph("\n"))
 
-            val latestRecord = withContext(Dispatchers.IO) {
-                viewModel.getLatestRecord()
-            }
             if (latestRecord != null) {
-                document.add(Paragraph("检查结果").setFontSize(18f).setBold().addStyle(baseStyle))
-                document.add(Paragraph("检查日期: ${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(latestRecord.date)}").addStyle(baseStyle))
                 document.add(Paragraph("\n"))
+                document.add(Paragraph("检查结果").setFontSize(18f).setBold().addStyle(baseStyle))
 
                 viewModel.getGeneralDataById(latestRecord.id)?.let { general ->
                     document.add(
@@ -125,6 +130,40 @@ class PdfReportGenerator(private val context: Context) {
                                 baseStyle
                             )
                             addTableRow(
+                                "淋巴细胞百分比 (LYM%)",
+                                "${blood.lymPercent ?: "未测量"}",
+                                "%",
+                                "20-45",
+                                "",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "单核细胞百分比 (Mono%)",
+                                "${blood.monoPercent ?: "未测量"}",
+                                "%",
+                                "2-10",
+                                "",
+                                baseStyle
+                            )
+                             // 嗜酸性粒细胞百分比 Eos%
+                            addTableRow(
+                                "嗜酸性粒细胞百分比 (Eos%)",
+                                "${blood.eosPercent ?: "未测量"}",
+                                "%",
+                                "0-6",
+                                "",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "嗜碱性粒细胞百分比 (Baso%)",
+                                "${blood.basoPercent ?: "未测量"}",
+                                "%",
+                                "0-2",
+                                "",
+                                baseStyle
+                            )
+
+                            addTableRow(
                                 "血红蛋白 (HB)",
                                 "${blood.hb ?: "未测量"}",
                                 "g/L",
@@ -133,10 +172,90 @@ class PdfReportGenerator(private val context: Context) {
                                 baseStyle
                             )
                             addTableRow(
+                                "红细胞比容 (HCT)",
+                                "${blood.hct ?: "未测量"}",
+                                "%",
+                                "40-50",
+                                "",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "平均红细胞体积 (MCV)",
+                                "${blood.mcv ?: "未测量"}",
+                                "fL",
+                                "80-100",
+                                "",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "平均血红蛋白含量 (MCH)",
+                                "${blood.mch ?: "未测量"}",
+                                "pg",
+                                "27-32",
+                                "",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "平均血红蛋白浓度 (MCHC)",
+                                "${blood.mchc ?: "未测量"}",
+                                "g/L",
+                                "320-360",
+                                "",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "红细胞分布宽度-标准差 (RDW-SD)",
+                                "${blood.rdwSd ?: "未测量"}",
+                                "fL",
+                                "39-46",
+                                "",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "红细胞分布宽度-变异系数 (RDW-CV)",
+                                "${blood.rdwCv ?: "未测量"}",
+                                "%",
+                                "11.5-14.5",
+                                "",
+                                baseStyle
+                            )
+                            addTableRow(
                                 "血小板计数 (PLT)",
                                 "${blood.plt ?: "未测量"}",
                                 "10^9/L",
                                 "100-300",
+                                "",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "平均血小板体积 (MPV)",
+                                "${blood.mpv ?: "未测量"}",
+                                "fL",
+                                "7.5-11.5",
+                                "",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "血小板压积 (PCT)",
+                                "${blood.pct ?: "未测量"}",
+                                "%",
+                                "0.1-0.3",
+                                "",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "血小板分布宽度 (PDW)",
+                                "${blood.pdw ?: "未测量"}",
+                                "fL",
+                                "9.0-14.0",
+                                "",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "大血小板比率 (P-LCR)",
+                                "${blood.plcr ?: "未测量"}",
+                                "%",
+                                "13-43",
                                 "",
                                 baseStyle
                             )
@@ -191,13 +310,38 @@ class PdfReportGenerator(private val context: Context) {
                     document.add(table)
                     document.add(Paragraph("\n"))
                 }
+                // 心电图
+                document.add(
+                    Paragraph("心电图").setFontSize(16f).setBold().addStyle(baseStyle)
+                )
+                viewModel.getEcgDataById(latestRecord.id)?.let { ecg ->
+                    addImageToPdf(document, ecg.imagePath)
+                    document.add(
+                        Paragraph("诊断结果: "+ ecg.result)
+                            .addStyle(baseStyle)
+                            .setTextAlignment(TextAlignment.CENTER)
+                    )
+                }
+
+                // 胸部X光
+                document.add(
+                    Paragraph("胸部X光").setFontSize(16f).setBold().addStyle(baseStyle)
+                )
+                viewModel.getCtScanDataById(latestRecord.id)?.let { ct ->
+                    addImageToPdf(document, ct.imagePath)
+                    document.add(
+                        Paragraph("诊断结果: "+ ct.result)
+                            .addStyle(baseStyle)
+                            .setTextAlignment(TextAlignment.CENTER)
+                    )
+                }
             } else {
                 document.add(Paragraph("暂无检查记录").setFontSize(16f).addStyle(baseStyle))
             }
 
             document.add(
                 Paragraph("报告生成时间: ${SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date())}")
-                    .addStyle(baseStyle)
+                    .addStyle(baseStyle).setTextAlignment(TextAlignment.LEFT)
             )
             document.close()
             Result.success(pdfFile)
@@ -239,6 +383,18 @@ class PdfReportGenerator(private val context: Context) {
         addCell(Cell().add(Paragraph("单位").addStyle(style).setBold()))
         addCell(Cell().add(Paragraph("参考范围").addStyle(style).setBold()))
         addCell(Cell().add(Paragraph("提示").addStyle(style).setBold()))
+    }
+
+    private fun addImageToPdf(document: Document, imagePath: String?) {
+        val imageData = ImageDataFactory.create(imagePath)
+        val image = Image(imageData).apply {
+            setHorizontalAlignment(HorizontalAlignment.CENTER) // 居中
+            scaleToFit(400f, 300f)
+            setMarginTop(16f)
+            setMarginBottom(16f)
+        }
+
+        document.add(image)
     }
 
 }
