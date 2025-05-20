@@ -190,7 +190,7 @@ fun TrendScreen(
                     ChartType.HCT to hctList,
                     ChartType.MCV to mcvList
                 )
-                MultiLineChart(redBloodCellData)
+                MultiLineChart(redBloodCellData, ChartType.RBC)
                 userInput += rbcList.joinToString(", ") { "日期：${it.date}, rbc的值:${it.value}" }
                 userInput += hbList.joinToString(", ") { "日期：${it.date}, hb的值:${it.value}" }
                 userInput += hctList.joinToString(", ") { "日期：${it.date}, hct的值:${it.value}" }
@@ -202,7 +202,7 @@ fun TrendScreen(
                     ChartType.LYMPH to lymphList,
                     ChartType.MONO to monoList
                 )
-                MultiLineChart(whiteBloodCellData)
+                MultiLineChart(whiteBloodCellData, ChartType.WBC)
                 userInput += wbcList.joinToString(", ") { "日期：${it.date}, wbc的值:${it.value}" }
                 userInput += lymphList.joinToString(", ") { "日期：${it.date}, lym的值:${it.value}" }
                 userInput += monoList.joinToString(", ") { "日期：${it.date}, mono的值:${it.value}" }
@@ -213,7 +213,7 @@ fun TrendScreen(
                     ChartType.MPV to mpvList,
                     ChartType.PDW to pdwList
                 )
-                MultiLineChart(plateletData)
+                MultiLineChart(plateletData, ChartType.PLT)
                 userInput += pltList.joinToString(", ") { "日期：${it.date}, plt的值:${it.value}" }
                 userInput += mpvList.joinToString(", ") { "日期：${it.date}, mpv的值:${it.value}" }
                 userInput += pdwList.joinToString(", ") { "日期：${it.date}, pdw的值:${it.value}" }

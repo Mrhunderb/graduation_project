@@ -9,6 +9,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,9 +28,10 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 @Composable
 fun MultiLineChart(
     chartData: Map<ChartType, List<BloodRecord>>,
+    selectedType: ChartType,
     modifier: Modifier = Modifier
 ) {
-    var selectedType by remember { mutableStateOf(ChartType.RBC) }
+    var selectedType by remember { mutableStateOf(selectedType) }
 
     Column(modifier = modifier.padding(16.dp)) {
         TabRow(selectedTabIndex = selectedType.ordinal) {
