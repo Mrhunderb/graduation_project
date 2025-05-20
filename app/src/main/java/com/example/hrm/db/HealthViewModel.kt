@@ -116,6 +116,14 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    fun getGeneralDataById(id: Long): GeneralPhysical? {
+        var record: GeneralPhysical? = null
+        viewModelScope.launch {
+            record = db.generalPhysicalDao().getById(id)
+        }
+        return record
+    }
+
     fun addBloodData(bloodData: BloodData) {
         viewModelScope.launch {
             bloodData.date = getRecordById(bloodData.sessionId)?.date!!
@@ -133,6 +141,14 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
             val record = db.bloodDataDao().getById(id)
             onComplete(record)
         }
+    }
+
+    fun getBloodDataById(id: Long) : BloodData? {
+        var record: BloodData? = null
+        viewModelScope.launch {
+            record = db.bloodDataDao().getById(id)
+        }
+        return record
     }
 
     fun addUrineData(urineData: UrineRoutine) {
@@ -155,6 +171,14 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    fun getUrineDataById(id: Long): UrineRoutine? {
+        var record: UrineRoutine? = null
+        viewModelScope.launch {
+            record = db.urineRoutineDao().getById(id)
+        }
+        return record
+    }
+
     fun addLiverData(liverData: LiverData) {
         viewModelScope.launch {
             liverData.date = getRecordById(liverData.sessionId)?.date!!
@@ -175,6 +199,14 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    fun getLiverDataById(id: Long): LiverData? {
+        var record: LiverData? = null
+        viewModelScope.launch {
+            record = db.liverDataDao().getById(id)
+        }
+        return record
+    }
+
     fun addEcgData(ecg: Ecg) {
         viewModelScope.launch {
             ecg.date = getRecordById(ecg.sessionId)?.date!!
@@ -188,6 +220,14 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
             val record = db.ecgDao().getById(id)
             onComplete(record)
         }
+    }
+
+    fun getEcgDataById(id: Long): Ecg? {
+        var record: Ecg? = null
+        viewModelScope.launch {
+            record = db.ecgDao().getById(id)
+        }
+        return record
     }
 
     fun updateEcgData(ecg: Ecg) {
@@ -208,6 +248,14 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
             val record = db.ctScanDao().getById(id)
             onComplete(record)
         }
+    }
+
+    fun getCtScanDataById(id: Long): CtScan? {
+        var record: CtScan? = null
+        viewModelScope.launch {
+            record = db.ctScanDao().getById(id)
+        }
+        return record
     }
 
     fun updateCtScanData(ctScan: CtScan) {
