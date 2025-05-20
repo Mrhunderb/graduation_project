@@ -8,20 +8,39 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.hrm.db.HealthViewModel
 
 @Composable
 fun ProfileScreen(
+    navController: NavController,
     userViewModel: HealthViewModel = viewModel()
 ) {
     val user = userViewModel.users.collectAsState().value.firstOrNull()
+    var isLoading by remember { mutableStateOf(true) }
+    LaunchedEffect(user) {
+        if (user != null) {
+            isLoading = false
+        }
+    }
+    if (isLoading) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+        return
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -71,7 +90,7 @@ fun ProfileScreen(
 
         Button(
             onClick = {
-                // TODO
+                navController.navigate("edit_user/${user?.id}")
             },
             modifier = Modifier.fillMaxWidth()
         ) {

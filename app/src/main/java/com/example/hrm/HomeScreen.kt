@@ -123,9 +123,9 @@ fun HomeScreen(
             ) {
                 when (selectedTab) {
                     0 -> RecordScreen(navController)
-                    1 -> AnalyseScreen(navController)
+                    1 -> AnalyseScreen()
                     2 -> TrendScreen()
-                    3 -> ProfileScreen()
+                    3 -> ProfileScreen(navController)
                 }
             }
         }

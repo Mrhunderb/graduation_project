@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.example.hrm.db.HealthViewModel
 import com.example.hrm.db.entity.GeneralPhysical
 import com.example.hrm.component.showcard.BloodDetails
@@ -34,7 +33,6 @@ import com.example.hrm.db.entity.UrineRoutine
 
 @Composable
 fun AnalyseScreen(
-    navController: NavController,
     viewModel: HealthViewModel = viewModel()
 ) {
     val data by viewModel.latestRecord.collectAsState()

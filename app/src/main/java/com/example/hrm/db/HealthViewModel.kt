@@ -233,6 +233,13 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    fun getUserById(id: Long, onComplete: (User?) -> Unit) {
+        viewModelScope.launch {
+            val user = db.userDao().getById(id)
+            onComplete(user)
+        }
+    }
+
     suspend fun isUserEmpty(): Boolean {
         return db.userDao().getCount() == 0
     }
