@@ -70,6 +70,7 @@ class PdfReportGenerator(private val context: Context) {
                 addInfoRow("年龄", user?.age?.toString() ?: "未设置", baseStyle)
                 addInfoRow("性别", user?.gender ?: "未设置", baseStyle)
                 if (latestRecord != null) {
+                    addInfoRow("检查医院", latestRecord.hospital, baseStyle)
                     addInfoRow("检查日期", SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(latestRecord.date), baseStyle)
                 }
             }
@@ -273,9 +274,76 @@ class PdfReportGenerator(private val context: Context) {
                         Table(UnitValue.createPercentArray(floatArrayOf(32f, 20f, 16f, 16f, 16f))).apply {
                             useAllAvailableWidth()
                             addTableTitle(baseStyle)
-                            addTableRow("尿蛋白", urine.pro?.toString() ?: "未测量", "","","", baseStyle)
-                            addTableRow("尿糖", urine.glu?.toString() ?: "未测量", "","","", baseStyle)
-                            addTableRow("尿潜血", urine.bld?.toString() ?: "未测量", "","","", baseStyle)
+                            addTableRow(
+                                "尿酮体(KET)",
+                                if (urine.ket == null) "" else if (urine.ket == 1.0f) "阳性" else "阴性",
+                                "","","",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "尿胆原(URO)",
+                                if (urine.uro == null) "" else if (urine.uro == 1.0f) "阳性" else "阴性",
+                                "","","",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "尿胆红素(BIL)",
+                                if (urine.bil == null) "" else if (urine.bil == 1.0f) "阳性" else "阴性",
+                                "","","",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "尿潜血(BLD)",
+                                if (urine.bld == null) "" else if (urine.bld == 1.0f) "阳性" else "阴性",
+                                "","","",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "尿白细胞(WBC)",
+                                if (urine.wbc == null) "" else if (urine.wbc == 1.0f) "阳性" else "阴性",
+                                "","","",
+                                baseStyle
+                            )
+                            addTableRow("尿酸碱度(PH)",
+                                "${urine.ph ?: "未测量"}",
+                                "",
+                                "5-8",
+                                "",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "亚硝酸盐(NIT)",
+                                if (urine.nit == null) "" else if (urine.nit == 1.0f) "阳性" else "阴性",
+                                "","","",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "尿葡萄糖(GLU)",
+                                if (urine.glu == null) "" else if (urine.glu == 1.0f) "阳性" else "阴性",
+                                "","","",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "维生素C(VC)",
+                                if (urine.vc == null) "" else if (urine.vc == 1.0f) "阳性" else "阴性",
+                                "","","",
+                                baseStyle
+                            )
+                            // 比重（SG）
+                            addTableRow(
+                                "比重(SG)",
+                                "${urine.sg ?: "未测量"}",
+                                "",
+                                "1.005-1.030",
+                                "",
+                                baseStyle
+                            )
+                            addTableRow(
+                                "尿蛋白(PRO)",
+                                if (urine.pro == null) "" else if (urine.pro == 1.0f) "阳性" else "阴性",
+                                "","","",
+                                baseStyle
+                            )
                         }
                     document.add(table)
                     document.add(Paragraph("\n"))
@@ -341,7 +409,7 @@ class PdfReportGenerator(private val context: Context) {
 
             document.add(
                 Paragraph("报告生成时间: ${SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date())}")
-                    .addStyle(baseStyle).setTextAlignment(TextAlignment.LEFT)
+                    .addStyle(baseStyle).setTextAlignment(TextAlignment.RIGHT)
             )
             document.close()
             Result.success(pdfFile)
@@ -395,6 +463,10 @@ class PdfReportGenerator(private val context: Context) {
         }
 
         document.add(image)
+    }
+
+    private fun isInRange(value: Float?, min: Float, max: Float): Boolean {
+        return value != null && value in min..max
     }
 
 }
