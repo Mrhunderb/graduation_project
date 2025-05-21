@@ -94,7 +94,7 @@ fun ModifyUserScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("新增用户", style = MaterialTheme.typography.titleLarge)
+                Text("修改用户", style = MaterialTheme.typography.titleLarge)
                 Spacer(modifier = Modifier.height(16.dp))
 
                 OutlinedTextField(
