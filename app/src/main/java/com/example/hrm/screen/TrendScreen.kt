@@ -39,6 +39,7 @@ fun TrendScreen(
 ) {
     val data by viewModel.bloodRecord.collectAsState()
     val response by viewModel.responseText.collectAsState()
+    var isLoading by remember { mutableStateOf(false) }
 
     // Red blood cell related lists
     var rbcList by remember { mutableStateOf<List<BloodRecord>>(emptyList()) }
@@ -170,6 +171,10 @@ fun TrendScreen(
                         DropdownMenuItem(
                             text = { Text(cellType) },
                             onClick = {
+                                if (selectedCellType != cellType) {
+                                    viewModel.clearResponse()
+                                    isLoading = false
+                                }
                                 selectedCellType = cellType
                                 expanded = false
                             }
@@ -219,8 +224,6 @@ fun TrendScreen(
                 userInput += pdwList.joinToString(", ") { "日期：${it.date}, pdw的值:${it.value}" }
             }
         }
-
-        var isLoading by remember { mutableStateOf(false) }
 
         Button(
             onClick = {

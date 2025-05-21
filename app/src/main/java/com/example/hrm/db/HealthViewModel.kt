@@ -283,6 +283,10 @@ class HealthViewModel(application: Application) : AndroidViewModel(application) 
     private val _responseText = MutableStateFlow("")
     val responseText: StateFlow<String> = _responseText
 
+    fun clearResponse() {
+        _responseText.value = ""
+    }
+
     fun askAi(systemPrompt: String, userInput: String) {
         _responseText.value = ""
         viewModelScope.launch {
