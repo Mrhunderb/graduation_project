@@ -9,6 +9,7 @@ import com.example.hrm.db.HealthViewModel
 import com.example.hrm.db.entity.User
 import com.itextpdf.io.font.PdfEncodings
 import com.itextpdf.io.image.ImageDataFactory
+import com.itextpdf.kernel.colors.ColorConstants
 import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfWriter
@@ -86,17 +87,16 @@ class PdfReportGenerator(private val context: Context) {
                         Paragraph("常规检查").setFontSize(16f).setBold().addStyle(baseStyle)
                     )
                     val table =
-                        Table(UnitValue.createPercentArray(floatArrayOf(32f, 20f, 16f, 16f, 16f))).apply {
+                        Table(UnitValue.createPercentArray(floatArrayOf(32f, 20f, 18f, 18f, 12f))).apply {
                             useAllAvailableWidth()
                             addTableTitle(baseStyle)
-                            addTableRow("身高", "${general.height ?: "未测量"}", "cm", "", "", baseStyle)
-                            addTableRow("体重", "${general.weight ?: "未测量"}", "kg", "", "", baseStyle)
+                            addTableRow("身高", "${general.height ?: "未测量"}", "cm", "", baseStyle)
+                            addTableRow("体重", "${general.weight ?: "未测量"}", "kg", "", baseStyle)
                             addTableRow(
                                 "收缩压",
                                 "${general.systolicPressure ?: "未测量"}",
                                 "mmHg",
                                 "90-140",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
@@ -104,10 +104,9 @@ class PdfReportGenerator(private val context: Context) {
                                 "${general.diastolicPressure ?: "未测量"}",
                                 "mmHg",
                                 "60-90",
-                                "",
                                 baseStyle
                             )
-                            addTableRow("脉搏", "${general.pulse ?: "未测量"}", "次/分", "", "", baseStyle)
+                            addTableRow("脉搏", "${general.pulse ?: "未测量"}", "次/分", "", baseStyle)
                         }
                     document.add(table)
                     document.add(Paragraph("\n"))
@@ -118,16 +117,15 @@ class PdfReportGenerator(private val context: Context) {
                         Paragraph("血常规检查").setFontSize(16f).setBold().addStyle(baseStyle)
                     )
                     val table =
-                        Table(UnitValue.createPercentArray(floatArrayOf(32f, 20f, 16f, 16f, 16f))).apply {
+                        Table(UnitValue.createPercentArray(floatArrayOf(32f, 20f, 18f, 18f, 12f))).apply {
                             useAllAvailableWidth()
                             addTableTitle(baseStyle)
-                            addTableRow("红细胞计数 (RBC)", "${blood.rbc ?: "未测量"}", "10^12/L", "4.0-5.5", "", baseStyle)
+                            addTableRow("红细胞计数 (RBC)", "${blood.rbc ?: "未测量"}", "10^12/L", "4.0-5.5", baseStyle)
                             addTableRow(
                                 "白细胞计数 (WBC)",
                                 "${blood.wbc ?: "未测量"}",
                                 "10^9/L",
                                 "4.0-10.0",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
@@ -135,7 +133,6 @@ class PdfReportGenerator(private val context: Context) {
                                 "${blood.lymPercent ?: "未测量"}",
                                 "%",
                                 "20-45",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
@@ -143,7 +140,6 @@ class PdfReportGenerator(private val context: Context) {
                                 "${blood.monoPercent ?: "未测量"}",
                                 "%",
                                 "2-10",
-                                "",
                                 baseStyle
                             )
                              // 嗜酸性粒细胞百分比 Eos%
@@ -152,7 +148,6 @@ class PdfReportGenerator(private val context: Context) {
                                 "${blood.eosPercent ?: "未测量"}",
                                 "%",
                                 "0-6",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
@@ -160,7 +155,6 @@ class PdfReportGenerator(private val context: Context) {
                                 "${blood.basoPercent ?: "未测量"}",
                                 "%",
                                 "0-2",
-                                "",
                                 baseStyle
                             )
 
@@ -169,7 +163,6 @@ class PdfReportGenerator(private val context: Context) {
                                 "${blood.hb ?: "未测量"}",
                                 "g/L",
                                 "130-175",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
@@ -177,7 +170,6 @@ class PdfReportGenerator(private val context: Context) {
                                 "${blood.hct ?: "未测量"}",
                                 "%",
                                 "40-50",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
@@ -185,7 +177,6 @@ class PdfReportGenerator(private val context: Context) {
                                 "${blood.mcv ?: "未测量"}",
                                 "fL",
                                 "80-100",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
@@ -193,7 +184,6 @@ class PdfReportGenerator(private val context: Context) {
                                 "${blood.mch ?: "未测量"}",
                                 "pg",
                                 "27-32",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
@@ -201,23 +191,20 @@ class PdfReportGenerator(private val context: Context) {
                                 "${blood.mchc ?: "未测量"}",
                                 "g/L",
                                 "320-360",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
-                                "红细胞分布宽度-标准差 (RDW-SD)",
+                                "红细胞分布宽度-SD (RDW-SD)",
                                 "${blood.rdwSd ?: "未测量"}",
                                 "fL",
                                 "39-46",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
-                                "红细胞分布宽度-变异系数 (RDW-CV)",
+                                "红细胞分布宽度-CV (RDW-CV)",
                                 "${blood.rdwCv ?: "未测量"}",
                                 "%",
                                 "11.5-14.5",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
@@ -225,7 +212,6 @@ class PdfReportGenerator(private val context: Context) {
                                 "${blood.plt ?: "未测量"}",
                                 "10^9/L",
                                 "100-300",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
@@ -233,7 +219,6 @@ class PdfReportGenerator(private val context: Context) {
                                 "${blood.mpv ?: "未测量"}",
                                 "fL",
                                 "7.5-11.5",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
@@ -241,7 +226,6 @@ class PdfReportGenerator(private val context: Context) {
                                 "${blood.pct ?: "未测量"}",
                                 "%",
                                 "0.1-0.3",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
@@ -249,7 +233,6 @@ class PdfReportGenerator(private val context: Context) {
                                 "${blood.pdw ?: "未测量"}",
                                 "fL",
                                 "9.0-14.0",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
@@ -257,7 +240,6 @@ class PdfReportGenerator(private val context: Context) {
                                 "${blood.plcr ?: "未测量"}",
                                 "%",
                                 "13-43",
-                                "",
                                 baseStyle
                             )
                         }
@@ -271,77 +253,75 @@ class PdfReportGenerator(private val context: Context) {
                         Paragraph("尿液常规检查").setFontSize(16f).setBold().addStyle(baseStyle)
                     )
                     val table =
-                        Table(UnitValue.createPercentArray(floatArrayOf(32f, 20f, 16f, 16f, 16f))).apply {
+                        Table(UnitValue.createPercentArray(floatArrayOf(32f, 20f, 18f, 18f, 12f))).apply {
                             useAllAvailableWidth()
                             addTableTitle(baseStyle)
                             addTableRow(
-                                "尿酮体(KET)",
+                                "尿酮体 (KET)",
                                 if (urine.ket == null) "" else if (urine.ket == 1.0f) "阳性" else "阴性",
-                                "","","",
+                                "","",
                                 baseStyle
                             )
                             addTableRow(
-                                "尿胆原(URO)",
+                                "尿胆原 (URO)",
                                 if (urine.uro == null) "" else if (urine.uro == 1.0f) "阳性" else "阴性",
-                                "","","",
+                                "","",
                                 baseStyle
                             )
                             addTableRow(
-                                "尿胆红素(BIL)",
+                                "尿胆红素 (BIL)",
                                 if (urine.bil == null) "" else if (urine.bil == 1.0f) "阳性" else "阴性",
-                                "","","",
+                                "","",
                                 baseStyle
                             )
                             addTableRow(
-                                "尿潜血(BLD)",
+                                "尿潜血 (BLD)",
                                 if (urine.bld == null) "" else if (urine.bld == 1.0f) "阳性" else "阴性",
-                                "","","",
+                                "","",
                                 baseStyle
                             )
                             addTableRow(
-                                "尿白细胞(WBC)",
+                                "尿白细胞 (WBC)",
                                 if (urine.wbc == null) "" else if (urine.wbc == 1.0f) "阳性" else "阴性",
-                                "","","",
+                                "","",
                                 baseStyle
                             )
-                            addTableRow("尿酸碱度(PH)",
+                            addTableRow("尿酸碱度 (PH)",
                                 "${urine.ph ?: "未测量"}",
                                 "",
                                 "5-8",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
-                                "亚硝酸盐(NIT)",
+                                "亚硝酸盐 (NIT)",
                                 if (urine.nit == null) "" else if (urine.nit == 1.0f) "阳性" else "阴性",
-                                "","","",
+                                "","",
                                 baseStyle
                             )
                             addTableRow(
-                                "尿葡萄糖(GLU)",
+                                "尿葡萄糖 (GLU)",
                                 if (urine.glu == null) "" else if (urine.glu == 1.0f) "阳性" else "阴性",
-                                "","","",
+                                "","",
                                 baseStyle
                             )
                             addTableRow(
-                                "维生素C(VC)",
+                                "维生素C (VC)",
                                 if (urine.vc == null) "" else if (urine.vc == 1.0f) "阳性" else "阴性",
-                                "","","",
+                                "","",
                                 baseStyle
                             )
                             // 比重（SG）
                             addTableRow(
-                                "比重(SG)",
+                                "比重 (SG)",
                                 "${urine.sg ?: "未测量"}",
                                 "",
                                 "1.005-1.030",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
-                                "尿蛋白(PRO)",
+                                "尿蛋白 (PRO)",
                                 if (urine.pro == null) "" else if (urine.pro == 1.0f) "阳性" else "阴性",
-                                "","","",
+                                "","",
                                 baseStyle
                             )
                         }
@@ -355,23 +335,21 @@ class PdfReportGenerator(private val context: Context) {
                         Paragraph("肝功能检查").setFontSize(16f).setBold().addStyle(baseStyle)
                     )
                     val table =
-                        Table(UnitValue.createPercentArray(floatArrayOf(32f, 20f, 16f, 16f, 16f))).apply {
+                        Table(UnitValue.createPercentArray(floatArrayOf(32f, 20f, 18f, 18f, 12f))).apply {
                             useAllAvailableWidth()
                             addTableTitle(baseStyle)
                             addTableRow(
-                                "天冬氨酸氨基转移酶 (AST)",
+                                "谷草转氨酶 (AST)",
                                 "${liver.ast ?: "未测量"}",
                                 "U/L",
                                 "0-40",
-                                "",
                                 baseStyle
                             )
                             addTableRow(
-                                "丙氨酸氨基转移酶 (ALT)",
+                                "谷丙转氨酶 (ALT)",
                                 "${liver.alt ?: "未测量"}",
                                 "U/L",
                                 "0-40",
-                                "",
                                 baseStyle
                             )
                         }
@@ -435,14 +413,17 @@ class PdfReportGenerator(private val context: Context) {
         value: String,
         meas: String,
         range: String,
-        hint: String,
         style: Style
     ) {
         addCell(Cell().add(Paragraph(label).addStyle(style).setBold()))
         addCell(Cell().add(Paragraph(value).addStyle(style)))
         addCell(Cell().add(Paragraph(meas).addStyle(style)))
         addCell(Cell().add(Paragraph(range).addStyle(style)))
-        addCell(Cell().add(Paragraph(hint).addStyle(style)))
+        addCell(Cell().add(Paragraph(inRangeOrNot(value, range))
+            .addStyle(style)
+            .setFontColor(ColorConstants.RED))
+            .setTextAlignment(TextAlignment.CENTER)
+        )
     }
 
     private fun Table.addTableTitle(style: Style) {
@@ -465,8 +446,15 @@ class PdfReportGenerator(private val context: Context) {
         document.add(image)
     }
 
-    private fun isInRange(value: Float?, min: Float, max: Float): Boolean {
-        return value != null && value in min..max
+
+    private fun inRangeOrNot(value: String?, range: String): String {
+        if (value == null) return "未测量"
+        val rangeParts = range.split("-")
+        if (rangeParts.size != 2) return ""
+        val min = rangeParts[0].toFloatOrNull() ?: return ""
+        val max = rangeParts[1].toFloatOrNull() ?: return ""
+        val valueFloat = value.toFloatOrNull() ?: return ""
+        return if (valueFloat in min..max) "" else if (valueFloat < min) "↓" else "↑"
     }
 
 }
