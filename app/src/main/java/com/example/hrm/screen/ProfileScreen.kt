@@ -9,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
@@ -26,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.hrm.db.HealthViewModel
@@ -140,6 +142,23 @@ fun ProfileScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(if (isGeneratingPdf) "生成中..." else "导出健康报告(PDF)")
+        }
+        if (isGeneratingPdf) {
+            Dialog(onDismissRequest = { /* 禁止用户手动取消 */ }) {
+                Box(
+                    modifier = Modifier
+                        .size(250.dp)
+                        .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(16.dp))
+                        .padding(24.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        CircularProgressIndicator()
+                        Spacer(Modifier.height(16.dp))
+                        Text("正在生成 PDF，请稍候…")
+                    }
+                }
+            }
         }
     }
 }
