@@ -18,33 +18,27 @@ package com.example.hrm.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+// Primary Colors
+val Sky500 = Color(0xFF0EA5E9)
+val Sky600 = Color(0xFF0284C7)
+
+// Secondary Colors
+val Emerald500 = Color(0xFF10B981)
+val Emerald600 = Color(0xFF059669)
+
+// Background & Surface
+val Slate100 = Color(0xFFF1F5F9)
 val White = Color(0xFFFFFFFF)
-val Black = Color(0xFF000000)
-val Lilac = Color(0xFFCCB6DC)
-val DarkLilac = Color(0xFF715386)
-val Yellow = Color(0xFFFFCB66)
-val Red = Color(0xFFB40000)
-val YellowVariant = Color(0xFFFFDE9F)
-val RedVariant = Color(0xFFF30D0D)
-val Coral = Color(0xFFF3A397)
-val DarkCoral = Color(0xFF8F554C)
-val MintGreen = Color(0xFFACD6B8)
-val DarkMintGreen = Color(0xFF537C5E)
-val LightBlue = Color(0xFFBBDEFB)
-val DarkBlue = Color(0xFF56738B)
 
-val SleepAwake = Color(0xFFFFEAC1)
-val SleepAwakeDark = Color(0xFFEB3F00)
-val SleepRem = Color(0xFFFFDD9A)
-val SleepRemDark = Color(0xFFFF8248)
-val SleepLight = Color(0xFFFFCB66)
-val SleepLightDark = Color(0xFFFD4D4D)
-val SleepDeep = Color(0xFFFF973C)
-val SleepDeepDark = Color(0xFFB40003)
+// Error Color
+val Red500 = Color(0xFFEF4444)
 
-val Pink = Color(0xFFEAA8A9)
-val DarkPink = Color(0xFF93595A)
-val Purple = Color(0xFFD2B4D3)
-val DarkPurple = Color(0xFF8B6095)
-val Green = Color(0xFFADD7B9)
-val DarkGreen = Color(0xFF538D64)
+// "On" Colors (Text/Icon colors on top of the main colors)
+// val OnPrimaryWhite = Color(0xFFFFFFFF) // Already defined as White
+// val OnSecondaryWhite = Color(0xFFFFFFFF) // Already defined as White
+val Slate800 = Color(0xFF1E293B)
+val Slate700 = Color(0xFF334155)
+// val OnErrorWhite = Color(0xFFFFFFFF) // Already defined as White
+
+// Custom/Utility Colors
+val Slate500 = Color(0xFF64748B) // For text-muted

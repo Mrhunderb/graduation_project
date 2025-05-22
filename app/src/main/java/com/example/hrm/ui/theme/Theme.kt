@@ -1,138 +1,45 @@
 package com.example.hrm.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 private val LightColorScheme = lightColorScheme(
-    primary = Yellow,
-    secondary = MintGreen,
-    tertiary = Coral,
-    secondaryContainer = Yellow,
-    surface = White
+    primary = Sky500,
+    primaryContainer = Sky600, // Corresponds to 'primary-dark'
+    secondary = Emerald500,
+    secondaryContainer = Emerald600, // Corresponds to 'secondary-dark'
+    background = Slate100,
+    surface = White,
+    error = Red500,
+    onPrimary = White, // 'on-primary'
+    onSecondary = White, // 'on-secondary'
+    onBackground = Slate800, // 'on-background'
+    onSurface = Slate700, // 'on-surface'
+    onError = White // 'on-error'
 )
 private val DarkColorScheme = darkColorScheme(
-    primary = Red,
-    secondary = DarkMintGreen,
-    tertiary = DarkCoral,
-    secondaryContainer = Red,
-    surface = Black
-)
-
-data class JetLaggedExtraColors(
-    val header: Color = Color.Unspecified,
-    val cardBackground: Color = Color.Unspecified,
-    val bed: Color = Color.Unspecified,
-    val sleep: Color = Color.Unspecified,
-    val wellness: Color = Color.Unspecified,
-    val heart: Color = Color.Unspecified,
-    val heartWave: List<Color> = listOf(Color.Unspecified),
-    val heartWaveBackground: Color = Color.Unspecified,
-    val sleepChartPrimary: Color = Color.Unspecified,
-    val sleepChartSecondary: Color = Color.Unspecified,
-    val sleepAwake: Color = Color.Unspecified,
-    val sleepRem: Color = Color.Unspecified,
-    val sleepLight: Color = Color.Unspecified,
-    val sleepDeep: Color = Color.Unspecified,
-)
-val LocalExtraColors = staticCompositionLocalOf {
-    JetLaggedExtraColors()
-}
-private val LightExtraColors = JetLaggedExtraColors(
-    header = Yellow,
-    cardBackground = White,
-    bed = Lilac,
-    sleep = MintGreen,
-    wellness = LightBlue,
-    heart = Coral,
-    heartWave = listOf(Pink, Purple, Green),
-    heartWaveBackground = Coral.copy(alpha = 0.2f),
-    sleepChartPrimary = Yellow,
-    sleepChartSecondary = YellowVariant,
-    sleepAwake = SleepAwake,
-    sleepRem = SleepRem,
-    sleepLight = SleepLight,
-    sleepDeep = SleepDeep,
-)
-private val DarkExtraColors = JetLaggedExtraColors(
-    header = Red,
-    cardBackground = Black,
-    bed = DarkLilac,
-    sleep = DarkMintGreen,
-    wellness = DarkBlue,
-    heart = DarkCoral,
-    heartWave = listOf(DarkPink, DarkPurple, DarkGreen),
-    heartWaveBackground = DarkCoral.copy(alpha = 0.4f),
-    sleepChartPrimary = Red,
-    sleepChartSecondary = RedVariant,
-    sleepAwake = SleepAwakeDark,
-    sleepRem = SleepRemDark,
-    sleepLight = SleepLightDark,
-    sleepDeep = SleepDeepDark,
-)
-
-private val shapes: Shapes
-    @Composable
-    get() = MaterialTheme.shapes.copy(
-        large = CircleShape
-    )
-@Composable
-fun JetLaggedTheme(
-    isDarkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit,
-) {
-    val colorScheme: ColorScheme
-    val extraColors: JetLaggedExtraColors
-    if (isDarkTheme) {
-        colorScheme = DarkColorScheme
-        extraColors = DarkExtraColors
-    } else {
-        colorScheme = LightColorScheme
-        extraColors = LightExtraColors
-    }
-
-    CompositionLocalProvider(LocalExtraColors provides extraColors) {
-        MaterialTheme(
-            colorScheme = colorScheme,
-            typography = Typography,
-            shapes = shapes,
-            content = content
-        )
-    }
-}
-
-object JetLaggedTheme {
-    val extraColors: JetLaggedExtraColors
-        @Composable
-        get() = LocalExtraColors.current
-}
-
-private val LightColors = lightColorScheme(
-    primary = Color(0xFF2E86DE),
-    // shandow Blue
-    secondary = Color(0xFF6C5CE7),
-    tertiary = Color(0xFF55EFC4),
-    error = Color(0xFFE17055),
-    background = Color(0xFFF9F9F9),
-    surface = Color(0xFFFFFFFF),
-    onSurface = Color(0xFF2D3436),
-    onPrimary = Color(0xFFFFFFFF),
-    onBackground = Color(0xFF2D3436),
+    primary = Sky500, // Or a lighter shade like Sky500 for better contrast in dark
+    primaryContainer = Sky600,
+    secondary = Emerald500, // Or a lighter shade of Emerald
+    // secondaryVariant = Emerald600, // Often optional for dark themes if secondary is vibrant
+    background = Slate800, // Use one of your darker slates for background
+    surface = Color(0xFF161E29), // A slightly different dark surface, e.g., a bit darker than Slate800
+    error = Red500,
+    onPrimary = White,
+    onSecondary = White,
+    onBackground = Slate100, // Light text on dark background
+    onSurface = Slate100,    // Light text on dark surface
+    onError = White
 )
 
 @Composable
 fun MyAppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = LightColorScheme,
-        typography = Typography, // 可使用默认也可自定义
+        typography = Typography,
         content = content
     )
 }
