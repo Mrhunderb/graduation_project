@@ -215,7 +215,6 @@ fun RecordSelectScreen(
                         }
                     },
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(16.dp)
                 ) {
                     Text("保存报告")
                 }
