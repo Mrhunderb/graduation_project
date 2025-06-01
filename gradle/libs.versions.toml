@@ -1,10 +1,7 @@
 [versions]
 agp = "8.9.2"
-androidPdfViewer = "2.8.2"
-androidPdfViewerVersion = "3.2.0-beta.1"
 coilCompose = "3.1.0"
 core = "4.6.2"
-githubAndroidpdfviewer = "3.1.0-beta.1"
 githubAndroidPdfViewerVersion = "3.2.0-beta.3"
 itext7Core = "7.2.5"
 kotlin = "2.1.10"
@@ -60,8 +57,6 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktorClientAndroid" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
-ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClientOkhttp" }
-material = { module = "androidx.compose.material3:material" }
 mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 openai-client = { module = "com.aallam.openai:openai-client", version.ref = "openaiClient" }
