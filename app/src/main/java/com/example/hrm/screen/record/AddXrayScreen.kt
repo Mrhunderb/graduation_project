@@ -109,12 +109,6 @@ fun AddXrayScreen(
         )
     }
 
-    if (isLoading) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()
-        }
-    } else {
-
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -134,7 +128,12 @@ fun AddXrayScreen(
                 )
             }
         ) { padding ->
-            Column(
+            if (isLoading) {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+            } else {
+                Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
