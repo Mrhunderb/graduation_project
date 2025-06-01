@@ -68,6 +68,7 @@ dependencies {
 
     // pdf
     implementation(libs.itext7.core)
+    implementation(libs.android.pdf.viewer)
 
     implementation(libs.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)

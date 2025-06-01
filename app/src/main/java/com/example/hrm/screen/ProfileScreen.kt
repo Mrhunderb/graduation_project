@@ -1,10 +1,7 @@
 package com.example.hrm.screen
 
-import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
@@ -45,11 +42,6 @@ fun ProfileScreen(
     var isGeneratingPdf by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
-
-    // Create a launcher for sharing the generated PDF
-    val shareLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { /* No action needed after sharing */ }
 
     LaunchedEffect(user) {
         if (user != null) {
@@ -131,7 +123,8 @@ fun ProfileScreen(
                     val result = generator.generate(userViewModel, user)
                     result.onSuccess { file ->
                         val uri = generator.getUri(file)
-                        shareFile(uri, shareLauncher)
+                        val encodeUri = Uri.encode(uri.toString())
+                        navController.navigate("pdf_view/$encodeUri")
                     }.onFailure {
                         Toast.makeText(context, "生成失败: ${it.message}", Toast.LENGTH_SHORT).show()
                     }
@@ -183,13 +176,4 @@ private fun InfoRow(label: String, value: String) {
             color = MaterialTheme.colorScheme.onSurface
         )
     }
-}
-
-fun shareFile(uri: Uri, launcher: androidx.activity.result.ActivityResultLauncher<Intent>) {
-    val intent = Intent(Intent.ACTION_SEND).apply {
-        type = "application/pdf"
-        putExtra(Intent.EXTRA_STREAM, uri)
-        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-    }
-    launcher.launch(Intent.createChooser(intent, "分享健康报告"))
 }
